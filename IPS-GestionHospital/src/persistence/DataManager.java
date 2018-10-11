@@ -1,5 +1,5 @@
 package persistence;
 
-public class DataManager {
+public abstract class DataManager {
 
 }
