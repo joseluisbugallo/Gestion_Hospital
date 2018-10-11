@@ -7,18 +7,20 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.toedter.calendar.JCalendar;
+
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
 public class VentanaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
 	private JButton btnMenDeCitas;
-
+	private JCalendar calendario;
 	/**
 	 * Launch the application.
 	 */
@@ -30,6 +32,7 @@ public class VentanaPrincipal extends JFrame {
 					vP.setLocationRelativeTo(null);
 					vP.setTitle("Menu Principal...");
 					vP.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -48,6 +51,7 @@ public class VentanaPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(3, 0, 0, 0));
 		contentPane.add(getBtnMenDeCitas());
+		contentPane.add(getCalendar());
 	}
 
 	private JButton getBtnMenDeCitas() {
@@ -61,6 +65,14 @@ public class VentanaPrincipal extends JFrame {
 			});
 		}
 		return btnMenDeCitas;
+	}
+	
+	private JCalendar getCalendar() {
+		if(calendario == null) {
+			calendario = new JCalendar();
+			calendario.setWeekOfYearVisible(false);
+		}
+		return calendario;
 	}
 	
 	private void mostrarMensaje(String mess, String title, int icon) {
