@@ -9,17 +9,26 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JCalendar;
 
+import alb.util.jdbc.Jdbc;
+import business.dto.EmpleadoDto;
+import persistence.DataEmpleado;
+import ui.medico.VentanaMedico;
+
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.awt.event.ActionEvent;
+
 public class VentanaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private JPanel contentPane;
-	private JButton btnMenDeCitas;
-	private JCalendar calendario;
+	private JButton btnAdministrador;
+	private JButton btnMedico;
+	
+
 	/**
 	 * Launch the application.
 	 */
@@ -27,11 +36,12 @@ public class VentanaPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					Jdbc.createThreadConnection();
 					VentanaPrincipal vP = new VentanaPrincipal();
 					vP.setLocationRelativeTo(null);
 					vP.setTitle("Menu Principal...");
 					vP.setVisible(true);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -43,37 +53,57 @@ public class VentanaPrincipal extends JFrame {
 	 * Constructor de la ventana.
 	 */
 	public VentanaPrincipal() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100,100,800,600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(3, 0, 0, 0));
-		contentPane.add(getBtnMenDeCitas());
-		contentPane.add(getCalendar());
+		contentPane.add(getBtnAdministrador());
+		contentPane.add(getBtnMedico());
 	}
 
-	private JButton getBtnMenDeCitas() {
-		if (btnMenDeCitas == null) {
-			btnMenDeCitas = new JButton("Men\u00FA de citas");
-			btnMenDeCitas.addActionListener(new ActionListener() {
+	private JButton getBtnAdministrador() {
+		if (btnAdministrador == null) {
+			btnAdministrador = new JButton("Entrar como administrador");
+			btnAdministrador.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//Aquí se llamaría a la pantalla de citas
-					mostrarMensaje("La ventana aun no ha sido implementada", "SECCIÓN NO IMPLEMENTADA", JOptionPane.WARNING_MESSAGE);
+					VentanaAdministrador vadmin = new VentanaAdministrador();
+					vadmin.setLocationRelativeTo(null);
+					vadmin.setTitle("Ventana de administrador");
+					vadmin.setVisible(true);
+
 				}
 			});
 		}
-		return btnMenDeCitas;
+		return btnAdministrador;
 	}
-	
-	private JCalendar getCalendar() {
-		if(calendario == null) {
-			calendario = new JCalendar();
-			calendario.setWeekOfYearVisible(false);
+
+	private JButton getBtnMedico() {
+		if (btnMedico == null) {
+			btnMedico = new JButton("Entrar como m\u00E9dico");
+			btnMedico.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String dni = JOptionPane.showInputDialog("Introduce el dni del médico:");
+					DataEmpleado dtempleado = new DataEmpleado();
+					EmpleadoDto medico = dtempleado.getEmpleadoPorDni(dni);
+					if (medico != null)// hay que comprobar que el dni pertenece a un medico
+					{
+						VentanaMedico ventanaMedico = new VentanaMedico(medico);
+						ventanaMedico.setLocationRelativeTo(null);
+						ventanaMedico.setTitle("Medico: " + medico.nombre);
+						ventanaMedico.setVisible(true);
+					}
+					else {
+						mostrarMensaje("El dni introducido no pertenece a ningún medico registrado", "ERROR", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			});
 		}
-		return calendario;
+		return btnMedico;
 	}
-	
+
 	private void mostrarMensaje(String mess, String title, int icon) {
 		JOptionPane.showMessageDialog(this, mess, title, icon);
 	}

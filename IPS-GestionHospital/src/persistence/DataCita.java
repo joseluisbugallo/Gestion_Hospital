@@ -12,6 +12,7 @@ import business.dto.CitaDto;
 public class DataCita extends DataManager {
 
 	private static final String SQL_SELECT_CITA = "Select * from cita";
+	private static final String SQL_SELECT_CITA_BY_IDEMPLEADO = "Select * from cita where idempleado = ?";
 	private static final String SQL_INSERT_CITA = "Insert into empleado"
 			+ "(urgente, fechainicio, fechafin, idpaciente, idempleado, sala) " + "values (?, ?, ?, ?, ?, ?)";
 	private static final String SQL_DELETE_CITA = "Delete from cita where idcita=?";
@@ -24,6 +25,33 @@ public class DataCita extends DataManager {
 		ResultSet rs = null;
 		try {
 			st = getConexion().prepareStatement(SQL_SELECT_CITA);
+			rs = st.executeQuery();
+			citas = new ArrayList<>();
+			while (rs.next()) {
+				CitaDto cita = new CitaDto();
+				cita.id = rs.getInt(1);
+				cita.urgente = rs.getBoolean(2);
+				cita.fechainicio = rs.getDate(3);
+				cita.fechafin = rs.getDate(4);
+				cita.idPaciente = rs.getInt(5);
+				cita.idEmpleado = rs.getInt(6);
+				citas.add(cita);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Jdbc.close(rs, st);
+		}
+		return citas;
+	}
+	
+	public List<CitaDto> listCitasByidEmpleado(int id) {
+		List<CitaDto> citas = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = getConexion().prepareStatement(SQL_SELECT_CITA_BY_IDEMPLEADO);
+			st.setInt(1, id);
 			rs = st.executeQuery();
 			citas = new ArrayList<>();
 			while (rs.next()) {

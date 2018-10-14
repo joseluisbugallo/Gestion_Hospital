@@ -1,2 +1,3 @@
 IPS-GestionHospital/bin/
 *.class
+AlbUtil/target/classes/.gitignore

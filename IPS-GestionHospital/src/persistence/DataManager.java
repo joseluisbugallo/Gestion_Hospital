@@ -12,4 +12,5 @@ public abstract class DataManager {
 			conexion = Jdbc.getCurrentConnection();
 		return conexion;
 	}
+	
 }
