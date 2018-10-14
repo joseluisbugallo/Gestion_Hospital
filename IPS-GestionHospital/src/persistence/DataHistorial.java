@@ -11,10 +11,12 @@ import business.dto.HistorialDto;
 
 public class DataHistorial extends DataManager {
 
-	private static final String SQL_SELECT_HISTORIAL = "Select * from historial";
+	private static final String SQL_SELECT_HISTORIAL = "Select idhistorial, datos, idpaciente from historial";
 	private static final String SQL_INSERT_HISTORIAL = "Insert into historial(datos, idpaciente) values (?, ?)";
 	private static final String SQL_DELETE_HISTORIAL = "Delete from historial where idhistorial=?";
 	private static final String SQL_UPDATE_HISTORIAL = "Update historial set datos=?, idpaciente=? where idhistorial=?";
+
+	private static final String SQL_SELECT_HISTORIAL_BY_PACIENTE = "Select idhistorial, datos, idpaciente from historial where idpaciente=?";
 
 	public List<HistorialDto> list() {
 		List<HistorialDto> historiales = null;
@@ -85,5 +87,27 @@ public class DataHistorial extends DataManager {
 		} finally {
 			Jdbc.close(rs, st);
 		}
+	}
+
+	public HistorialDto getHistorialByPaciente(int idPaciente) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		HistorialDto historial = new HistorialDto();
+		try {
+			st = getConexion().prepareStatement(SQL_SELECT_HISTORIAL_BY_PACIENTE);
+			st.setInt(1, idPaciente);
+
+			rs = st.executeQuery();
+			while (rs.next()) {
+				historial.id = rs.getInt(1);
+				historial.datos = rs.getString(2);
+				historial.idPaciente = rs.getInt(3);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Jdbc.close(rs, st);
+		}
+		return historial;
 	}
 }
