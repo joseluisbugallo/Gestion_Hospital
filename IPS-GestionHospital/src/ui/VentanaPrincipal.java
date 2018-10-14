@@ -1,24 +1,20 @@
 package ui;
 
 import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.toedter.calendar.JCalendar;
-
 import alb.util.jdbc.Jdbc;
+import business.PrincipalController;
 import business.dto.EmpleadoDto;
-import persistence.DataEmpleado;
 import ui.medico.VentanaMedico;
-
-import java.awt.GridLayout;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.awt.event.ActionEvent;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -27,7 +23,7 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel contentPane;
 	private JButton btnAdministrador;
 	private JButton btnMedico;
-	
+	private PrincipalController principal;
 
 	/**
 	 * Launch the application.
@@ -53,9 +49,10 @@ public class VentanaPrincipal extends JFrame {
 	 * Constructor de la ventana.
 	 */
 	public VentanaPrincipal() {
+		principal = new PrincipalController();
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100,100,800,600);
+		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -73,7 +70,6 @@ public class VentanaPrincipal extends JFrame {
 					vadmin.setLocationRelativeTo(null);
 					vadmin.setTitle("Ventana de administrador");
 					vadmin.setVisible(true);
-
 				}
 			});
 		}
@@ -86,17 +82,20 @@ public class VentanaPrincipal extends JFrame {
 			btnMedico.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String dni = JOptionPane.showInputDialog("Introduce el dni del médico:");
-					DataEmpleado dtempleado = new DataEmpleado();
-					EmpleadoDto medico = dtempleado.getEmpleadoPorDni(dni);
-					if (medico != null)// hay que comprobar que el dni pertenece a un medico
-					{
-						VentanaMedico ventanaMedico = new VentanaMedico(medico);
-						ventanaMedico.setLocationRelativeTo(null);
-						ventanaMedico.setTitle("Medico: " + medico.nombre);
-						ventanaMedico.setVisible(true);
-					}
-					else {
-						mostrarMensaje("El dni introducido no pertenece a ningún medico registrado", "ERROR", JOptionPane.ERROR_MESSAGE);
+					if (dni == null) {
+						mostrarMensaje("Debe introducir un dni válido!", "DNI inválido", JOptionPane.ERROR_MESSAGE);
+					} else {
+						EmpleadoDto medico = principal.findEmpleado(dni);
+						if (medico != null)// hay que comprobar que el dni pertenece a un medico
+						{
+							VentanaMedico ventanaMedico = new VentanaMedico(medico);
+							ventanaMedico.setLocationRelativeTo(null);
+							ventanaMedico.setTitle("Medico: " + medico.nombre);
+							ventanaMedico.setVisible(true);
+						} else {
+							mostrarMensaje("El dni introducido no pertenece a ningún medico registrado", "ERROR",
+									JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 			});

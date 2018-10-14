@@ -11,11 +11,13 @@ import business.dto.JornadaLaboralDto;
 
 public class DataJornada extends DataManager {
 
-	private static final String SQL_SELECT_JORNADA = "Select * from jornadalaboral";
+	private static final String SQL_SELECT_JORNADA = "Select idjornada, frechainicio, fechafin, idempleado from jornadalaboral";
 	private static final String SQL_INSERT_JORNADA = "Insert into jornadalaboral(fechainicio, fechafin, idempleado) values (?, ?, ?)";
 	private static final String SQL_DELETE_JORNADA = "Delete from jornadalaboral where idjornada=?";
 	private static final String SQL_UPDATE_JORNADA = "Update jornadalaboral set fechainicio=?, fechafin=?,"
 			+ " idempleado=? where idjornada=?";
+	
+	private static final String SQL_SELECT_JORNADA_BY_MEDICO = "Select idjornada, frechainicio, fechafin, idempleado from jornadalaboral where idempleado=?";
 
 	public List<JornadaLaboralDto> list() {
 		List<JornadaLaboralDto> jornadas = null;
@@ -89,6 +91,32 @@ public class DataJornada extends DataManager {
 		} finally {
 			Jdbc.close(rs, st);
 		}
+	}
+	
+	public List<JornadaLaboralDto> listJornadasByEmpleado(int id){
+		PreparedStatement st= null;
+		ResultSet rs = null;
+		List<JornadaLaboralDto> jornadas = null;
+		try {
+			st = getConexion().prepareStatement(SQL_SELECT_JORNADA_BY_MEDICO);
+			st.setLong(1, id);
+			
+			rs = st.executeQuery();
+			jornadas = new ArrayList<>();
+			while(rs.next()) {
+				JornadaLaboralDto jornada = new JornadaLaboralDto();
+				jornada.id = rs.getInt(1);
+				jornada.fechainicio = rs.getDate(2);
+				jornada.fechafin = rs.getDate(3);
+				jornada.idempleado = rs.getInt(4);
+				jornadas.add(jornada);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Jdbc.close(rs,st);
+		}
+		return jornadas;
 	}
 
 }
