@@ -22,28 +22,7 @@ public class VentanaMedico extends JFrame {
 	private JPanel contentPane;
 	private JButton btnCitas;
 	private EmpleadoDto medico;
-//	/**
-//	 * Launch the application.
-//	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					VentanaMedico vP = new VentanaMedico();
-//					vP.setLocationRelativeTo(null);
-//					vP.setTitle("Menu Principal...");
-//					vP.setVisible(true);
-//					
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
-	public EmpleadoDto getMedico() {
-		return medico;
-	}
 
 	/**
 	 * Constructor de la ventana.
@@ -59,6 +38,10 @@ public class VentanaMedico extends JFrame {
 		contentPane.add(getBtnCitas());
 		this.medico= medico;
 		
+	}
+	
+	public EmpleadoDto getMedico() {
+		return medico;
 	}
 
 	private JButton getBtnCitas() {
