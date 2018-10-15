@@ -46,7 +46,8 @@ public class CitasController {
 	private boolean comprobarRestoCitas(CitaDto cita) {
 		List<CitaDto> citas = obtenerCitasEmpleado(cita.idEmpleado);
 		for (CitaDto c : citas) {
-			if (cita.fechainicio.after(c.fechainicio) || cita.fechafin.before(c.fechafin))
+			if ((cita.fechainicio.after(c.fechainicio) && cita.fechainicio.before(c.fechafin)) 
+					|| (cita.fechafin.before(c.fechafin) && cita.fechafin.after(c.fechainicio)))
 				return false;
 		}
 		return true;
