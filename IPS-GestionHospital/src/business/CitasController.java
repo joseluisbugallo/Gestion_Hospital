@@ -43,6 +43,14 @@ public class CitasController {
 		
 		return historial.datos;
 	}
+	
+	public List<CitaDto> getListadoCompletoDecitas() {
+		List<CitaDto> citas =null;
+		DataCita dC = new DataCita();
+		citas =dC.list();
+		return citas;
+	}
+	
 
 	private boolean comprobarRestoCitas(CitaDto cita) {
 		List<CitaDto> citas = obtenerCitasEmpleado(cita.idEmpleado);

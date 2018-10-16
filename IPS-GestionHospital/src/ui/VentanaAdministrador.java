@@ -9,6 +9,9 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JCalendar;
 
+import ui.admin.VentanaConsultarCitas;
+import ui.medico.VentanaCitasMedico;
+
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -19,24 +22,8 @@ public class VentanaAdministrador extends JFrame {
 	
 	private JPanel contentPane;
 	private JButton btnMenDeCitas;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaAdministrador vP = new VentanaAdministrador();
-					vP.setLocationRelativeTo(null);
-					vP.setTitle("Menu Administrador");
-					vP.setVisible(true);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JButton btnConsultarCitas;
+
 
 	/**
 	 * Constructor de la ventana.
@@ -50,6 +37,7 @@ public class VentanaAdministrador extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(3, 0, 0, 0));
 		contentPane.add(getBtnMenDeCitas());
+		contentPane.add(getBtnConsultarCitas());
 	}
 
 	private JButton getBtnMenDeCitas() {
@@ -67,5 +55,19 @@ public class VentanaAdministrador extends JFrame {
 	
 	private void mostrarMensaje(String mess, String title, int icon) {
 		JOptionPane.showMessageDialog(this, mess, title, icon);
+	}
+	private JButton getBtnConsultarCitas() {
+		if (btnConsultarCitas == null) {
+			btnConsultarCitas = new JButton("Consultar Citas");
+			btnConsultarCitas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					VentanaConsultarCitas citas = new VentanaConsultarCitas();
+					citas.setLocationRelativeTo(null);
+					citas.setTitle("Listado completo de Citas");
+					citas.setVisible(true);
+				}
+			});
+		}
+		return btnConsultarCitas;
 	}
 }

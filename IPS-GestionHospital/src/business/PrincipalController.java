@@ -1,7 +1,9 @@
 package business;
 
 import business.dto.EmpleadoDto;
+import business.dto.PacienteDto;
 import persistence.DataEmpleado;
+import persistence.DataPaciente;
 
 public class PrincipalController {
 	
