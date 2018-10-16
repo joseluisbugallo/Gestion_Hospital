@@ -10,20 +10,24 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
+
+import business.JornadaController;
+import business.dto.EmpleadoDto;
+
+import javax.swing.AbstractListModel;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.border.TitledBorder;
-
-
-import business.JornadaController;
-import business.dto.EmpleadoDto;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import javax.swing.JList;
-import javax.swing.AbstractListModel;
-import javax.swing.JTextArea;
 
 public class VentanaJornadaLaboral extends JFrame{
 /**
