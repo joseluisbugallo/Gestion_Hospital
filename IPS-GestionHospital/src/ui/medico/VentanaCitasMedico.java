@@ -3,6 +3,7 @@ package ui.medico;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -21,11 +22,16 @@ import business.dto.CitaDto;
 import business.dto.EmpleadoDto;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Date;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
+
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 
@@ -50,6 +56,11 @@ public class VentanaCitasMedico extends JFrame {
 	private JLabel lblInformacinSobreLa;
 	private JPanel pnlInfoHistorial;
 	private JTextArea txtInfoHistorial;
+	private JPanel pnlCentral;
+	private JDateChooser calendario;
+	private JPanel panel_1;
+	private JButton btnConsultarCitas;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Constructor de la ventana.
@@ -83,8 +94,8 @@ public class VentanaCitasMedico extends JFrame {
 			pnlListadoCitas = new JPanel();
 			pnlListadoCitas.setLayout(new BorderLayout(0, 0));
 			pnlListadoCitas.add(getLblListadoDeCitas(), BorderLayout.NORTH);
-			pnlListadoCitas.add(getLsCitas(), BorderLayout.CENTER);
 			pnlListadoCitas.add(getPnlBotonConsulta(), BorderLayout.SOUTH);
+			pnlListadoCitas.add(getPnlCentral(), BorderLayout.CENTER);
 		}
 		return pnlListadoCitas;
 	}
@@ -223,12 +234,67 @@ public class VentanaCitasMedico extends JFrame {
 
 	private void mostrarMensaje(String mess, String title, int icon) {
 		JOptionPane.showMessageDialog(this, mess, title, icon);
-	}	
+	}
 
 	private void cargarModelo() {
+		modeloCitas.removeAllElements();
 		List<CitaDto> citas = citasController.getListadoCitas(medico);
+		
+		java.util.Date fecha = getCalendario().getDate();
+		int diaMes = fecha.getDate();
+		int year = fecha.getYear();
+		int month = fecha.getMonth();
+		
+		
 		for (CitaDto cita : citas) {
-			modeloCitas.addElement(cita);
+			if(cita.fechainicio.getYear() == year && cita.fechainicio.getDate() == diaMes && cita.fechainicio.getMonth() == month)
+				modeloCitas.addElement(cita);
 		}
+	}
+
+	private JPanel getPnlCentral() {
+		if (pnlCentral == null) {
+			pnlCentral = new JPanel();
+			pnlCentral.setLayout(new BorderLayout(0, 0));
+			pnlCentral.add(getLsCitas(), BorderLayout.CENTER);
+			pnlCentral.add(getPanel_1(), BorderLayout.NORTH);
+		}
+		return pnlCentral;
+	}
+
+	private JDateChooser getCalendario() {
+		if(calendario == null)
+		{
+			calendario = new JDateChooser();
+			calendario.setDate(new java.util.Date());
+		}
+		return calendario;
+
+	}
+	private JPanel getPanel_1() {
+		if (panel_1 == null) {
+			panel_1 = new JPanel();
+			panel_1.add(getLblNewLabel());
+			panel_1.add(getCalendario());
+			panel_1.add(getBtnConsultarCitas());
+		}
+		return panel_1;
+	}
+	private JButton getBtnConsultarCitas() {
+		if (btnConsultarCitas == null) {
+			btnConsultarCitas = new JButton("Consultar Citas");
+			btnConsultarCitas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					cargarModelo();
+				}
+			});
+		}
+		return btnConsultarCitas;
+	}
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("Consultar citas para este dia:");
+		}
+		return lblNewLabel;
 	}
 }
