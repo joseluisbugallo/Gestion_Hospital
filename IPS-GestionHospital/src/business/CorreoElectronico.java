@@ -26,7 +26,7 @@ public class CorreoElectronico {
 		
 	}
 	
-	public void enviarCorreo()
+	public boolean enviarCorreo()
 	{
 		// Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el remitente también.
 	    String remitente = "gestionhospitalips";  //Para la dirección nomcuenta@gmail.com
@@ -52,9 +52,11 @@ public class CorreoElectronico {
 	        transport.connect("smtp.gmail.com", remitente, clave);
 	        transport.sendMessage(message, message.getAllRecipients());
 	        transport.close();
+	        return true;
 	    }
 	    catch (MessagingException me) {
 	        me.printStackTrace();   //Si se produce un error
+	        return false;
 	    }
 	}
 

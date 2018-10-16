@@ -283,16 +283,25 @@ public class VentanaFijarCita extends JFrame {
 					//Acciones crear cita
 
 					// Enviar correo en caso de ser urgente (Jose)
+					ArrayList<Boolean> correos = new ArrayList<Boolean>();
 					if (getChckbxUrgente().isSelected()) {
 						String asunto = "Cita urgente";
 						String mensaje = "Se ha generado una cita urgente \n El paciente es:"
 								+ paciente.nombre.toString();
+						
 						for (EmpleadoDto e : medicos) {
 							CorreoElectronico correo = new CorreoElectronico(e.correo, asunto, mensaje);
-							correo.enviarCorreo();
+							correos.add(correo.enviarCorreo());
 						}
 					}
-					mostrarMensaje(
+					boolean a = true;
+					for(Boolean b: correos)
+					{
+						if(b== false)
+							a = b;
+					}
+					if(a)
+						mostrarMensaje(
 							"Se ha enviado un correo a todos los medicos de esta cita, ya que ha sido marcada como urgente",
 							"Informacion", JOptionPane.INFORMATION_MESSAGE);
 
