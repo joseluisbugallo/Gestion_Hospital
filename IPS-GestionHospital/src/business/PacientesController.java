@@ -7,19 +7,38 @@ import persistence.DataPaciente;
 
 public class PacientesController {
 
-	public PacienteDto findPacienteByDni(String dni) {
-		PacienteDto paciente = null;
-		DataPaciente pacientes = new DataPaciente();
-		paciente=pacientes.getPacientePorDni(dni);
-		if(paciente.nombre==null) {
-			return null;
-		}
-		return paciente;
+	public List<PacienteDto> findPacientesByDni(String dni) {
+		List<PacienteDto> pacientes = null;
+		DataPaciente dp = new DataPaciente();
+		pacientes = dp.getPacientePorDni(dni);
+		for (PacienteDto paciente : pacientes)
+			if (paciente.dni == null) {
+				return null;
+			}
+		return pacientes;
 	}
-	
-	public List<PacienteDto> listadoPacientes(){
+
+	public List<PacienteDto> findPacientesByNombre(String nombre) {
+		List<PacienteDto> pacientes = null;
+		DataPaciente dp = new DataPaciente();
+		pacientes = dp.getPacientePorNombre(nombre);
+		for (PacienteDto paciente : pacientes) {
+			if (paciente.nombre == null) {
+				return null;
+			}
+		}
+		return pacientes;
+	}
+
+	public List<PacienteDto> listadoPacientes() {
 		DataPaciente dp = new DataPaciente();
 		List<PacienteDto> pacientes = dp.list();
 		return pacientes;
+	}
+
+	public void updateInfoContacto(PacienteDto seleccion) {
+		DataPaciente dp = new DataPaciente();
+		dp.update(seleccion);
+		
 	}
 }

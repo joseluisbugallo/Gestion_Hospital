@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -23,12 +24,16 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.toedter.calendar.JDateChooser;
 
+import business.CitasController;
 import business.CorreoElectronico;
 import business.JornadaController;
 import business.PacientesController;
+import business.dto.CitaDto;
 import business.dto.EmpleadoDto;
 import business.dto.PacienteDto;
 
@@ -68,6 +73,7 @@ public class VentanaFijarCita extends JFrame {
 
 	private PacientesController pc = new PacientesController();
 	private JornadaController jc = new JornadaController();
+	private CitasController cc = new CitasController();
 
 	DefaultListModel<PacienteDto> listModelPacientes;
 	DefaultListModel<EmpleadoDto> listModelMedicos;
@@ -80,8 +86,7 @@ public class VentanaFijarCita extends JFrame {
 	private JButton btnBuscarPorNombreMedicos;
 	private JButton btnAceptarMedicos;
 	private JButton btnCancelar;
-	
-	
+
 	private List<EmpleadoDto> medicos = new ArrayList<EmpleadoDto>();
 	private PacienteDto seleccion;
 	private JButton btnModificarInformacinDe;
@@ -105,6 +110,7 @@ public class VentanaFijarCita extends JFrame {
 		setTitle("Fijar cita entre paciente y m\u00E9dico(s)");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 705, 410);
+
 		inicializarListas();
 
 		pnBase = new JPanel();
@@ -115,10 +121,6 @@ public class VentanaFijarCita extends JFrame {
 		pnBase.add(getPnSeleccionarPaciente(), "pnSeleccionarPaciente");
 		pnBase.add(getPnSeleccionarMedicos(), "pnSeleccionarMedicos");
 		pnBase.add(getPnInfoContacto(), "pnInfoContacto");
-		
-		if(seleccion==null) {
-			btnModificarContacto.setEnabled(false);
-		}
 
 	}
 
@@ -287,6 +289,11 @@ public class VentanaFijarCita extends JFrame {
 	private JButton getBtCancelar() {
 		if (btCancelar == null) {
 			btCancelar = new JButton("Cancelar");
+			btCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					dispose();
+				}
+			});
 			btCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btCancelar.setBounds(491, 337, 89, 23);
 		}
@@ -298,31 +305,70 @@ public class VentanaFijarCita extends JFrame {
 			btCrear = new JButton("Crear");
 			btCrear.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					//Acciones crear cita
+					// Acciones crear cita
 
-					// Enviar correo en caso de ser urgente (Jose)
-					ArrayList<Boolean> correos = new ArrayList<Boolean>();
-					if (getChckbxUrgente().isSelected()) {
-						String asunto = "Cita urgente";
-						String mensaje = "Se ha generado una cita urgente \n El paciente es:"
-								+ seleccion.nombre;
-						
-						for (EmpleadoDto e : medicos) {
-							CorreoElectronico correo = new CorreoElectronico(e.correo, asunto, mensaje);
-							correos.add(correo.enviarCorreo());
+					// Comprobar que los campos introducidos son correctos (Lorena)
+					if (dcInicio.getDate() == null || dcFin.getDate() == null) {
+						JOptionPane.showMessageDialog(pnBase, "Debe introducir las fechas de inicio y fin de la cita",
+								"No hay fechas seleccionadas", JOptionPane.WARNING_MESSAGE);
+					} else if (dcInicio.getDate().before(new Date()) || dcFin.getDate().before(new Date())) {
+						JOptionPane.showMessageDialog(pnBase,
+								"La fecha para la cita no puede ocurrir antes de la fecha actual",
+								"Las fechas son incompatibles", JOptionPane.WARNING_MESSAGE);
+					} else if (dcInicio.getDate().after(dcFin.getDate())) {
+						JOptionPane.showMessageDialog(pnBase,
+								"La fecha de inicio de la cita no puede ser después que la de su fin",
+								"Las fechas son incompatibles", JOptionPane.WARNING_MESSAGE);
+					} else if (seleccion == null) {
+						JOptionPane.showMessageDialog(pnBase, "Debe seleccionar un paciente para la cita",
+								"No hay paciente seleccionado", JOptionPane.WARNING_MESSAGE);
+					} else if (medicos.size() == 0) {
+						JOptionPane.showMessageDialog(pnBase, "Debe seleccionar al menos un médico para la cita",
+								"No hay médico seleccionado", JOptionPane.WARNING_MESSAGE);
+					} else if (txUbicacion.getText().length() == 0) {
+						JOptionPane.showMessageDialog(pnBase, "Debe introducir una ubicación para la cita",
+								"No hay ubicación", JOptionPane.WARNING_MESSAGE);
+					} else {
+
+						// Actualizar la informacion de contacto en la base de datos(Lorena)
+						pc.updateInfoContacto(seleccion);
+
+						// Enviar correo en caso de ser urgente (Jose)
+						ArrayList<Boolean> correos = new ArrayList<Boolean>();
+						if (getChckbxUrgente().isSelected()) {
+							String asunto = "Cita urgente";
+							String mensaje = "Se ha generado una cita urgente \n El paciente es:" + seleccion.nombre;
+
+							for (EmpleadoDto e : medicos) {
+								CorreoElectronico correo = new CorreoElectronico(e.correo, asunto, mensaje);
+								correos.add(correo.enviarCorreo());
+							}
 						}
+						boolean a = true;
+						for (Boolean b : correos) {
+							if (b == false)
+								a = b;
+						}
+						if (a)
+							mostrarMensaje(
+									"Se ha enviado un correo a todos los medicos de esta cita, ya que ha sido marcada como urgente",
+									"Informacion", JOptionPane.INFORMATION_MESSAGE);
+						
+						//crear la cita con los datos introducidos
+						CitaDto cita = new CitaDto();
+						cita.fechainicio=dcInicio.getDate();
+						cita.fechafin=dcFin.getDate();
+						cita.idPaciente=seleccion.id;
+						if(chckbxUrgente.isSelected()) {
+							cita.urgente=true;
+						}
+						else
+							cita.urgente=false;
+						cita.sala=txUbicacion.getText();
+						
+						cc.crearCita(cita, medicos);
+						dispose();
 					}
-					boolean a = true;
-					for(Boolean b: correos)
-					{
-						if(b== false)
-							a = b;
-					}
-					if(a)
-						mostrarMensaje(
-							"Se ha enviado un correo a todos los medicos de esta cita, ya que ha sido marcada como urgente",
-							"Informacion", JOptionPane.INFORMATION_MESSAGE);
-
 				}
 			});
 			btCrear.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -331,7 +377,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return btCrear;
 	}
-	
+
 	private void mostrarMensaje(String mess, String title, int icon) {
 		JOptionPane.showMessageDialog(this, mess, title, icon);
 	}
@@ -377,7 +423,7 @@ public class VentanaFijarCita extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					PacienteDto seleccion = listPacientes.getSelectedValue();
-					if(seleccion!=null) {
+					if (seleccion != null) {
 						getBtnAceptarPacientes().setEnabled(true);
 					}
 				}
@@ -429,12 +475,12 @@ public class VentanaFijarCita extends JFrame {
 			btnAceptarPacientes.setEnabled(false);
 			btnAceptarPacientes.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(getListPacientes().getSelectedValue()!=null) {
+					if (getListPacientes().getSelectedValue() != null) {
 						PacienteDto paciente = getListPacientes().getSelectedValue();
 						System.out.println(paciente);
 						addPaciente(paciente);
 						txPaciente.setText(paciente.nombre);
-						btnModificarContacto.setEnabled(true);
+						btnModificarInformacinDe.setEnabled(true);
 						c.show(pnBase, "pnFijarCita");
 					}
 				}
@@ -534,8 +580,8 @@ public class VentanaFijarCita extends JFrame {
 			btnAceptarMedicos = new JButton("Aceptar");
 			btnAceptarMedicos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(!getListMedicos().getSelectedValuesList().isEmpty()) {
-						 List<EmpleadoDto> emp = getListMedicos().getSelectedValuesList();
+					if (!getListMedicos().getSelectedValuesList().isEmpty()) {
+						List<EmpleadoDto> emp = getListMedicos().getSelectedValuesList();
 						addEmpleados(emp);
 						c.show(pnBase, "pnFijarCita");
 					}
@@ -560,23 +606,25 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return btnCancelar;
 	}
-	
+
 	private void addPaciente(PacienteDto paciente) {
-		this.seleccion=paciente;
+		this.seleccion = paciente;
 		getTxPaciente().setText("");
 		getTxPaciente().setText(paciente.toString());
 	}
-	
+
 	private void addEmpleados(List<EmpleadoDto> emp) {
 		this.medicos = emp;
 		getTxAreaMedicos().setText("");
-		for(EmpleadoDto e: medicos) {
+		for (EmpleadoDto e : medicos) {
 			getTxAreaMedicos().append(e.toString() + "\n");
 		}
 	}
+
 	private JButton getBtnModificarInformacinDe() {
 		if (btnModificarInformacinDe == null) {
 			btnModificarInformacinDe = new JButton("Modificar informaci\u00F3n de contacto");
+			btnModificarInformacinDe.setEnabled(false);
 			btnModificarInformacinDe.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					c.show(pnBase, "pnInfoContacto");
@@ -585,10 +633,11 @@ public class VentanaFijarCita extends JFrame {
 					txtAreaInfoContacto.setText(seleccion.contacto);
 				}
 			});
-			btnModificarInformacinDe.setBounds(329, 162, 223, 23);
+			btnModificarInformacinDe.setBounds(329, 162, 251, 23);
 		}
 		return btnModificarInformacinDe;
 	}
+
 	private JPanel getPnInfoContacto() {
 		if (pnInfoContacto == null) {
 			pnInfoContacto = new JPanel();
@@ -605,6 +654,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return pnInfoContacto;
 	}
+
 	private JLabel getLblInformacinDeContacto() {
 		if (lblInformacinDeContacto == null) {
 			lblInformacinDeContacto = new JLabel("Informaci\u00F3n de contacto del paciente");
@@ -613,6 +663,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return lblInformacinDeContacto;
 	}
+
 	private JLabel getLblNombre() {
 		if (lblNombre == null) {
 			lblNombre = new JLabel("Nombre:");
@@ -621,6 +672,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return lblNombre;
 	}
+
 	private JTextField getTxNombreContacto() {
 		if (txNombreContacto == null) {
 			txNombreContacto = new JTextField();
@@ -630,6 +682,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return txNombreContacto;
 	}
+
 	private JLabel getLblDni() {
 		if (lblDni == null) {
 			lblDni = new JLabel("DNI:");
@@ -638,6 +691,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return lblDni;
 	}
+
 	private JTextField getTxDniContacto() {
 		if (txDniContacto == null) {
 			txDniContacto = new JTextField();
@@ -647,6 +701,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return txDniContacto;
 	}
+
 	private JLabel getLblContacto() {
 		if (lblContacto == null) {
 			lblContacto = new JLabel("Contacto:");
@@ -655,6 +710,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return lblContacto;
 	}
+
 	private JTextArea getTxtAreaInfoContacto() {
 		if (txtAreaInfoContacto == null) {
 			txtAreaInfoContacto = new JTextArea();
@@ -662,12 +718,13 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return txtAreaInfoContacto;
 	}
+
 	private JButton getBtnModificarContacto() {
 		if (btnModificarContacto == null) {
 			btnModificarContacto = new JButton("Modificar");
 			btnModificarContacto.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(!txtAreaInfoContacto.getText().equals(seleccion.contacto)) {
+					if (!txtAreaInfoContacto.getText().equals(seleccion.contacto)) {
 						seleccion.contacto = txtAreaInfoContacto.getText();
 						c.show(pnBase, "pnFijarCita");
 					}
@@ -678,6 +735,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return btnModificarContacto;
 	}
+
 	private JButton getBtnCancelarContacto() {
 		if (btnCancelarContacto == null) {
 			btnCancelarContacto = new JButton("Cancelar");
