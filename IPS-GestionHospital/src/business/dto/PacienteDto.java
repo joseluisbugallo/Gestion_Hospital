@@ -6,4 +6,10 @@ public class PacienteDto {
 	public String dni;
 	public String nombre;
 	public String contacto;
+	
+	
+	@Override
+	public String toString() {
+		return nombre + " DNI paciente: " + dni + ".";
+	}
 }
