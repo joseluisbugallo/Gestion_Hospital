@@ -1,4 +1,4 @@
-package ui.admin;
+package ui.jornada;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -28,6 +28,10 @@ import javax.swing.border.TitledBorder;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.JList;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaJornadaLaboral extends JFrame{
 /**
@@ -49,10 +53,11 @@ private JPanel contentPane;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JLabel lblSeleccionarEmpleado;
 	private JComboBox<EmpleadoDto> cmbxEmpleados;
+	DefaultComboBoxModel<EmpleadoDto> model = new DefaultComboBoxModel<EmpleadoDto>();
 	private JPanel panelEmpleado;
 	private JPanel panelJornada;
 	
-	private JornadaController jc;
+	private JornadaController jc = new JornadaController();
 	private JList<String> listDias;
 	private JLabel lblDas;
 	private JTextArea textAreaDias;
@@ -131,14 +136,34 @@ private JPanel contentPane;
 	private JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Cancelar");
+			btnCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					inicializar();
+				}
+			});
 			btnCancelar.setBounds(354, 360, 107, 23);
 			btnCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return btnCancelar;
 	}
+	protected void inicializar() {
+		buttonGroup.clearSelection();
+		textAreaDias.setText("");
+		listDias.clearSelection();
+	}
+
 	private JCheckBox getChckbxMedico() {
 		if (chckbxMedico == null) {
 			chckbxMedico = new JCheckBox("M\u00E9dico");
+			chckbxMedico.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if(chckbxEnfermero.isSelected()) {
+						for(EmpleadoDto e : jc.getEnfermeros()) {
+						    model.addElement(e);
+						}
+						cmbxEmpleados.setModel(model);
+				}}
+			});
 			chckbxMedico.setBounds(8, 24, 78, 16);
 			buttonGroup.add(chckbxMedico);
 		}
@@ -147,6 +172,16 @@ private JPanel contentPane;
 	private JCheckBox getChckbxEnfermero() {
 		if (chckbxEnfermero == null) {
 			chckbxEnfermero = new JCheckBox("Enfermero");
+			chckbxEnfermero.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(chckbxMedico.isSelected()) {
+						for(EmpleadoDto d : jc.getMedicos()) {
+						    model.addElement(d);
+						}
+						cmbxEmpleados.setModel(model);
+					}
+				}
+			});
 			chckbxEnfermero.setBounds(106, 20, 105, 25);
 			buttonGroup.add(chckbxEnfermero);
 		}
@@ -162,18 +197,6 @@ private JPanel contentPane;
 	private JComboBox<EmpleadoDto> getCmbxEmpleados() {
 		if (cmbxEmpleados == null) {
 			cmbxEmpleados = new JComboBox<EmpleadoDto>();
-			DefaultComboBoxModel<EmpleadoDto> model = new DefaultComboBoxModel<EmpleadoDto>();
-			if(chckbxEnfermero.isSelected()) {
-				for(EmpleadoDto e : jc.getEnfermeros()) {
-				    model.addElement(e);
-				}
-				cmbxEmpleados.setModel(model);
-			}else if(chckbxMedico.isSelected()) {
-				for(EmpleadoDto e : jc.getMedicos()) {
-				    model.addElement(e);
-				}
-				cmbxEmpleados.setModel(model);
-			}
 			cmbxEmpleados.setBounds(147, 49, 370, 25);
 		}
 		return cmbxEmpleados;
@@ -211,6 +234,11 @@ private JPanel contentPane;
 	private JList<String> getListDias() {
 		if (listDias == null) {
 			listDias = new JList<String>();
+			listDias.addListSelectionListener(new ListSelectionListener() {
+				public void valueChanged(ListSelectionEvent arg0) {
+					refrescarSeleccion();
+				}
+			});
 			listDias.setModel(new AbstractListModel<String>() {
 				String[] values = new String[] {"Lunes", "Martes", "Mi\u00E9rcoles", "Jueves", "Viernes", "S\u00E1bado", "Domingo"};
 				public int getSize() {
@@ -224,6 +252,16 @@ private JPanel contentPane;
 		}
 		return listDias;
 	}
+	
+	@SuppressWarnings("deprecation")
+	private void refrescarSeleccion() {
+		Object[] seleccion = listDias.getSelectedValues();
+		String nuevoTexto = "";
+		for(Object o: seleccion) 
+			nuevoTexto += (String) o + " ";
+		textAreaDias.setText(nuevoTexto);
+	}
+	
 	private JLabel getLblDas() {
 		if (lblDas == null) {
 			lblDas = new JLabel("D\u00EDas:");
@@ -238,8 +276,7 @@ private JPanel contentPane;
 			textAreaDias.setLineWrap(true);
 			textAreaDias.setWrapStyleWord(true);
 			textAreaDias.setEditable(false);
-			textAreaDias.setBounds(176, 104, 257, 67);
-			textAreaDias.setText(listDias.getSelectedValue());
+			textAreaDias.setBounds(176, 104, 292, 43);
 		}
 		return textAreaDias;
 	}
