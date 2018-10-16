@@ -3,6 +3,7 @@ package persistence;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +12,11 @@ import business.dto.JornadaLaboralDto;
 
 public class DataJornada extends DataManager {
 
-	private static final String SQL_SELECT_JORNADA = "Select idjornada, frechainicio, fechafin, idempleado from jornadalaboral";
-	private static final String SQL_INSERT_JORNADA = "Insert into jornadalaboral(fechainicio, fechafin, idempleado) values (?, ?, ?)";
+	private static final String SQL_SELECT_JORNADA = "Select * from jornadalaboral";
+	private static final String SQL_INSERT_JORNADA = "Insert into jornadalaboral(idempleado, fechainicio, fechafin ) values (?, ?, ?)";
 	private static final String SQL_DELETE_JORNADA = "Delete from jornadalaboral where idjornada=?";
-	private static final String SQL_UPDATE_JORNADA = "Update jornadalaboral set fechainicio=?, fechafin=?,"
-			+ " idempleado=? where idjornada=?";
+	private static final String SQL_UPDATE_JORNADA = "Update jornadalaboral set idempleado=? fechainicio=?, fechafin=?,"
+			+ "  where idjornada=?";
 	
 	private static final String SQL_SELECT_JORNADA_BY_MEDICO = "Select idjornada, frechainicio, fechafin, idempleado from jornadalaboral where idempleado=?";
 
@@ -30,9 +31,10 @@ public class DataJornada extends DataManager {
 			while (rs.next()) {
 				JornadaLaboralDto jornada = new JornadaLaboralDto();
 				jornada.id = rs.getInt(1);
-				jornada.fechainicio = rs.getTimestamp(2);
-				jornada.fechafin = rs.getTimestamp(3);
-				jornada.idempleado = rs.getInt(4);
+				jornada.idempleado = rs.getInt(2);
+				jornada.fechainicio = rs.getTimestamp(3);
+				jornada.fechafin = rs.getTimestamp(4);
+				
 				jornadas.add(jornada);
 			}
 		} catch (SQLException e) {
@@ -48,9 +50,10 @@ public class DataJornada extends DataManager {
 		ResultSet rs = null;
 		try {
 			st = getConexion().prepareStatement(SQL_INSERT_JORNADA);
-			st.setTimestamp(1, jornada.fechainicio);
-			st.setTimestamp(2, jornada.fechafin);
-			st.setInt(3, jornada.idempleado);
+			st.setInt(1, jornada.idempleado);
+			st.setTimestamp(2, new Timestamp(jornada.fechainicio.getTime()));
+			st.setTimestamp(3, new Timestamp(jornada.fechafin.getTime()));
+			
 
 			st.executeUpdate();
 		} catch (SQLException e) {
@@ -65,7 +68,7 @@ public class DataJornada extends DataManager {
 		ResultSet rs = null;
 		try {
 			st = getConexion().prepareStatement(SQL_DELETE_JORNADA);
-			st.setInt(1, ((JornadaLaboralDto) jornada).id);
+			st.setInt(1,  jornada.id);
 
 			st.executeUpdate();
 		} catch (SQLException e) {
@@ -80,9 +83,10 @@ public class DataJornada extends DataManager {
 		ResultSet rs = null;
 		try {
 			st = getConexion().prepareStatement(SQL_UPDATE_JORNADA);
-			st.setTimestamp(1, jornada.fechainicio);
-			st.setTimestamp(2, jornada.fechafin);
-			st.setInt(3, jornada.idempleado);
+			st.setInt(1, jornada.idempleado);
+			st.setTimestamp(2, new Timestamp(jornada.fechainicio.getTime()));
+			st.setTimestamp(3, new Timestamp(jornada.fechafin.getTime()));
+			
 			st.setInt(4, jornada.id);
 
 			st.executeUpdate();
@@ -106,9 +110,10 @@ public class DataJornada extends DataManager {
 			while(rs.next()) {
 				JornadaLaboralDto jornada = new JornadaLaboralDto();
 				jornada.id = rs.getInt(1);
-				jornada.fechainicio = rs.getTimestamp(2);
-				jornada.fechafin = rs.getTimestamp(3);
-				jornada.idempleado = rs.getInt(4);
+				jornada.idempleado = rs.getInt(2);
+				jornada.fechainicio = rs.getTimestamp(3);
+				jornada.fechafin = rs.getTimestamp(4);
+				
 				jornadas.add(jornada);
 			}
 		} catch (SQLException e) {

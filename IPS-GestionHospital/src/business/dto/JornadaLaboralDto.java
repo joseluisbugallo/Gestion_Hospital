@@ -1,12 +1,11 @@
 package business.dto;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 public class JornadaLaboralDto {
 
 	public int id;
-	public Timestamp fechainicio;
-	public Timestamp fechafin;
+	public java.util.Date fechainicio;
+	public java.util.Date fechafin;
 	public int idempleado;
 }

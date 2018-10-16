@@ -3,6 +3,7 @@ package persistence;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +14,7 @@ public class DataCita extends DataManager {
 
 	private static final String SQL_SELECT_CITA = "Select * from cita";
 	private static final String SQL_SELECT_CITA_BY_IDEMPLEADO = "Select * from cita where idempleado = ?";
-	private static final String SQL_INSERT_CITA = "Insert into empleado"
-			+ "(urgente, fechainicio, fechafin, idpaciente, idempleado, sala) " + "values (?, ?, ?, ?, ?, ?)";
+	private static final String SQL_INSERT_CITA = "Insert into empleado (urgente, idpaciente, idempleado, sala, fechainicion, fechafin)" + "values (?, ?, ?, ?, ?, ?)";
 	private static final String SQL_DELETE_CITA = "Delete from cita where idcita=?";
 	private static final String SQL_UPDATE_CITA = "Update cita set urgente=?, fechainicio=?,"
 			+ " fechafin=?, idpaciente=?, idempleado=?, sala=? where idcita=?";
@@ -30,11 +30,12 @@ public class DataCita extends DataManager {
 			while (rs.next()) {
 				CitaDto cita = new CitaDto();
 				cita.id = rs.getInt(1);
-				cita.urgente = rs.getBoolean(2);
-				cita.fechainicio = rs.getDate(3);
-				cita.fechafin = rs.getDate(4);
-				cita.idPaciente = rs.getInt(5);
-				cita.idEmpleado = rs.getInt(6);
+				cita.urgente = rs.getBoolean(2);				
+				cita.idPaciente = rs.getInt(3);
+				cita.idEmpleado = rs.getInt(4);
+				cita.sala = rs.getString(5);
+				cita.fechainicio = rs.getTimestamp(6);
+				cita.fechafin = rs.getTimestamp(7);
 				citas.add(cita);
 			}
 		} catch (SQLException e) {
@@ -57,11 +58,12 @@ public class DataCita extends DataManager {
 			while (rs.next()) {
 				CitaDto cita = new CitaDto();
 				cita.id = rs.getInt(1);
-				cita.urgente = rs.getBoolean(2);
-				cita.fechainicio = rs.getDate(3);
-				cita.fechafin = rs.getDate(4);
-				cita.idPaciente = rs.getInt(5);
-				cita.idEmpleado = rs.getInt(6);
+				cita.urgente = rs.getBoolean(2);				
+				cita.idPaciente = rs.getInt(3);
+				cita.idEmpleado = rs.getInt(4);
+				cita.sala = rs.getString(5);
+				cita.fechainicio = rs.getTimestamp(6);
+				cita.fechafin = rs.getTimestamp(7);
 				citas.add(cita);
 			}
 		} catch (SQLException e) {
@@ -78,11 +80,13 @@ public class DataCita extends DataManager {
 		try {
 			st = getConexion().prepareStatement(SQL_INSERT_CITA);
 			st.setBoolean(1, cita.urgente);
-			st.setDate(2, cita.fechainicio);
-			st.setDate(3, cita.fechafin);
-			st.setInt(4, cita.idPaciente);
-			st.setInt(5, cita.idEmpleado);
-			st.setString(6, cita.sala);
+			st.setInt(2, cita.idPaciente);
+			st.setInt(3, cita.idEmpleado);
+			st.setString(4, cita.sala);
+			st.setTimestamp(5, new Timestamp(cita.fechainicio.getTime()));
+			st.setTimestamp(6, new Timestamp(cita.fechafin.getTime()));
+			
+			
 
 			st.executeUpdate();
 		} catch (SQLException e) {
@@ -113,12 +117,12 @@ public class DataCita extends DataManager {
 		try {
 			st = getConexion().prepareStatement(SQL_UPDATE_CITA);
 			st.setBoolean(1, cita.urgente);
-			st.setDate(2, cita.fechainicio);
-			st.setDate(3, cita.fechafin);
-			st.setInt(4, cita.idPaciente);
-			st.setInt(5, ((CitaDto) cita).idEmpleado);
-			st.setString(6, ((CitaDto) cita).sala);
-			st.setInt(7, ((CitaDto) cita).id);
+			st.setInt(2, cita.idPaciente);
+			st.setInt(3, cita.idEmpleado);
+			st.setString(4, cita.sala);
+			st.setTimestamp(5, new Timestamp(cita.fechainicio.getTime()));
+			st.setTimestamp(6, new Timestamp(cita.fechafin.getTime()));
+			st.setInt(7, cita.id);
 
 			st.executeUpdate();
 		} catch (SQLException e) {
