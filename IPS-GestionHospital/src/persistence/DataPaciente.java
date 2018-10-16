@@ -11,7 +11,7 @@ import business.dto.PacienteDto;
 
 public class DataPaciente extends DataManager {
 
-	private static final String SQL_SELECT_PACIENTE = "Select id, dni, nombrepaciente, contacto from paciente";
+	private static final String SQL_SELECT_PACIENTE = "Select idpaciente, dni, nombrepaciente, contacto from paciente";
 	private static final String SQL_SELECT_PACIENTE_BY_DNI = "Select * from paciente where dni=?";
 	private static final String SQL_INSERT_PACIENTE = "Insert into paciente(dni, nombrepaciente, contacto) values (?, ?, ?)";
 	private static final String SQL_DELETE_PACIENTE = "Delete from paciente where dni=?";
