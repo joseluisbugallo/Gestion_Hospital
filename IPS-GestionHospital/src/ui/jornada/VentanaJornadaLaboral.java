@@ -29,6 +29,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionListener;
@@ -139,7 +140,7 @@ private JPanel contentPane;
 			btnSiguiente = new JButton("Siguiente");
 			btnSiguiente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					muestraDialogo();
+					comprobarCampos();
 				}
 			});
 			btnSiguiente.setBounds(471, 360, 97, 25);
@@ -341,5 +342,13 @@ private JPanel contentPane;
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setModal(true);
 		dialogo.setVisible(true);
+	}
+	
+	public void comprobarCampos() {
+		if((!chckbxMedico.isSelected() && !chckbxEnfermero.isSelected()) || cmbxEmpleados.getSelectedItem()==null || dcFin.getDate()==null || dcInicio.getDate()==null || textAreaDias.getText().isEmpty()){
+			JOptionPane.showMessageDialog(this, "Rellene todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+		}else {
+			muestraDialogo();
+		}
 	}
 }

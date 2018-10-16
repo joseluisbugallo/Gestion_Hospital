@@ -9,7 +9,7 @@ import persistence.DataJornada;
 
 public class JornadaController {
 	
-	private DataJornada dj;
+	private DataJornada dj = new DataJornada();
 	
 	public List<EmpleadoDto> getMedicos(){
 		DataEmpleado dE = new DataEmpleado();

@@ -15,6 +15,6 @@ public class CitaDto {
 	@Override
 	public String toString() {
 		return "CitaID: " + id + "  " + (urgente ? "URGENTE  " : "") + "Desde: " + fechainicio + "  Hasta: " + fechafin
-				+ "  PacienteID: " + idPaciente;
+				+ "  PacienteID: " + idPaciente + "Sala: " + sala ;
 	}
 }
