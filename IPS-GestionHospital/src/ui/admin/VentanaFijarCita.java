@@ -368,6 +368,7 @@ public class VentanaFijarCita extends JFrame {
 						
 						cc.crearCita(cita, medicos);
 						dispose();
+						
 					}
 				}
 			});
