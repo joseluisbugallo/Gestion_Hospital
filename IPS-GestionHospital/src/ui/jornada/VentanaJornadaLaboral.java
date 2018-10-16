@@ -37,6 +37,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 public class VentanaJornadaLaboral extends JFrame{
 /**
@@ -135,6 +137,11 @@ private JPanel contentPane;
 	private JButton getBtnSiguiente() {
 		if (btnSiguiente == null) {
 			btnSiguiente = new JButton("Siguiente");
+			btnSiguiente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					muestraDialogo();
+				}
+			});
 			btnSiguiente.setBounds(471, 360, 97, 25);
 			btnSiguiente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
@@ -248,6 +255,10 @@ private JPanel contentPane;
 				}
 			});
 			listDias.setModel(new AbstractListModel<String>() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 				String[] values = new String[] {"Lunes", "Martes", "Mi\u00E9rcoles", "Jueves", "Viernes", "S\u00E1bado", "Domingo"};
 				public int getSize() {
 					return values.length;
@@ -307,5 +318,28 @@ private JPanel contentPane;
 			btnSalir.setBounds(245, 360, 97, 25);
 		}
 		return btnSalir;
+	}
+	
+	public String getFin() {
+		return dcFin.getDate().toString();
+	}
+	
+	public String getInicio() {
+		return dcInicio.getDate().toString();
+	}
+	
+	public Timestamp getFinDate() {
+		return new Timestamp(dcFin.getDate().getTime());
+	}
+	
+	public Timestamp getInicioDate(){
+		return new Timestamp(dcInicio.getDate().getTime());
+	}
+	
+	public void muestraDialogo() {
+		VentanaConfirmacionJornada dialogo = new VentanaConfirmacionJornada((EmpleadoDto)cmbxEmpleados.getSelectedItem(),this);
+		dialogo.setLocationRelativeTo(this);
+		dialogo.setModal(true);
+		dialogo.setVisible(true);
 	}
 }
