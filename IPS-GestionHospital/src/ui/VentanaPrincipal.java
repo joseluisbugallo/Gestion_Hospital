@@ -86,7 +86,8 @@ public class VentanaPrincipal extends JFrame {
 						mostrarMensaje("Debe introducir un dni válido!", "DNI inválido", JOptionPane.ERROR_MESSAGE);
 					} else {
 						EmpleadoDto medico = principal.findEmpleado(dni);
-						if (medico != null)// hay que comprobar que el dni pertenece a un medico
+						
+						if (medico != null && medico.cargo.equals("Medico"))// hay que comprobar que el dni pertenece a un medico
 						{
 							VentanaMedico ventanaMedico = new VentanaMedico(medico);
 							ventanaMedico.setLocationRelativeTo(null);

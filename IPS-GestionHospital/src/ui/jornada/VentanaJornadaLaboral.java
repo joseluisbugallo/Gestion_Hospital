@@ -154,6 +154,8 @@ private JPanel contentPane;
 	protected void inicializar() {
 		buttonGroup.clearSelection();
 		textAreaDias.setText("");
+		getDcFin().setCalendar(null);
+		getDcInicio().setCalendar(null);
 		cmbxEmpleados.removeAllItems();
 		listDias.clearSelection();
 		
@@ -290,5 +292,18 @@ private JPanel contentPane;
 		for(EmpleadoDto e: empleados) {
 			cmbxEmpleados.addItem(e);
 		}
+	}
+	
+	private JButton getBtnSalir() {
+		if (btnSalir == null) {
+			btnSalir = new JButton("Salir");
+			btnSalir.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+			btnSalir.setBounds(245, 360, 97, 25);
+		}
+		return btnSalir;
 	}
 }
