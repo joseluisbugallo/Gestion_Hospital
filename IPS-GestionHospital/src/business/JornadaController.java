@@ -12,7 +12,7 @@ public class JornadaController {
 		List<EmpleadoDto> em = dE.list();
 		List<EmpleadoDto> medicos = new ArrayList<EmpleadoDto>();
 		for (EmpleadoDto e : em) {
-			if(e.cargo=="Medico") {
+			if(e.cargo.equals("Medico")) {
 				medicos.add(e);
 			}
 		}
@@ -24,10 +24,11 @@ public class JornadaController {
 		List<EmpleadoDto> em = dE.list();
 		List<EmpleadoDto> enfermeros = new ArrayList<EmpleadoDto>();
 		for (EmpleadoDto e : em) {
-			if(e.cargo=="Enfermero") {
+			if(e.cargo.equals("Enfermero")) {
 				enfermeros.add(e);
 			}
 		}
+	
 		return enfermeros;
 	}
 	

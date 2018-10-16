@@ -7,4 +7,10 @@ public class EmpleadoDto {
 	public String dni;
 	public String cargo;
 	public String correo;
+	
+	
+	@Override
+	public String toString() {
+		return "ID del " + cargo + ": " + id + " DNI: " + dni +  " correo: " + correo + ".";
+	}
 }

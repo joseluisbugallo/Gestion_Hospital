@@ -58,7 +58,6 @@ private JPanel contentPane;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JLabel lblSeleccionarEmpleado;
 	private JComboBox<EmpleadoDto> cmbxEmpleados;
-	DefaultComboBoxModel<EmpleadoDto> model = new DefaultComboBoxModel<EmpleadoDto>();
 	private JPanel panelEmpleado;
 	private JPanel panelJornada;
 	
@@ -155,7 +154,9 @@ private JPanel contentPane;
 	protected void inicializar() {
 		buttonGroup.clearSelection();
 		textAreaDias.setText("");
+		cmbxEmpleados.removeAllItems();
 		listDias.clearSelection();
+		
 	}
 
 	private JCheckBox getChckbxMedico() {
@@ -169,18 +170,6 @@ private JPanel contentPane;
 						}
 				}
 			});
-			
-				
-			
-			//chckbxMedico.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent arg0) {
-//					if(chckbxEnfermero.isSelected()) {
-//						for(EmpleadoDto e : jc.getEnfermeros()) {
-//						    model.addElement(e);
-//						}
-//						cmbxEmpleados.setModel(model);
-//				}}
-//			});
 			chckbxMedico.setBounds(8, 24, 78, 16);
 			buttonGroup.add(chckbxMedico);
 		}
@@ -189,8 +178,14 @@ private JPanel contentPane;
 	private JCheckBox getChckbxEnfermero() {
 		if (chckbxEnfermero == null) {
 			chckbxEnfermero = new JCheckBox("Enfermero");
-
-
+			chckbxEnfermero.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					if(chckbxEnfermero.isSelected()) {
+						List<EmpleadoDto> empleados= jc.getEnfermeros();
+							cargarModelo(empleados);
+						}
+				}
+			});
 			chckbxEnfermero.setBounds(106, 20, 105, 25);
 			buttonGroup.add(chckbxEnfermero);
 		}
@@ -205,7 +200,7 @@ private JPanel contentPane;
 	}
 	private JComboBox<EmpleadoDto> getCmbxEmpleados() {
 		if (cmbxEmpleados == null) {
-			cmbxEmpleados = new JComboBox<EmpleadoDto>(model);
+			cmbxEmpleados = new JComboBox<EmpleadoDto>();
 			cmbxEmpleados.setBounds(147, 49, 370, 25);
 		}
 		return cmbxEmpleados;
@@ -291,9 +286,9 @@ private JPanel contentPane;
 	}
 	
 	private void cargarModelo(List<EmpleadoDto> empleados) {
-		model = new DefaultComboBoxModel<>();
+		cmbxEmpleados.removeAllItems();
 		for(EmpleadoDto e: empleados) {
-			model.addElement(e);
+			cmbxEmpleados.addItem(e);
 		}
 	}
 }
