@@ -291,12 +291,8 @@ public class VentanaFijarCita extends JFrame {
 					if (getChckbxUrgente().isSelected()) {
 						String asunto = "Cita urgente";
 						String mensaje = "Se ha generado una cita urgente \n El paciente es:"
-<<<<<<< HEAD
 								+ seleccion.nombre;
-=======
-								+ paciente.nombre.toString();
 						
->>>>>>> e761915912a0f76b319ea8ff1f51799820db484c
 						for (EmpleadoDto e : medicos) {
 							CorreoElectronico correo = new CorreoElectronico(e.correo, asunto, mensaje);
 							correos.add(correo.enviarCorreo());

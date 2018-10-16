@@ -53,6 +53,7 @@ private JPanel contentPane;
 	private JDateChooser dcFin;
 	private JButton btnSiguiente;
 	private JButton btnCancelar;
+	private JButton btnSalir;
 	private JCheckBox chckbxMedico;
 	private JCheckBox chckbxEnfermero;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
@@ -97,6 +98,7 @@ private JPanel contentPane;
 		contentPane.add(getPanel_1());
 		contentPane.add(getBtnCancelar());
 		contentPane.add(getBtnSiguiente());
+		contentPane.add(getBtnSalir());
 	}
 	private JDateChooser getDcInicio() {
 		if (dcInicio == null) {
