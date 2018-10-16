@@ -28,7 +28,7 @@ public class VentanaConfirmacionJornada extends JDialog{
 	private JButton btnConfirmar;
 	private JButton btnCancelar;
 	
-	private JornadaController dj;
+	private JornadaController dj = new JornadaController();
 	
 	private VentanaJornadaLaboral v;
 	private EmpleadoDto empleado;
