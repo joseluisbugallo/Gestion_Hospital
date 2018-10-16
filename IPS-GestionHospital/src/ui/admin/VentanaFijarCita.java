@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -16,6 +15,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -24,25 +24,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 
-<<<<<<< HEAD
 import business.CorreoElectronico;
-import business.dto.EmpleadoDto;
-
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JCheckBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class VentanaFijarCita extends JFrame {
-
-	private JPanel contentPane;
-
-=======
 import business.JornadaController;
 import business.PacientesController;
 import business.dto.EmpleadoDto;
@@ -51,10 +33,9 @@ import business.dto.PacienteDto;
 public class VentanaFijarCita extends JFrame {
 
 	private JPanel pnBase;
-	
->>>>>>> db968b383f7d554b5c57d7c17beaf75ebb49bf80
+
 	DateFormat format = new SimpleDateFormat("dd/MM/yy HH:mm");
-	
+
 	private CardLayout c;
 	private JPanel pnFijarCita;
 	private JLabel label;
@@ -82,10 +63,10 @@ public class VentanaFijarCita extends JFrame {
 	private JButton btnBuscarPorNombrePacientes;
 	private JButton btnAceptarPacientes;
 	private JButton btnCancelarPacientes;
-	
+
 	private PacientesController pc = new PacientesController();
 	private JornadaController jc = new JornadaController();
-	
+
 	DefaultListModel<String> listModelPacientes;
 	DefaultListModel<String> listModelMedicos;
 	private JPanel pnSeleccionarMedicos;
@@ -99,8 +80,9 @@ public class VentanaFijarCita extends JFrame {
 	private JButton btnCancelar;
 	
 	
-	private EmpleadoDto paciente;
+	
 	private ArrayList<EmpleadoDto> medicos = new ArrayList<EmpleadoDto>();
+	private EmpleadoDto paciente;
 
 	/**
 	 * Launch the application.
@@ -122,43 +104,34 @@ public class VentanaFijarCita extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaFijarCita() {
-		c= new CardLayout();
+		c = new CardLayout();
 		setResizable(false);
 		setTitle("Fijar cita entre paciente y m\u00E9dico(s)");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 705, 410);
 		inicializarListas();
-		
+
 		pnBase = new JPanel();
 		pnBase.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(pnBase);
 		pnBase.setLayout(c);
-		pnBase.add(getPnFijarCita(),"pnFijarCita");
+		pnBase.add(getPnFijarCita(), "pnFijarCita");
 		pnBase.add(getPnSeleccionarPaciente(), "pnSeleccionarPaciente");
 		pnBase.add(getPnSeleccionarMedicos(), "pnSeleccionarMedicos");
-		
-	}
-<<<<<<< HEAD
 
-	private JDateChooser getDcInicio() {
-		if (dcInicio == null) {
-			dcInicio = new JDateChooser();
-			dcInicio.setBounds(166, 72, 160, 20);
-			dcInicio.setDateFormatString("dd/MM/yy HH:mm");
-=======
-	
+	}
+
 	private void inicializarListas() {
-		listModelPacientes=new DefaultListModel<String>();
-		for (PacienteDto paciente: pc.listadoPacientes()) {
+		listModelPacientes = new DefaultListModel<String>();
+		for (PacienteDto paciente : pc.listadoPacientes()) {
 			listModelPacientes.addElement(paciente.nombre + " DNI: " + paciente.dni);
->>>>>>> db968b383f7d554b5c57d7c17beaf75ebb49bf80
 		}
-		listModelMedicos= new DefaultListModel<String>();
+		listModelMedicos = new DefaultListModel<String>();
 		for (EmpleadoDto empleado : jc.getMedicos()) {
 			listModelMedicos.addElement(empleado.nombre + ", DNI:" + empleado.dni);
 		}
 	}
-	
+
 	private JPanel getPnFijarCita() {
 		if (pnFijarCita == null) {
 			pnFijarCita = new JPanel();
@@ -182,31 +155,16 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return pnFijarCita;
 	}
-<<<<<<< HEAD
 
-	private JLabel getLblCrearNuevaCita() {
-		if (lblCrearNuevaCita == null) {
-			lblCrearNuevaCita = new JLabel("Crear nueva cita");
-			lblCrearNuevaCita.setFont(new Font("Tahoma", Font.PLAIN, 17));
-			lblCrearNuevaCita.setBounds(35, 23, 151, 20);
-=======
 	private JLabel getLabel() {
 		if (label == null) {
 			label = new JLabel("Crear nueva cita");
 			label.setFont(new Font("Tahoma", Font.PLAIN, 17));
 			label.setBounds(43, 30, 151, 20);
->>>>>>> db968b383f7d554b5c57d7c17beaf75ebb49bf80
 		}
 		return label;
 	}
-<<<<<<< HEAD
 
-	private JLabel getLblFechaYHora() {
-		if (lblFechaYHora == null) {
-			lblFechaYHora = new JLabel("Fecha y hora inicio:");
-			lblFechaYHora.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblFechaYHora.setBounds(35, 72, 121, 20);
-=======
 	private JLabel getLabel_1() {
 		if (label_1 == null) {
 			label_1 = new JLabel("Fecha y hora inicio:");
@@ -215,29 +173,21 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return label_1;
 	}
+
 	private JDateChooser getDcInicio() {
 		if (dcInicio == null) {
 			dcInicio = new JDateChooser();
 			dcInicio.setDateFormatString("dd/MM/yy HH:mm:ss");
 			dcInicio.setBounds(174, 79, 160, 20);
->>>>>>> db968b383f7d554b5c57d7c17beaf75ebb49bf80
 		}
 		return dcInicio;
 	}
-<<<<<<< HEAD
 
-	private JLabel getLblFechaYHora_1() {
-		if (lblFechaYHora_1 == null) {
-			lblFechaYHora_1 = new JLabel("Fecha y hora fin:");
-			lblFechaYHora_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblFechaYHora_1.setBounds(353, 72, 121, 20);
-=======
 	private JLabel getLabel_2() {
 		if (label_2 == null) {
 			label_2 = new JLabel("Fecha y hora fin:");
 			label_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			label_2.setBounds(361, 79, 121, 20);
->>>>>>> db968b383f7d554b5c57d7c17beaf75ebb49bf80
 		}
 		return label_2;
 	}
@@ -250,40 +200,25 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return dcFin;
 	}
-<<<<<<< HEAD
 
-	private JLabel getLblPaciente() {
-		if (lblPaciente == null) {
-			lblPaciente = new JLabel("Paciente:");
-			lblPaciente.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblPaciente.setBounds(35, 123, 68, 20);
-=======
 	private JLabel getLabel_3() {
 		if (label_3 == null) {
 			label_3 = new JLabel("Paciente:");
 			label_3.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			label_3.setBounds(43, 130, 68, 20);
->>>>>>> db968b383f7d554b5c57d7c17beaf75ebb49bf80
 		}
 		return label_3;
 	}
-<<<<<<< HEAD
 
-	private JButton getBtnPaciente() {
-		if (btnPaciente == null) {
-			btnPaciente = new JButton("Seleccionar paciente");
-			btnPaciente.setBounds(117, 123, 138, 23);
-=======
 	private JButton getBtnSeleccionarPaciente() {
 		if (btnSeleccionarPaciente == null) {
 			btnSeleccionarPaciente = new JButton("Seleccionar paciente");
 			btnSeleccionarPaciente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					c.show(pnBase, "pnSeleccionarPaciente");				
+					c.show(pnBase, "pnSeleccionarPaciente");
 				}
 			});
 			btnSeleccionarPaciente.setBounds(125, 130, 177, 23);
->>>>>>> db968b383f7d554b5c57d7c17beaf75ebb49bf80
 		}
 		return btnSeleccionarPaciente;
 	}
@@ -297,38 +232,16 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return txPaciente;
 	}
-<<<<<<< HEAD
 
-	private JLabel getLblMdicos() {
-		if (lblMdicos == null) {
-			lblMdicos = new JLabel("M\u00E9dico(s):");
-			lblMdicos.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblMdicos.setBounds(35, 179, 68, 20);
-		}
-		return lblMdicos;
-	}
-
-	private JButton getBtnMedicos() {
-		if (btnMedicos == null) {
-			btnMedicos = new JButton("Seleccionar m\u00E9dico(s)");
-			btnMedicos.setBounds(117, 179, 138, 23);
-=======
 	private JLabel getLabel_4() {
 		if (label_4 == null) {
 			label_4 = new JLabel("M\u00E9dico(s):");
 			label_4.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			label_4.setBounds(43, 186, 68, 20);
->>>>>>> db968b383f7d554b5c57d7c17beaf75ebb49bf80
 		}
 		return label_4;
 	}
-<<<<<<< HEAD
 
-	private JScrollPane getScPaneMedicos() {
-		if (scPaneMedicos == null) {
-			scPaneMedicos = new JScrollPane();
-			scPaneMedicos.setBounds(265, 179, 228, 72);
-=======
 	private JButton getBtnSeleccionarMedico() {
 		if (btnSeleccionarMedico == null) {
 			btnSeleccionarMedico = new JButton("Seleccionar m\u00E9dico(s)");
@@ -338,7 +251,6 @@ public class VentanaFijarCita extends JFrame {
 				}
 			});
 			btnSeleccionarMedico.setBounds(125, 186, 177, 23);
->>>>>>> db968b383f7d554b5c57d7c17beaf75ebb49bf80
 		}
 		return btnSeleccionarMedico;
 	}
@@ -351,20 +263,12 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return chckbxUrgente;
 	}
-<<<<<<< HEAD
 
-	private JLabel getLblUbicacin() {
-		if (lblUbicacin == null) {
-			lblUbicacin = new JLabel("Ubicaci\u00F3n:");
-			lblUbicacin.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblUbicacin.setBounds(265, 295, 79, 19);
-=======
 	private JLabel getLabel_5() {
 		if (label_5 == null) {
 			label_5 = new JLabel("Ubicaci\u00F3n:");
 			label_5.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			label_5.setBounds(273, 302, 79, 19);
->>>>>>> db968b383f7d554b5c57d7c17beaf75ebb49bf80
 		}
 		return label_5;
 	}
@@ -377,37 +281,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return txUbicacion;
 	}
-<<<<<<< HEAD
 
-	private JButton getBtnCrear() {
-		if (btnCrear == null) {
-			btnCrear = new JButton("Crear");
-			btnCrear.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					//Acciones crear cita
-					
-					
-					
-					
-					
-					//Enviar correo en caso de ser urgente (Jose)
-					if (getChckbxUrgente().isSelected()) {						
-						String asunto = "Cita urgente";
-						String mensaje = "Se ha generado una cita urgente \n El paciente es:"+paciente.nombre.toString();						
-						for (EmpleadoDto e : medicos) {
-							CorreoElectronico correo = new CorreoElectronico(e.correo,asunto,mensaje);
-							correo.enviarCorreo();
-						}
-					}
-					mostrarMensaje("Se ha enviado un correo a todos los medicos de esta cita, ya que ha sido marcada como urgente"
-							,"Informacion" ,JOptionPane.INFORMATION_MESSAGE);
-					
-					
-				}
-			});
-			btnCrear.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			btnCrear.setBounds(582, 330, 89, 23);
-=======
 	private JButton getBtCancelar() {
 		if (btCancelar == null) {
 			btCancelar = new JButton("Cancelar");
@@ -416,14 +290,41 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return btCancelar;
 	}
+
 	private JButton getBtCrear() {
 		if (btCrear == null) {
 			btCrear = new JButton("Crear");
+			btCrear.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//Acciones crear cita
+
+					// Enviar correo en caso de ser urgente (Jose)
+					if (getChckbxUrgente().isSelected()) {
+						String asunto = "Cita urgente";
+						String mensaje = "Se ha generado una cita urgente \n El paciente es:"
+								+ paciente.nombre.toString();
+						for (EmpleadoDto e : medicos) {
+							CorreoElectronico correo = new CorreoElectronico(e.correo, asunto, mensaje);
+							correo.enviarCorreo();
+						}
+					}
+					mostrarMensaje(
+							"Se ha enviado un correo a todos los medicos de esta cita, ya que ha sido marcada como urgente",
+							"Informacion", JOptionPane.INFORMATION_MESSAGE);
+
+				}
+			});
 			btCrear.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btCrear.setBounds(590, 337, 89, 23);
+
 		}
 		return btCrear;
 	}
+	
+	private void mostrarMensaje(String mess, String title, int icon) {
+		JOptionPane.showMessageDialog(this, mess, title, icon);
+	}
+
 	private JTextArea getTxAreaMedicos() {
 		if (txAreaMedicos == null) {
 			txAreaMedicos = new JTextArea();
@@ -431,6 +332,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return txAreaMedicos;
 	}
+
 	private JPanel getPnSeleccionarPaciente() {
 		if (pnSeleccionarPaciente == null) {
 			pnSeleccionarPaciente = new JPanel();
@@ -446,24 +348,25 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return pnSeleccionarPaciente;
 	}
+
 	private JLabel getLblSeleccionarPacientePara() {
 		if (lblSeleccionarPacientePara == null) {
 			lblSeleccionarPacientePara = new JLabel("Seleccionar paciente para la cita");
 			lblSeleccionarPacientePara.setFont(new Font("Tahoma", Font.PLAIN, 17));
 			lblSeleccionarPacientePara.setBounds(21, 25, 250, 31);
->>>>>>> db968b383f7d554b5c57d7c17beaf75ebb49bf80
 		}
 		return lblSeleccionarPacientePara;
 	}
+
 	private JList<String> getListPacientes() {
 		if (listPacientes == null) {
 			listPacientes = new JList<String>(listModelPacientes);
-			listPacientes.setSelectionMode(
-                    ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+			listPacientes.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 			listPacientes.setBounds(51, 123, 560, 138);
 		}
 		return listPacientes;
 	}
+
 	private JTextField getTxDniPaciente() {
 		if (txDniPaciente == null) {
 			txDniPaciente = new JTextField();
@@ -472,6 +375,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return txDniPaciente;
 	}
+
 	private JButton getBtnBuscarPorDniPacientes() {
 		if (btnBuscarPorDniPacientes == null) {
 			btnBuscarPorDniPacientes = new JButton("Buscar por DNI");
@@ -480,6 +384,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return btnBuscarPorDniPacientes;
 	}
+
 	private JTextField getTxNombrePaciente() {
 		if (txNombrePaciente == null) {
 			txNombrePaciente = new JTextField();
@@ -488,6 +393,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return txNombrePaciente;
 	}
+
 	private JButton getBtnBuscarPorNombrePacientes() {
 		if (btnBuscarPorNombrePacientes == null) {
 			btnBuscarPorNombrePacientes = new JButton("Buscar por nombre");
@@ -496,6 +402,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return btnBuscarPorNombrePacientes;
 	}
+
 	private JButton getBtnAceptarPacientes() {
 		if (btnAceptarPacientes == null) {
 			btnAceptarPacientes = new JButton("Aceptar");
@@ -504,6 +411,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return btnAceptarPacientes;
 	}
+
 	private JButton getBtnCancelarPacientes() {
 		if (btnCancelarPacientes == null) {
 			btnCancelarPacientes = new JButton("Cancelar");
@@ -517,6 +425,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return btnCancelarPacientes;
 	}
+
 	private JPanel getPnSeleccionarMedicos() {
 		if (pnSeleccionarMedicos == null) {
 			pnSeleccionarMedicos = new JPanel();
@@ -532,6 +441,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return pnSeleccionarMedicos;
 	}
+
 	private JLabel getLblSeleccionarMdicos() {
 		if (lblSeleccionarMdicos == null) {
 			lblSeleccionarMdicos = new JLabel("Seleccionar m\u00E9dico(s) para la cita");
@@ -540,15 +450,16 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return lblSeleccionarMdicos;
 	}
+
 	private JList<String> getListMedicos() {
 		if (listMedicos == null) {
 			listMedicos = new JList<String>(listModelMedicos);
-			listMedicos.setSelectionMode(
-                    ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+			listMedicos.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			listMedicos.setBounds(37, 121, 559, 150);
 		}
 		return listMedicos;
 	}
+
 	private JTextField getTxDniMedico() {
 		if (txDniMedico == null) {
 			txDniMedico = new JTextField();
@@ -557,6 +468,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return txDniMedico;
 	}
+
 	private JButton getBtnBuscarPorDniMedicos() {
 		if (btnBuscarPorDniMedicos == null) {
 			btnBuscarPorDniMedicos = new JButton("Buscar por DNI");
@@ -565,6 +477,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return btnBuscarPorDniMedicos;
 	}
+
 	private JTextField getTxNombreMedico() {
 		if (txNombreMedico == null) {
 			txNombreMedico = new JTextField();
@@ -573,6 +486,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return txNombreMedico;
 	}
+
 	private JButton getBtnBuscarPorNombreMedicos() {
 		if (btnBuscarPorNombreMedicos == null) {
 			btnBuscarPorNombreMedicos = new JButton("Buscar por nombre");
@@ -581,6 +495,7 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return btnBuscarPorNombreMedicos;
 	}
+
 	private JButton getBtnAceptarMedicos() {
 		if (btnAceptarMedicos == null) {
 			btnAceptarMedicos = new JButton("Aceptar");
@@ -589,12 +504,6 @@ public class VentanaFijarCita extends JFrame {
 		}
 		return btnAceptarMedicos;
 	}
-	
-	private void mostrarMensaje(String mess, String title, int icon) {
-		JOptionPane.showMessageDialog(this, mess, title, icon);
-	}
-
-	
 
 	private JButton getBtnCancelar() {
 		if (btnCancelar == null) {
