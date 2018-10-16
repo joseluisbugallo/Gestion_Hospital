@@ -11,7 +11,8 @@ import business.dto.PacienteDto;
 
 public class DataPaciente extends DataManager {
 
-	private static final String SQL_SELECT_PACIENTE = "Select * from paciente";
+	private static final String SQL_SELECT_PACIENTE = "Select dni, nombrepaciente, contacto from paciente";
+	private static final String SQL_SELECT_PACIENTE_BY_DNI = "Select * from paciente where dni=?";
 	private static final String SQL_INSERT_PACIENTE = "Insert into paciente(dni, nombrepaciente, contacto) values (?, ?, ?)";
 	private static final String SQL_DELETE_PACIENTE = "Delete from paciente where dni=?";
 	private static final String SQL_UPDATE_PACIENTE = "Update paciente set nombrepaciente=?, contacto=? where dni=?";
@@ -89,5 +90,28 @@ public class DataPaciente extends DataManager {
 		} finally {
 			Jdbc.close(rs, st);
 		}
+	}
+	
+	public PacienteDto getPacientePorDni(String dni) {
+		PacienteDto paciente = new PacienteDto();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = Jdbc.getCurrentConnection().prepareStatement(SQL_SELECT_PACIENTE_BY_DNI);
+			st.setString(1, dni);
+			rs = st.executeQuery();
+			while (rs.next()) {
+				paciente.id = rs.getInt(1);
+				paciente.nombre = rs.getString(2);
+				paciente.dni = rs.getString(3);
+				paciente.contacto = rs.getString(4);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Jdbc.close(rs, st);
+		}
+		return paciente;
 	}
 }
