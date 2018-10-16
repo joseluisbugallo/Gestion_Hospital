@@ -1,16 +1,16 @@
 package ui.admin;
 
 import java.awt.CardLayout;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -31,8 +31,6 @@ import business.JornadaController;
 import business.PacientesController;
 import business.dto.EmpleadoDto;
 import business.dto.PacienteDto;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class VentanaFijarCita extends JFrame {
 
@@ -84,9 +82,19 @@ public class VentanaFijarCita extends JFrame {
 	private JButton btnCancelar;
 	
 	
-	
 	private List<EmpleadoDto> medicos = new ArrayList<EmpleadoDto>();
 	private PacienteDto seleccion;
+	private JButton btnModificarInformacinDe;
+	private JPanel pnInfoContacto;
+	private JLabel lblInformacinDeContacto;
+	private JLabel lblNombre;
+	private JTextField txNombreContacto;
+	private JLabel lblDni;
+	private JTextField txDniContacto;
+	private JLabel lblContacto;
+	private JTextArea txtAreaInfoContacto;
+	private JButton btnModificarContacto;
+	private JButton btnCancelarContacto;
 
 	/**
 	 * Create the frame.
@@ -106,6 +114,11 @@ public class VentanaFijarCita extends JFrame {
 		pnBase.add(getPnFijarCita(), "pnFijarCita");
 		pnBase.add(getPnSeleccionarPaciente(), "pnSeleccionarPaciente");
 		pnBase.add(getPnSeleccionarMedicos(), "pnSeleccionarMedicos");
+		pnBase.add(getPnInfoContacto(), "pnInfoContacto");
+		
+		if(seleccion==null) {
+			btnModificarContacto.setEnabled(false);
+		}
 
 	}
 
@@ -140,6 +153,7 @@ public class VentanaFijarCita extends JFrame {
 			pnFijarCita.add(getBtCancelar());
 			pnFijarCita.add(getBtCrear());
 			pnFijarCita.add(getTxAreaMedicos());
+			pnFijarCita.add(getBtnModificarInformacinDe());
 		}
 		return pnFijarCita;
 	}
@@ -225,7 +239,7 @@ public class VentanaFijarCita extends JFrame {
 		if (label_4 == null) {
 			label_4 = new JLabel("M\u00E9dico(s):");
 			label_4.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			label_4.setBounds(43, 186, 68, 20);
+			label_4.setBounds(43, 202, 68, 20);
 		}
 		return label_4;
 	}
@@ -238,7 +252,7 @@ public class VentanaFijarCita extends JFrame {
 					c.show(pnBase, "pnSeleccionarMedicos");
 				}
 			});
-			btnSeleccionarMedico.setBounds(125, 186, 177, 23);
+			btnSeleccionarMedico.setBounds(125, 202, 177, 23);
 		}
 		return btnSeleccionarMedico;
 	}
@@ -325,7 +339,7 @@ public class VentanaFijarCita extends JFrame {
 	private JTextArea getTxAreaMedicos() {
 		if (txAreaMedicos == null) {
 			txAreaMedicos = new JTextArea();
-			txAreaMedicos.setBounds(329, 185, 308, 74);
+			txAreaMedicos.setBounds(329, 201, 308, 74);
 		}
 		return txAreaMedicos;
 	}
@@ -358,6 +372,7 @@ public class VentanaFijarCita extends JFrame {
 	private JList<PacienteDto> getListPacientes() {
 		if (listPacientes == null) {
 			listPacientes = new JList<>(listModelPacientes);
+			listPacientes.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 			listPacientes.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -367,7 +382,6 @@ public class VentanaFijarCita extends JFrame {
 					}
 				}
 			});
-			listPacientes.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 			listPacientes.setBounds(51, 123, 560, 138);
 		}
 		return listPacientes;
@@ -419,6 +433,8 @@ public class VentanaFijarCita extends JFrame {
 						PacienteDto paciente = getListPacientes().getSelectedValue();
 						System.out.println(paciente);
 						addPaciente(paciente);
+						txPaciente.setText(paciente.nombre);
+						btnModificarContacto.setEnabled(true);
 						c.show(pnBase, "pnFijarCita");
 					}
 				}
@@ -557,5 +573,122 @@ public class VentanaFijarCita extends JFrame {
 		for(EmpleadoDto e: medicos) {
 			getTxAreaMedicos().append(e.toString() + "\n");
 		}
+	}
+	private JButton getBtnModificarInformacinDe() {
+		if (btnModificarInformacinDe == null) {
+			btnModificarInformacinDe = new JButton("Modificar informaci\u00F3n de contacto");
+			btnModificarInformacinDe.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					c.show(pnBase, "pnInfoContacto");
+					txNombreContacto.setText(seleccion.nombre);
+					txDniContacto.setText(seleccion.dni);
+					txtAreaInfoContacto.setText(seleccion.contacto);
+				}
+			});
+			btnModificarInformacinDe.setBounds(329, 162, 223, 23);
+		}
+		return btnModificarInformacinDe;
+	}
+	private JPanel getPnInfoContacto() {
+		if (pnInfoContacto == null) {
+			pnInfoContacto = new JPanel();
+			pnInfoContacto.setLayout(null);
+			pnInfoContacto.add(getLblInformacinDeContacto());
+			pnInfoContacto.add(getLblNombre());
+			pnInfoContacto.add(getTxNombreContacto());
+			pnInfoContacto.add(getLblDni());
+			pnInfoContacto.add(getTxDniContacto());
+			pnInfoContacto.add(getLblContacto());
+			pnInfoContacto.add(getTxtAreaInfoContacto());
+			pnInfoContacto.add(getBtnModificarContacto());
+			pnInfoContacto.add(getBtnCancelarContacto());
+		}
+		return pnInfoContacto;
+	}
+	private JLabel getLblInformacinDeContacto() {
+		if (lblInformacinDeContacto == null) {
+			lblInformacinDeContacto = new JLabel("Informaci\u00F3n de contacto del paciente");
+			lblInformacinDeContacto.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			lblInformacinDeContacto.setBounds(28, 27, 315, 27);
+		}
+		return lblInformacinDeContacto;
+	}
+	private JLabel getLblNombre() {
+		if (lblNombre == null) {
+			lblNombre = new JLabel("Nombre:");
+			lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblNombre.setBounds(28, 80, 64, 27);
+		}
+		return lblNombre;
+	}
+	private JTextField getTxNombreContacto() {
+		if (txNombreContacto == null) {
+			txNombreContacto = new JTextField();
+			txNombreContacto.setEditable(false);
+			txNombreContacto.setBounds(91, 84, 252, 20);
+			txNombreContacto.setColumns(10);
+		}
+		return txNombreContacto;
+	}
+	private JLabel getLblDni() {
+		if (lblDni == null) {
+			lblDni = new JLabel("DNI:");
+			lblDni.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblDni.setBounds(28, 123, 53, 20);
+		}
+		return lblDni;
+	}
+	private JTextField getTxDniContacto() {
+		if (txDniContacto == null) {
+			txDniContacto = new JTextField();
+			txDniContacto.setEditable(false);
+			txDniContacto.setBounds(91, 124, 252, 20);
+			txDniContacto.setColumns(10);
+		}
+		return txDniContacto;
+	}
+	private JLabel getLblContacto() {
+		if (lblContacto == null) {
+			lblContacto = new JLabel("Contacto:");
+			lblContacto.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblContacto.setBounds(28, 168, 64, 20);
+		}
+		return lblContacto;
+	}
+	private JTextArea getTxtAreaInfoContacto() {
+		if (txtAreaInfoContacto == null) {
+			txtAreaInfoContacto = new JTextArea();
+			txtAreaInfoContacto.setBounds(91, 167, 252, 140);
+		}
+		return txtAreaInfoContacto;
+	}
+	private JButton getBtnModificarContacto() {
+		if (btnModificarContacto == null) {
+			btnModificarContacto = new JButton("Modificar");
+			btnModificarContacto.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(!txtAreaInfoContacto.getText().equals(seleccion.contacto)) {
+						seleccion.contacto = txtAreaInfoContacto.getText();
+						c.show(pnBase, "pnFijarCita");
+					}
+				}
+			});
+			btnModificarContacto.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btnModificarContacto.setBounds(578, 288, 89, 23);
+		}
+		return btnModificarContacto;
+	}
+	private JButton getBtnCancelarContacto() {
+		if (btnCancelarContacto == null) {
+			btnCancelarContacto = new JButton("Cancelar");
+			btnCancelarContacto.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					c.show(pnBase, "pnFijarCita");
+				}
+			});
+			btnCancelarContacto.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btnCancelarContacto.setBounds(479, 289, 89, 23);
+		}
+		return btnCancelarContacto;
 	}
 }
