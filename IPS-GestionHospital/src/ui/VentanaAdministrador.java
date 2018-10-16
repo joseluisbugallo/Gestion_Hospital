@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JCalendar;
 
 import ui.admin.VentanaConsultarCitas;
+import ui.admin.VentanaFijarCita;
 import ui.jornada.VentanaJornadaLaboral;
 import ui.medico.VentanaCitasMedico;
 
@@ -22,7 +23,7 @@ public class VentanaAdministrador extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
-	private JButton btnMenDeCitas;
+	private JButton btnFijarCita;
 	private JButton btnConsultarCitas;
 	private JButton btnJornadaLaboral;
 
@@ -38,27 +39,26 @@ public class VentanaAdministrador extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(3, 0, 0, 0));
-		contentPane.add(getBtnMenDeCitas());
+		contentPane.add(getBtnFijarCita());
 		contentPane.add(getBtnConsultarCitas());
 		contentPane.add(getBtnJornadaLaboral());
 	}
 
-	private JButton getBtnMenDeCitas() {
-		if (btnMenDeCitas == null) {
-			btnMenDeCitas = new JButton("Men\u00FA de citas");
-			btnMenDeCitas.addActionListener(new ActionListener() {
+	private JButton getBtnFijarCita() {
+		if (btnFijarCita == null) {
+			btnFijarCita = new JButton("Fijar cita");
+			btnFijarCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//Aquí se llamaría a la pantalla de citas
-					mostrarMensaje("La ventana aun no ha sido implementada", "SECCIÓN NO IMPLEMENTADA", JOptionPane.WARNING_MESSAGE);
+					VentanaFijarCita vFC = new VentanaFijarCita();
+					vFC.setLocationRelativeTo(null);
+					vFC.setTitle("Listado completo de Citas");
+					vFC.setVisible(true);
 				}
 			});
 		}
-		return btnMenDeCitas;
+		return btnFijarCita;
 	}
 	
-	private void mostrarMensaje(String mess, String title, int icon) {
-		JOptionPane.showMessageDialog(this, mess, title, icon);
-	}
 	private JButton getBtnConsultarCitas() {
 		if (btnConsultarCitas == null) {
 			btnConsultarCitas = new JButton("Consultar Citas");
@@ -85,5 +85,9 @@ public class VentanaAdministrador extends JFrame {
 			});
 		}
 		return btnJornadaLaboral;
+	}
+	
+	private void mostrarMensaje(String mess, String title, int icon) {
+		JOptionPane.showMessageDialog(this, mess, title, icon);
 	}
 }
