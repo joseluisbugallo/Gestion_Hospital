@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JCalendar;
 
 import ui.admin.VentanaConsultarCitas;
+import ui.jornada.VentanaJornadaLaboral;
 import ui.medico.VentanaCitasMedico;
 
 import java.awt.GridLayout;
@@ -23,6 +24,7 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel contentPane;
 	private JButton btnMenDeCitas;
 	private JButton btnConsultarCitas;
+	private JButton btnJornadaLaboral;
 
 
 	/**
@@ -38,6 +40,7 @@ public class VentanaAdministrador extends JFrame {
 		contentPane.setLayout(new GridLayout(3, 0, 0, 0));
 		contentPane.add(getBtnMenDeCitas());
 		contentPane.add(getBtnConsultarCitas());
+		contentPane.add(getBtnJornadaLaboral());
 	}
 
 	private JButton getBtnMenDeCitas() {
@@ -69,5 +72,18 @@ public class VentanaAdministrador extends JFrame {
 			});
 		}
 		return btnConsultarCitas;
+	}
+	private JButton getBtnJornadaLaboral() {
+		if (btnJornadaLaboral == null) {
+			btnJornadaLaboral = new JButton("Jornada Laboral");
+			btnJornadaLaboral.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					VentanaJornadaLaboral jornada = new VentanaJornadaLaboral();
+					jornada.setLocationRelativeTo(null);
+					jornada.setVisible(true);
+				}
+			});
+		}
+		return btnJornadaLaboral;
 	}
 }

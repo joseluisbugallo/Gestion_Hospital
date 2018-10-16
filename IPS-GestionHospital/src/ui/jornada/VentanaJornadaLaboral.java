@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -32,6 +33,10 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class VentanaJornadaLaboral extends JFrame{
 /**
@@ -61,28 +66,29 @@ private JPanel contentPane;
 	private JList<String> listDias;
 	private JLabel lblDas;
 	private JTextArea textAreaDias;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaJornadaLaboral frame = new VentanaJornadaLaboral();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					VentanaJornadaLaboral frame = new VentanaJornadaLaboral();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
 	public VentanaJornadaLaboral() {
+		setResizable(false);
 		setTitle("Asignar jornada laboral a m\u00E9dicos o enfermeros");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 612, 443);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -155,15 +161,26 @@ private JPanel contentPane;
 	private JCheckBox getChckbxMedico() {
 		if (chckbxMedico == null) {
 			chckbxMedico = new JCheckBox("M\u00E9dico");
-			chckbxMedico.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if(chckbxEnfermero.isSelected()) {
-						for(EmpleadoDto e : jc.getEnfermeros()) {
-						    model.addElement(e);
+			chckbxMedico.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					if(chckbxMedico.isSelected()) {
+						List<EmpleadoDto> empleados= jc.getMedicos();
+							cargarModelo(empleados);
 						}
-						cmbxEmpleados.setModel(model);
-				}}
+				}
 			});
+			
+				
+			
+			//chckbxMedico.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent arg0) {
+//					if(chckbxEnfermero.isSelected()) {
+//						for(EmpleadoDto e : jc.getEnfermeros()) {
+//						    model.addElement(e);
+//						}
+//						cmbxEmpleados.setModel(model);
+//				}}
+//			});
 			chckbxMedico.setBounds(8, 24, 78, 16);
 			buttonGroup.add(chckbxMedico);
 		}
@@ -172,16 +189,8 @@ private JPanel contentPane;
 	private JCheckBox getChckbxEnfermero() {
 		if (chckbxEnfermero == null) {
 			chckbxEnfermero = new JCheckBox("Enfermero");
-			chckbxEnfermero.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if(chckbxMedico.isSelected()) {
-						for(EmpleadoDto d : jc.getMedicos()) {
-						    model.addElement(d);
-						}
-						cmbxEmpleados.setModel(model);
-					}
-				}
-			});
+
+
 			chckbxEnfermero.setBounds(106, 20, 105, 25);
 			buttonGroup.add(chckbxEnfermero);
 		}
@@ -196,7 +205,7 @@ private JPanel contentPane;
 	}
 	private JComboBox<EmpleadoDto> getCmbxEmpleados() {
 		if (cmbxEmpleados == null) {
-			cmbxEmpleados = new JComboBox<EmpleadoDto>();
+			cmbxEmpleados = new JComboBox<EmpleadoDto>(model);
 			cmbxEmpleados.setBounds(147, 49, 370, 25);
 		}
 		return cmbxEmpleados;
@@ -279,5 +288,12 @@ private JPanel contentPane;
 			textAreaDias.setBounds(176, 104, 292, 43);
 		}
 		return textAreaDias;
+	}
+	
+	private void cargarModelo(List<EmpleadoDto> empleados) {
+		model = new DefaultComboBoxModel<>();
+		for(EmpleadoDto e: empleados) {
+			model.addElement(e);
+		}
 	}
 }
