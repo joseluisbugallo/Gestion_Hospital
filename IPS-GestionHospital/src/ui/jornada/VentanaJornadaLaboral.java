@@ -65,6 +65,7 @@ private JPanel contentPane;
 	private JList<String> listDias;
 	private JLabel lblDas;
 	private JTextArea textAreaDias;
+	private JButton btnSalir;
 //	/**
 //	 * Launch the application.
 //	 */
@@ -97,6 +98,7 @@ private JPanel contentPane;
 		contentPane.add(getPanel_1());
 		contentPane.add(getBtnCancelar());
 		contentPane.add(getBtnSiguiente());
+		contentPane.add(getBtnSalir());
 	}
 	private JDateChooser getDcInicio() {
 		if (dcInicio == null) {
@@ -133,7 +135,7 @@ private JPanel contentPane;
 	private JButton getBtnSiguiente() {
 		if (btnSiguiente == null) {
 			btnSiguiente = new JButton("Siguiente");
-			btnSiguiente.setBounds(471, 360, 97, 23);
+			btnSiguiente.setBounds(471, 360, 97, 25);
 			btnSiguiente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return btnSiguiente;
@@ -146,7 +148,7 @@ private JPanel contentPane;
 					inicializar();
 				}
 			});
-			btnCancelar.setBounds(354, 360, 107, 23);
+			btnCancelar.setBounds(354, 360, 107, 25);
 			btnCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return btnCancelar;
@@ -154,6 +156,8 @@ private JPanel contentPane;
 	protected void inicializar() {
 		buttonGroup.clearSelection();
 		textAreaDias.setText("");
+		getDcFin().setCalendar(null);
+		getDcInicio().setCalendar(null);
 		cmbxEmpleados.removeAllItems();
 		listDias.clearSelection();
 		
@@ -290,5 +294,18 @@ private JPanel contentPane;
 		for(EmpleadoDto e: empleados) {
 			cmbxEmpleados.addItem(e);
 		}
+	}
+	
+	private JButton getBtnSalir() {
+		if (btnSalir == null) {
+			btnSalir = new JButton("Salir");
+			btnSalir.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+			btnSalir.setBounds(245, 360, 97, 25);
+		}
+		return btnSalir;
 	}
 }

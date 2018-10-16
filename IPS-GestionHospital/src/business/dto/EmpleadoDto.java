@@ -11,6 +11,6 @@ public class EmpleadoDto {
 	
 	@Override
 	public String toString() {
-		return "ID del " + cargo + ": " + id + " DNI: " + dni +  " correo: " + correo + ".";
+		return nombre + ",\t ID : " + id;
 	}
 }
