@@ -343,16 +343,17 @@ public class VentanaFijarCita extends JFrame {
 								CorreoElectronico correo = new CorreoElectronico(e.correo, asunto, mensaje);
 								correos.add(correo.enviarCorreo());
 							}
+							boolean a = true;
+							for (Boolean b : correos) {
+								if (b == false)
+									a = b;
+							}
+							if (a)
+								mostrarMensaje(
+										"Se ha enviado un correo a todos los medicos de esta cita, ya que ha sido marcada como urgente",
+										"Informacion", JOptionPane.INFORMATION_MESSAGE);
+							
 						}
-						boolean a = true;
-						for (Boolean b : correos) {
-							if (b == false)
-								a = b;
-						}
-						if (a)
-							mostrarMensaje(
-									"Se ha enviado un correo a todos los medicos de esta cita, ya que ha sido marcada como urgente",
-									"Informacion", JOptionPane.INFORMATION_MESSAGE);
 						
 						//crear la cita con los datos introducidos
 						CitaDto cita = new CitaDto();
