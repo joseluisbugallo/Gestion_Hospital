@@ -12,7 +12,7 @@ public class CitaDto {
 
 	@Override
 	public String toString() {
-		return "CitaID: " + id + "  " + (urgente ? "URGENTE  " : "") + "Desde: " + fechainicio + "  Hasta: " + fechafin
-				+ "  PacienteID: " + idPaciente + "Sala: " + sala ;
+		return "Hora inicio:"+ fechainicio.getHours() + ":"+ fechainicio.getMinutes() + " Hora fin:" + fechafin.getHours()+
+				":"+fechafin.getMinutes()+ "  Paciente: "+ idPaciente + " En la sala: "+ sala ;
 	}
 }

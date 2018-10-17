@@ -198,7 +198,7 @@ public class VentanaCitasMedico extends JFrame {
 		if (pnlInfoCosulta == null) {
 			pnlInfoCosulta = new JPanel();
 			pnlInfoCosulta.setLayout(new BorderLayout(0, 0));
-			pnlInfoCosulta.add(getPnlInfoHistorial(), BorderLayout.SOUTH);
+			pnlInfoCosulta.add(getPnlInfoHistorial(), BorderLayout.CENTER);
 		}
 		return pnlInfoCosulta;
 	}
@@ -226,6 +226,7 @@ public class VentanaCitasMedico extends JFrame {
 	private JTextArea getTxtInfoHistorial() {
 		if (txtInfoHistorial == null) {
 			txtInfoHistorial = new JTextArea();
+			txtInfoHistorial.setFont(new Font("Monospaced", Font.PLAIN, 16));
 			txtInfoHistorial.setEditable(false);
 			txtInfoHistorial.setRows(10);
 		}
