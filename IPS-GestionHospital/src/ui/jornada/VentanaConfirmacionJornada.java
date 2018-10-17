@@ -29,7 +29,7 @@ public class VentanaConfirmacionJornada extends JDialog{
 	private JButton btnConfirmar;
 	private JButton btnCancelar;
 	
-	private JornadaController dj = new JornadaController();
+	private JornadaController jc = new JornadaController();
 	
 	private VentanaJornadaLaboral v;
 	private EmpleadoDto empleado;
@@ -97,7 +97,7 @@ public class VentanaConfirmacionJornada extends JDialog{
 		if (textFieldInicio == null) {
 			textFieldInicio = new JTextField();
 			textFieldInicio.setEditable(false);
-			textFieldInicio.setBounds(148, 99, 197, 22);
+			textFieldInicio.setBounds(148, 64, 197, 22);
 			textFieldInicio.setColumns(10);
 		}
 		return textFieldInicio;
@@ -106,7 +106,7 @@ public class VentanaConfirmacionJornada extends JDialog{
 		if (textFieldFin == null) {
 			textFieldFin = new JTextField();
 			textFieldFin.setEditable(false);
-			textFieldFin.setBounds(148, 64, 197, 22);
+			textFieldFin.setBounds(148, 99, 197, 22);
 			textFieldFin.setColumns(10);
 		}
 		return textFieldFin;
@@ -115,8 +115,8 @@ public class VentanaConfirmacionJornada extends JDialog{
 		if (btnConfirmar == null) {
 			btnConfirmar = new JButton("Confirmar");
 			btnConfirmar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					asignarJornada();
+				public void actionPerformed(ActionEvent e) {					
+					jc.asignarJornada(v.getInicioDate(),v.getFinDate(), getTextFieldDias().getText().toString(),  empleado.id);
 					JOptionPane.showMessageDialog(v, "Jornada asignada correctamente", "Confirmado", JOptionPane.PLAIN_MESSAGE);
 					v.inicializar();
 					dispose();
@@ -127,13 +127,7 @@ public class VentanaConfirmacionJornada extends JDialog{
 		return btnConfirmar;
 	}
 	
-	private void asignarJornada() {
-		JornadaLaboralDto jornada = new JornadaLaboralDto();
-		jornada.fechafin=v.getFinDate();
-		jornada.fechainicio=v.getInicioDate();
-		jornada.idempleado=empleado.id;
-		dj.addJornada(jornada);
-	}
+	
 	
 	private JButton getBtnCancelar() {
 		if (btnCancelar == null) {

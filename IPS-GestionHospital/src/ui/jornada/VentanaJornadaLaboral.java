@@ -40,6 +40,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
 
 public class VentanaJornadaLaboral extends JFrame{
 /**
@@ -106,7 +108,8 @@ private JPanel contentPane;
 	private JDateChooser getDcInicio() {
 		if (dcInicio == null) {
 			dcInicio = new JDateChooser();
-			dcInicio.setBounds(411, 35, 139, 22);
+			
+			dcInicio.setBounds(139, 35, 139, 22);
 			dcInicio.setDateFormatString("dd/MM/yy HH:mm");
 		}
 		return dcInicio;
@@ -130,7 +133,7 @@ private JPanel contentPane;
 	private JDateChooser getDcFin() {
 		if (dcFin == null) {
 			dcFin = new JDateChooser();
-			dcFin.setBounds(139, 35, 139, 22);
+			dcFin.setBounds(405, 35, 139, 22);
 			dcFin.setDateFormatString("dd/MM/yy HH:mm");
 		}
 		return dcFin;
@@ -329,12 +332,12 @@ private JPanel contentPane;
 		return dcInicio.getDate().toString();
 	}
 	
-	public Timestamp getFinDate() {
-		return new Timestamp(dcFin.getDate().getTime());
+	public java.util.Date getFinDate() {
+		return dcFin.getDate();
 	}
 	
-	public Timestamp getInicioDate(){
-		return new Timestamp(dcInicio.getDate().getTime());
+	public java.util.Date getInicioDate(){
+		return dcInicio.getDate();
 	}
 	
 	public String getDias() {
