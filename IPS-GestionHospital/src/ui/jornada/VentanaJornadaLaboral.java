@@ -337,6 +337,10 @@ private JPanel contentPane;
 		return new Timestamp(dcInicio.getDate().getTime());
 	}
 	
+	public String getDias() {
+		return getTextAreaDias().getText();
+	}
+	
 	public void muestraDialogo() {
 		VentanaConfirmacionJornada dialogo = new VentanaConfirmacionJornada((EmpleadoDto)cmbxEmpleados.getSelectedItem(),this);
 		dialogo.setLocationRelativeTo(this);

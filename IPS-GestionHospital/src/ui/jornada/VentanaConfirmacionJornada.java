@@ -33,9 +33,11 @@ public class VentanaConfirmacionJornada extends JDialog{
 	
 	private VentanaJornadaLaboral v;
 	private EmpleadoDto empleado;
+	private JLabel lblDas;
+	private JTextField textFieldDias;
 	
 	public VentanaConfirmacionJornada(EmpleadoDto emp, VentanaJornadaLaboral ventana) {
-		setBounds(new Rectangle(0, 0, 380, 232));
+		setBounds(new Rectangle(0, 0, 420, 270));
 		this.empleado=emp;
 		this.v=ventana;
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -51,12 +53,15 @@ public class VentanaConfirmacionJornada extends JDialog{
 		getContentPane().add(getTextFieldFin());
 		getContentPane().add(getBtnConfirmar());
 		getContentPane().add(getBtnCancelar());
+		getContentPane().add(getLblDas());
+		getContentPane().add(getTextFieldDias());
 		cargarInfo();
 	}
 	private void cargarInfo() {
 		getTextFieldId().setText(String.valueOf(empleado.id));
 		getTextFieldInicio().setText(v.getInicio());
 		getTextFieldFin().setText(v.getFin());
+		getTextFieldDias().setText(v.getDias());
 	}
 	private JLabel getLblIdEmpleado() {
 		if (lblIdEmpleado == null) {
@@ -117,7 +122,7 @@ public class VentanaConfirmacionJornada extends JDialog{
 					dispose();
 				}
 			});
-			btnConfirmar.setBounds(201, 161, 97, 25);
+			btnConfirmar.setBounds(204, 197, 97, 25);
 		}
 		return btnConfirmar;
 	}
@@ -139,10 +144,24 @@ public class VentanaConfirmacionJornada extends JDialog{
 					dispose();
 				}
 			});
-			btnCancelar.setBounds(92, 161, 97, 25);
+			btnCancelar.setBounds(95, 197, 97, 25);
 		}
 		return btnCancelar;
 	}
-	
-	
+	private JLabel getLblDas() {
+		if (lblDas == null) {
+			lblDas = new JLabel("D\u00EDas:");
+			lblDas.setBounds(12, 142, 56, 16);
+		}
+		return lblDas;
+	}
+	private JTextField getTextFieldDias() {
+		if (textFieldDias == null) {
+			textFieldDias = new JTextField();
+			textFieldDias.setEditable(false);
+			textFieldDias.setBounds(53, 139, 350, 22);
+			textFieldDias.setColumns(10);
+		}
+		return textFieldDias;
+	}
 }
