@@ -73,4 +73,13 @@ public class CitasController {
 		List<JornadaLaboralDto> js = dJ.listJornadasByEmpleado(medico.id);
 		return js;
 	}
+	
+	public void crearCita(CitaDto cita, List<EmpleadoDto> empleados) {
+		DataCita dc = new DataCita();
+		for (EmpleadoDto em: empleados) {
+			cita.idEmpleado=em.id;
+			dc.add(cita);
+		}
+		
+	}
 }
