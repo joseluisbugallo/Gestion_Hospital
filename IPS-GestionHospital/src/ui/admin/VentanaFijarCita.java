@@ -329,7 +329,7 @@ public class VentanaFijarCita extends JFrame {
 						JOptionPane.showMessageDialog(pnBase, "Debe introducir una ubicación para la cita",
 								"No hay ubicación", JOptionPane.WARNING_MESSAGE);
 					} else {
-
+						
 						// Actualizar la informacion de contacto en la base de datos(Lorena)
 						pc.updateInfoContacto(seleccion);
 
@@ -343,17 +343,16 @@ public class VentanaFijarCita extends JFrame {
 								CorreoElectronico correo = new CorreoElectronico(e.correo, asunto, mensaje);
 								correos.add(correo.enviarCorreo());
 							}
-							boolean a = true;
-							for (Boolean b : correos) {
-								if (b == false)
-									a = b;
-							}
-							if (a)
-								mostrarMensaje(
-										"Se ha enviado un correo a todos los medicos de esta cita, ya que ha sido marcada como urgente",
-										"Informacion", JOptionPane.INFORMATION_MESSAGE);
-							
 						}
+						boolean a = true;
+						for (Boolean b : correos) {
+							if (b == false)
+								a = b;
+						}
+						if (a)
+							mostrarMensaje(
+									"Se ha enviado un correo a todos los medicos de esta cita, ya que ha sido marcada como urgente",
+									"Informacion", JOptionPane.INFORMATION_MESSAGE);
 						
 						//crear la cita con los datos introducidos
 						CitaDto cita = new CitaDto();
@@ -366,8 +365,15 @@ public class VentanaFijarCita extends JFrame {
 						else
 							cita.urgente=false;
 						cita.sala=txUbicacion.getText();
+						for(EmpleadoDto e: medicos) {
+							if(!cc.comprobarDisponibilidadEmpleado(e, cita)) {
+								mostrarMensaje("El medico " +e.nombre + " no tiene asignada una jornada laboral para la fecha:"
+										+ "\n\t "+ cita.fechainicio + " - " + cita.fechafin + ".", "Aviso: jornada", JOptionPane.WARNING_MESSAGE);
+							}
+						}
 						
 						cc.crearCita(cita, medicos);
+						
 						dispose();
 						
 					}
@@ -380,9 +386,6 @@ public class VentanaFijarCita extends JFrame {
 		return btCrear;
 	}
 
-	private void mostrarMensaje(String mess, String title, int icon) {
-		JOptionPane.showMessageDialog(this, mess, title, icon);
-	}
 
 	private JTextArea getTxAreaMedicos() {
 		if (txAreaMedicos == null) {
@@ -750,5 +753,8 @@ public class VentanaFijarCita extends JFrame {
 			btnCancelarContacto.setBounds(479, 289, 89, 23);
 		}
 		return btnCancelarContacto;
+	}
+	private void mostrarMensaje(String mess, String title, int icon) {
+		JOptionPane.showMessageDialog(this, mess, title, icon);
 	}
 }
