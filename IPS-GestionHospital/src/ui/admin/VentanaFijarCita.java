@@ -24,8 +24,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -38,6 +36,11 @@ import business.dto.EmpleadoDto;
 import business.dto.PacienteDto;
 
 public class VentanaFijarCita extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private JPanel pnBase;
 
@@ -366,13 +369,44 @@ public class VentanaFijarCita extends JFrame {
 						else
 							cita.urgente=false;
 						cita.sala=txUbicacion.getText();
+						List<EmpleadoDto> conflictoJornada= new ArrayList<>();
+						List<EmpleadoDto> conflictoCita = new ArrayList<>();
 						for(EmpleadoDto e: medicos) {
+							cita.idEmpleado= e.id;
 							if(!cc.comprobarDisponibilidadEmpleado(e, cita)) {
-								mostrarMensaje("El medico " +e.nombre + " no tiene asignada una jornada laboral para la fecha:"
-										+ "\n\t "+ cita.fechainicio + " - " + cita.fechafin + ".", "Aviso: jornada", JOptionPane.WARNING_MESSAGE);
+								conflictoJornada.add(e);
+							}
+							if(!cc.comprobarRestoCitas(cita,e.id)) {
+								conflictoCita.add(e);
 							}
 						}
+						String cJornada="\t- ";
+						String cCita="\t- ";
+						for(EmpleadoDto e: conflictoJornada)
+							cJornada= cJornada+ e.nombre +" ";
+						for(EmpleadoDto e: conflictoCita)
+							cCita= cCita+ e.nombre + " ";
 						
+						String msg="";
+						if(!conflictoJornada.isEmpty()) {
+							msg="Los siguientes empleados no tienen asignada jornada laboral en la fecha" 
+						+ cita.fechainicio+ " - "+ cita.fechafin+".\n"
+									+cJornada+ "\n";
+						}
+						if(!conflictoCita.isEmpty()) {
+							msg= msg + "Los siguientes empleados tienen ya una cita a la fecha" 
+						+ cita.fechainicio + " - " + cita.fechafin + ".\n" 
+									+ cCita +"\n";
+						}
+						
+						if(conflictoJornada.isEmpty() && conflictoCita.isEmpty()) {
+							mostrarMensaje("Se ha creado la cita correctamente.", "Cita creada"
+									, JOptionPane.INFORMATION_MESSAGE);
+						}
+						else {
+							mostrarMensaje(msg, "Aviso: problema con la cita", JOptionPane.WARNING_MESSAGE);
+						}
+							
 						cc.crearCita(cita, medicos);
 						
 						dispose();

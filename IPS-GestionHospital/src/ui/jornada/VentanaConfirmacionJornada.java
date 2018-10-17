@@ -1,5 +1,10 @@
 package ui.jornada;
 
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -7,13 +12,6 @@ import javax.swing.JTextField;
 
 import business.JornadaController;
 import business.dto.EmpleadoDto;
-import business.dto.JornadaLaboralDto;
-import persistence.DataJornada;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
 
 public class VentanaConfirmacionJornada extends JDialog{
 	/**

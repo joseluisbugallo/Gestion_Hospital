@@ -1,56 +1,43 @@
 package ui.jornada;
 
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.swing.AbstractListModel;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import com.toedter.calendar.JDateChooser;
 
 import business.JornadaController;
 import business.dto.EmpleadoDto;
 
-import javax.swing.AbstractListModel;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.border.TitledBorder;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
-
-public class VentanaJornadaLaboral extends JFrame{
-/**
-	 * 
-	 */
+public class VentanaJornadaLaboral extends JFrame {
+	/**
+		 * 
+		 */
 	private static final long serialVersionUID = 1L;
 
-private JPanel contentPane;
-	
+	private JPanel contentPane;
+
 	DateFormat format = new SimpleDateFormat("dd/MM/yy HH:mm");
 	private JDateChooser dcInicio;
 	private JLabel lblFechaYHoraInicio;
@@ -65,27 +52,12 @@ private JPanel contentPane;
 	private JComboBox<EmpleadoDto> cmbxEmpleados;
 	private JPanel panelEmpleado;
 	private JPanel panelJornada;
-	
+
 	private JornadaController jc = new JornadaController();
 	private JList<String> listDias;
 	private JLabel lblDas;
 	private JTextArea textAreaDias;
 	private JButton btnSalir;
-//	/**
-//	 * Launch the application.
-//	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					VentanaJornadaLaboral frame = new VentanaJornadaLaboral();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	/**
 	 * Create the frame.
@@ -105,15 +77,17 @@ private JPanel contentPane;
 		contentPane.add(getBtnSiguiente());
 		contentPane.add(getBtnSalir());
 	}
+
 	private JDateChooser getDcInicio() {
 		if (dcInicio == null) {
 			dcInicio = new JDateChooser();
-			
+
 			dcInicio.setBounds(139, 35, 139, 22);
 			dcInicio.setDateFormatString("dd/MM/yy HH:mm");
 		}
 		return dcInicio;
 	}
+
 	private JLabel getLblFechaYHoraInicio() {
 		if (lblFechaYHoraInicio == null) {
 			lblFechaYHoraInicio = new JLabel("Fecha y hora inicio:");
@@ -122,6 +96,7 @@ private JPanel contentPane;
 		}
 		return lblFechaYHoraInicio;
 	}
+
 	private JLabel getLblFechaYHoraFin() {
 		if (lblFechaYHoraFin == null) {
 			lblFechaYHoraFin = new JLabel("Fecha y hora fin:");
@@ -130,6 +105,7 @@ private JPanel contentPane;
 		}
 		return lblFechaYHoraFin;
 	}
+
 	private JDateChooser getDcFin() {
 		if (dcFin == null) {
 			dcFin = new JDateChooser();
@@ -138,6 +114,7 @@ private JPanel contentPane;
 		}
 		return dcFin;
 	}
+
 	private JButton getBtnSiguiente() {
 		if (btnSiguiente == null) {
 			btnSiguiente = new JButton("Siguiente");
@@ -151,6 +128,7 @@ private JPanel contentPane;
 		}
 		return btnSiguiente;
 	}
+
 	private JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Cancelar");
@@ -164,6 +142,7 @@ private JPanel contentPane;
 		}
 		return btnCancelar;
 	}
+
 	protected void inicializar() {
 		buttonGroup.clearSelection();
 		textAreaDias.setText("");
@@ -171,7 +150,7 @@ private JPanel contentPane;
 		getDcInicio().setCalendar(null);
 		cmbxEmpleados.removeAllItems();
 		listDias.clearSelection();
-		
+
 	}
 
 	private JCheckBox getChckbxMedico() {
@@ -179,10 +158,10 @@ private JPanel contentPane;
 			chckbxMedico = new JCheckBox("M\u00E9dico");
 			chckbxMedico.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
-					if(chckbxMedico.isSelected()) {
-						List<EmpleadoDto> empleados= jc.getMedicos();
-							cargarModelo(empleados);
-						}
+					if (chckbxMedico.isSelected()) {
+						List<EmpleadoDto> empleados = jc.getMedicos();
+						cargarModelo(empleados);
+					}
 				}
 			});
 			chckbxMedico.setBounds(8, 24, 78, 16);
@@ -190,15 +169,16 @@ private JPanel contentPane;
 		}
 		return chckbxMedico;
 	}
+
 	private JCheckBox getChckbxEnfermero() {
 		if (chckbxEnfermero == null) {
 			chckbxEnfermero = new JCheckBox("Enfermero");
 			chckbxEnfermero.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
-					if(chckbxEnfermero.isSelected()) {
-						List<EmpleadoDto> empleados= jc.getEnfermeros();
-							cargarModelo(empleados);
-						}
+					if (chckbxEnfermero.isSelected()) {
+						List<EmpleadoDto> empleados = jc.getEnfermeros();
+						cargarModelo(empleados);
+					}
 				}
 			});
 			chckbxEnfermero.setBounds(106, 20, 105, 25);
@@ -206,6 +186,7 @@ private JPanel contentPane;
 		}
 		return chckbxEnfermero;
 	}
+
 	private JLabel getLblSeleccionarEmpleado() {
 		if (lblSeleccionarEmpleado == null) {
 			lblSeleccionarEmpleado = new JLabel("Seleccionar empleado:");
@@ -213,6 +194,7 @@ private JPanel contentPane;
 		}
 		return lblSeleccionarEmpleado;
 	}
+
 	private JComboBox<EmpleadoDto> getCmbxEmpleados() {
 		if (cmbxEmpleados == null) {
 			cmbxEmpleados = new JComboBox<EmpleadoDto>();
@@ -220,11 +202,13 @@ private JPanel contentPane;
 		}
 		return cmbxEmpleados;
 	}
+
 	private JPanel getPanelEmpleado() {
 		if (panelEmpleado == null) {
 			panelEmpleado = new JPanel();
 			panelEmpleado.setBounds(12, 36, 570, 91);
-			panelEmpleado.setBorder(new TitledBorder(null, "Empleado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panelEmpleado
+					.setBorder(new TitledBorder(null, "Empleado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panelEmpleado.setLayout(null);
 			panelEmpleado.add(getChckbxMedico());
 			panelEmpleado.add(getChckbxEnfermero());
@@ -233,11 +217,13 @@ private JPanel contentPane;
 		}
 		return panelEmpleado;
 	}
+
 	private JPanel getPanel_1() {
 		if (panelJornada == null) {
 			panelJornada = new JPanel();
 			panelJornada.setBounds(12, 134, 570, 213);
-			panelJornada.setBorder(new TitledBorder(null, "Jornada", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panelJornada
+					.setBorder(new TitledBorder(null, "Jornada", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panelJornada.setLayout(null);
 			panelJornada.add(getDcFin());
 			panelJornada.add(getLblFechaYHoraFin());
@@ -263,10 +249,13 @@ private JPanel contentPane;
 				 * 
 				 */
 				private static final long serialVersionUID = 1L;
-				String[] values = new String[] {"Lunes", "Martes", "Mi\u00E9rcoles", "Jueves", "Viernes", "S\u00E1bado", "Domingo"};
+				String[] values = new String[] { "Lunes", "Martes", "Mi\u00E9rcoles", "Jueves", "Viernes",
+						"S\u00E1bado", "Domingo" };
+
 				public int getSize() {
 					return values.length;
 				}
+
 				public String getElementAt(int index) {
 					return values[index];
 				}
@@ -275,16 +264,16 @@ private JPanel contentPane;
 		}
 		return listDias;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void refrescarSeleccion() {
 		Object[] seleccion = listDias.getSelectedValues();
 		String nuevoTexto = "";
-		for(Object o: seleccion) 
+		for (Object o : seleccion)
 			nuevoTexto += (String) o + " ";
 		textAreaDias.setText(nuevoTexto);
 	}
-	
+
 	private JLabel getLblDas() {
 		if (lblDas == null) {
 			lblDas = new JLabel("D\u00EDas:");
@@ -303,14 +292,14 @@ private JPanel contentPane;
 		}
 		return textAreaDias;
 	}
-	
+
 	private void cargarModelo(List<EmpleadoDto> empleados) {
 		cmbxEmpleados.removeAllItems();
-		for(EmpleadoDto e: empleados) {
+		for (EmpleadoDto e : empleados) {
 			cmbxEmpleados.addItem(e);
 		}
 	}
-	
+
 	private JButton getBtnSalir() {
 		if (btnSalir == null) {
 			btnSalir = new JButton("Salir");
@@ -323,38 +312,40 @@ private JPanel contentPane;
 		}
 		return btnSalir;
 	}
-	
+
 	public String getFin() {
 		return dcFin.getDate().toString();
 	}
-	
+
 	public String getInicio() {
 		return dcInicio.getDate().toString();
 	}
-	
+
 	public java.util.Date getFinDate() {
 		return dcFin.getDate();
 	}
-	
-	public java.util.Date getInicioDate(){
+
+	public java.util.Date getInicioDate() {
 		return dcInicio.getDate();
 	}
-	
+
 	public String getDias() {
 		return getTextAreaDias().getText();
 	}
-	
+
 	public void muestraDialogo() {
-		VentanaConfirmacionJornada dialogo = new VentanaConfirmacionJornada((EmpleadoDto)cmbxEmpleados.getSelectedItem(),this);
+		VentanaConfirmacionJornada dialogo = new VentanaConfirmacionJornada(
+				(EmpleadoDto) cmbxEmpleados.getSelectedItem(), this);
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setModal(true);
 		dialogo.setVisible(true);
 	}
-	
+
 	public void comprobarCampos() {
-		if((!chckbxMedico.isSelected() && !chckbxEnfermero.isSelected()) || cmbxEmpleados.getSelectedItem()==null || dcFin.getDate()==null || dcInicio.getDate()==null || textAreaDias.getText().isEmpty()){
+		if ((!chckbxMedico.isSelected() && !chckbxEnfermero.isSelected()) || cmbxEmpleados.getSelectedItem() == null
+				|| dcFin.getDate() == null || dcInicio.getDate() == null || textAreaDias.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Rellene todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
-		}else {
+		} else {
 			muestraDialogo();
 		}
 	}
