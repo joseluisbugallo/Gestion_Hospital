@@ -16,7 +16,8 @@ public class DataPaciente extends DataManager {
 	private static final String SQL_INSERT_PACIENTE = "Insert into paciente(dni, nombrepaciente, contacto) values (?, ?, ?)";
 	private static final String SQL_DELETE_PACIENTE = "Delete from paciente where dni=?";
 	private static final String SQL_UPDATE_PACIENTE = "Update paciente set nombrepaciente=?, contacto=? where dni=?";
-
+	private static final String SQL_SELECT_PACIENTE_BY_NOMBRE = "Select * from paciente where nombrepaciente=?";
+	
 	public List<PacienteDto> list() {
 		List<PacienteDto> pacientes = null;
 		PreparedStatement st = null;
@@ -92,19 +93,22 @@ public class DataPaciente extends DataManager {
 		}
 	}
 	
-	public PacienteDto getPacientePorDni(String dni) {
-		PacienteDto paciente = new PacienteDto();
+	public List<PacienteDto> getPacientePorDni(String dni) {
+		List<PacienteDto> pacientes = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			st = Jdbc.getCurrentConnection().prepareStatement(SQL_SELECT_PACIENTE_BY_DNI);
 			st.setString(1, dni);
 			rs = st.executeQuery();
+			pacientes = new ArrayList<PacienteDto>();
 			while (rs.next()) {
+				PacienteDto paciente = new PacienteDto();
 				paciente.id = rs.getInt(1);
 				paciente.nombre = rs.getString(2);
 				paciente.dni = rs.getString(3);
 				paciente.contacto = rs.getString(4);
+				pacientes.add(paciente);
 			}
 
 		} catch (SQLException e) {
@@ -112,6 +116,32 @@ public class DataPaciente extends DataManager {
 		} finally {
 			Jdbc.close(rs, st);
 		}
-		return paciente;
+		return pacientes;
+	}
+
+	public List<PacienteDto> getPacientePorNombre(String nombre) {
+		List<PacienteDto> pacientes = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = Jdbc.getCurrentConnection().prepareStatement(SQL_SELECT_PACIENTE_BY_NOMBRE);
+			st.setString(1, nombre);
+			rs = st.executeQuery();
+			pacientes = new ArrayList<PacienteDto>();
+			while (rs.next()) {
+				PacienteDto paciente = new PacienteDto();
+				paciente.id = rs.getInt(1);
+				paciente.nombre = rs.getString(2);
+				paciente.dni = rs.getString(3);
+				paciente.contacto = rs.getString(4);
+				pacientes.add(paciente);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Jdbc.close(rs, st);
+		}
+		return pacientes;
 	}
 }

@@ -14,7 +14,7 @@ public class DataCita extends DataManager {
 
 	private static final String SQL_SELECT_CITA = "Select * from cita";
 	private static final String SQL_SELECT_CITA_BY_IDEMPLEADO = "Select * from cita where idempleado = ?";
-	private static final String SQL_INSERT_CITA = "Insert into empleado (urgente, idpaciente, idempleado, sala, fechainicion, fechafin)" + "values (?, ?, ?, ?, ?, ?)";
+	private static final String SQL_INSERT_CITA = "Insert into cita (urgente, idpaciente, idempleado, sala, fechainicio, fechafin)" + "values (?, ?, ?, ?, ?, ?)";
 	private static final String SQL_DELETE_CITA = "Delete from cita where idcita=?";
 	private static final String SQL_UPDATE_CITA = "Update cita set urgente=?, fechainicio=?,"
 			+ " fechafin=?, idpaciente=?, idempleado=?, sala=? where idcita=?";

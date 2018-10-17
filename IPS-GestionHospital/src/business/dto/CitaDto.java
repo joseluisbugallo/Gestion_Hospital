@@ -1,7 +1,5 @@
 package business.dto;
 
-import java.sql.Date;
-
 public class CitaDto {
 
 	public int id;
