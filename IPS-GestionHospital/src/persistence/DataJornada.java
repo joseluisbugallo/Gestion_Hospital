@@ -18,7 +18,7 @@ public class DataJornada extends DataManager {
 	private static final String SQL_UPDATE_JORNADA = "Update jornadalaboral set idempleado=? fechainicio=?, fechafin=?,"
 			+ "  where idjornada=?";
 	
-	private static final String SQL_SELECT_JORNADA_BY_MEDICO = "Select idjornada, frechainicio, fechafin, idempleado from jornadalaboral where idempleado=?";
+	private static final String SQL_SELECT_JORNADA_BY_MEDICO = "Select * from jornadalaboral where idempleado=?";
 
 	public List<JornadaLaboralDto> list() {
 		List<JornadaLaboralDto> jornadas = null;
@@ -32,8 +32,8 @@ public class DataJornada extends DataManager {
 				JornadaLaboralDto jornada = new JornadaLaboralDto();
 				jornada.id = rs.getInt(1);
 				jornada.idempleado = rs.getInt(2);
-				jornada.fechainicio = rs.getTimestamp(3);
-				jornada.fechafin = rs.getTimestamp(4);
+				jornada.fechainicio = rs.getTimestamp(4);
+				jornada.fechafin = rs.getTimestamp(3);
 				
 				jornadas.add(jornada);
 			}
@@ -51,8 +51,8 @@ public class DataJornada extends DataManager {
 		try {
 			st = getConexion().prepareStatement(SQL_INSERT_JORNADA);
 			st.setInt(1, jornada.idempleado);
-			st.setTimestamp(2, new Timestamp(jornada.fechainicio.getTime()));
-			st.setTimestamp(3, new Timestamp(jornada.fechafin.getTime()));
+			st.setTimestamp(3, new Timestamp(jornada.fechainicio.getTime()));
+			st.setTimestamp(2, new Timestamp(jornada.fechafin.getTime()));
 			
 
 			st.executeUpdate();
@@ -84,8 +84,8 @@ public class DataJornada extends DataManager {
 		try {
 			st = getConexion().prepareStatement(SQL_UPDATE_JORNADA);
 			st.setInt(1, jornada.idempleado);
-			st.setTimestamp(2, new Timestamp(jornada.fechainicio.getTime()));
-			st.setTimestamp(3, new Timestamp(jornada.fechafin.getTime()));
+			st.setTimestamp(3, new Timestamp(jornada.fechainicio.getTime()));
+			st.setTimestamp(2, new Timestamp(jornada.fechafin.getTime()));
 			
 			st.setInt(4, jornada.id);
 
@@ -110,9 +110,11 @@ public class DataJornada extends DataManager {
 			while(rs.next()) {
 				JornadaLaboralDto jornada = new JornadaLaboralDto();
 				jornada.id = rs.getInt(1);
+				
 				jornada.idempleado = rs.getInt(2);
-				jornada.fechainicio = rs.getTimestamp(3);
-				jornada.fechafin = rs.getTimestamp(4);
+				
+				jornada.fechainicio = rs.getTimestamp(4);
+				jornada.fechafin = rs.getTimestamp(3);
 				
 				jornadas.add(jornada);
 			}

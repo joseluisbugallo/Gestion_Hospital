@@ -15,7 +15,12 @@ import persistence.DataJornada;
 public class CitasController {
 
 	public boolean comprobarDisponibilidadEmpleado(EmpleadoDto empleado, CitaDto cita) {
-		List<JornadaLaboralDto> jornadas = obtenerJornadasEmpleado(empleado);
+		List<JornadaLaboralDto> jornadas = new ArrayList<JornadaLaboralDto>();
+		jornadas = obtenerJornadasEmpleado(empleado);
+		if(jornadas.size()==0)
+		{
+			return false;
+		}
 		for (JornadaLaboralDto jornada : jornadas) {
 			if (jornada.fechainicio.before(cita.fechainicio) && jornada.fechafin.after(cita.fechafin)) {
 				if (comprobarRestoCitas(cita))
@@ -38,7 +43,7 @@ public class CitasController {
 		DataHistorial dh = new DataHistorial();
 		historial = dh.getHistorialByPaciente(idPaciente);
 		if(historial.id==0) {
-			return "ERROR-----> NO SE HA CARGADO EL HISTORIAL CORRECTAMENTE!";
+			return "No existe el historial de ese paciente";
 		}
 		
 		return historial.datos;
