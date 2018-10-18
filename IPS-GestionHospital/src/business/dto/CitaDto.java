@@ -10,9 +10,18 @@ public class CitaDto {
 	public int idEmpleado;
 	public String sala;
 
-	@Override
-	public String toString() {
+	
+	public String mostrarCitaMedico() {
 		return "Hora inicio:"+ fechainicio.getHours() + ":"+ fechainicio.getMinutes() + " Hora fin:" + fechafin.getHours()+
 				":"+fechafin.getMinutes()+ "  Paciente: "+ idPaciente + " En la sala: "+ sala ;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Cita: id" + id + ",  ¿Es urgente?" + urgente + ", Fecha inicio:" + fechainicio + ", Fecha fin:" + fechafin
+				+ ", idPaciente=" + idPaciente + ", idEmpleado=" + idEmpleado + ", sala=" + sala;
+	}
+	
+	
 }

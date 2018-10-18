@@ -71,7 +71,7 @@ public class VentanaCitasMedico extends JFrame {
 		this.modeloCitas = new DefaultListModel<CitaDto>();
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 1100, 800);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -123,7 +123,7 @@ public class VentanaCitasMedico extends JFrame {
 					}
 				}
 			});
-			lsCitas.setFont(new Font("Tahoma", Font.PLAIN, 23));
+			lsCitas.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			lsCitas.setSelectedIndex(0);
 			lsCitas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		}
@@ -226,6 +226,7 @@ public class VentanaCitasMedico extends JFrame {
 	private JTextArea getTxtInfoHistorial() {
 		if (txtInfoHistorial == null) {
 			txtInfoHistorial = new JTextArea();
+			txtInfoHistorial.setLineWrap(true);
 			txtInfoHistorial.setFont(new Font("Monospaced", Font.PLAIN, 16));
 			txtInfoHistorial.setEditable(false);
 			txtInfoHistorial.setRows(10);
