@@ -22,7 +22,8 @@ public class CitasController {
 			return false;
 		}
 		for (JornadaLaboralDto jornada : jornadas) {
-			if (jornada.fechainicio.before(cita.fechainicio) && jornada.fechafin.after(cita.fechafin)) {
+			if (jornada.fechainicio.compareTo(cita.fechainicio)<=0 
+					&& jornada.fechafin.compareTo(cita.fechafin)>=0) {
 					return true; // La cita está disponible!!
 			}
 		}
@@ -58,12 +59,15 @@ public class CitasController {
 
 	public boolean comprobarRestoCitas(CitaDto cita, int idEmpl) {
 		List<CitaDto> citas = obtenerCitasEmpleado(idEmpl);
+		boolean valido=true;
 		for (CitaDto c : citas) {
-			if (cita.fechainicio.after(c.fechainicio) && cita.fechainicio.before(cita.fechafin)
-					|| cita.fechafin.after(c.fechainicio) && cita.fechafin.before(c.fechafin))
-				return false;
+			if (c.fechainicio.compareTo(cita.fechafin)>=0 || c.fechafin.compareTo(cita.fechainicio)<=0)
+				continue;
+			else {
+				valido= false;
+			}
 		}
-		return true;
+		return valido;
 	}
 
 	private List<CitaDto> obtenerCitasEmpleado(int idEmpleado) {
