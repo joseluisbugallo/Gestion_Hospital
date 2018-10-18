@@ -411,24 +411,7 @@ public class VentanaJornadaLaboral extends JFrame {
 			buttonBuscarDni = new JButton("Buscar por ID");
 			buttonBuscarDni.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(chckbxMedico.isSelected()) {
-						for(EmpleadoDto em : jc.getMedicos()) {
-							if(Integer.parseInt(textFieldBuscarDni.getText())==em.id) {
-								DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
-								filtro.addElement(em);
-								list.setModel(filtro);
-							}
-						}
-					}else if(chckbxEnfermero.isSelected()) {
-						for(EmpleadoDto em : jc.getEnfermeros()) {
-							if(Integer.parseInt(textFieldBuscarDni.getText())==em.id) {
-								DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
-								filtro.addElement(em);
-								list.setModel(filtro);
-							}
-						}
-					}
-					
+					buscarIdFiltro();
 				}
 			});
 			buttonBuscarDni.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -449,23 +432,7 @@ public class VentanaJornadaLaboral extends JFrame {
 			buttonBuscarNombre = new JButton("Buscar por nombre");
 			buttonBuscarNombre.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(chckbxMedico.isSelected()) {
-						for(EmpleadoDto em : jc.getMedicos()) {
-							if(textFieldBuscarNombre.getText().equals(em.nombre)) {
-								DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
-								filtro.addElement(em);
-								list.setModel(filtro);
-							}
-						}
-					}else if(chckbxEnfermero.isSelected()) {
-						for(EmpleadoDto em : jc.getEnfermeros()) {
-							if(textFieldBuscarNombre.getText().equals(em.nombre)) {
-								DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
-								filtro.addElement(em);
-								list.setModel(filtro);
-							}
-						}
-					}
+					buscarNombreFiltro();
 				}
 			});
 			buttonBuscarNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -532,5 +499,45 @@ public class VentanaJornadaLaboral extends JFrame {
 			list = new JList<EmpleadoDto>();
 		}
 		return list;
+	}
+
+	private void buscarNombreFiltro() {
+		if(chckbxMedico.isSelected()) {
+			for(EmpleadoDto em : jc.getMedicos()) {
+				if(textFieldBuscarNombre.getText().equals(em.nombre)) {
+					DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
+					filtro.addElement(em);
+					list.setModel(filtro);
+				}
+			}
+		}else if(chckbxEnfermero.isSelected()) {
+			for(EmpleadoDto em : jc.getEnfermeros()) {
+				if(textFieldBuscarNombre.getText().equals(em.nombre)) {
+					DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
+					filtro.addElement(em);
+					list.setModel(filtro);
+				}
+			}
+		}
+	}
+
+	private void buscarIdFiltro() {
+		if(chckbxMedico.isSelected()) {
+			for(EmpleadoDto em : jc.getMedicos()) {
+				if(Integer.parseInt(textFieldBuscarDni.getText())==em.id) {
+					DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
+					filtro.addElement(em);
+					list.setModel(filtro);
+				}
+			}
+		}else if(chckbxEnfermero.isSelected()) {
+			for(EmpleadoDto em : jc.getEnfermeros()) {
+				if(Integer.parseInt(textFieldBuscarDni.getText())==em.id) {
+					DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
+					filtro.addElement(em);
+					list.setModel(filtro);
+				}
+			}
+		}
 	}
 }
