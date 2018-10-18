@@ -22,8 +22,10 @@ public class CitasController {
 			return false;
 		}
 		for (JornadaLaboralDto jornada : jornadas) {
-			if (jornada.fechainicio.compareTo(cita.fechainicio)<=0 
-					&& jornada.fechafin.compareTo(cita.fechafin)>=0) {
+//			System.out.println(jornada.fechainicio.compareTo(cita.fechainicio)>=0);
+//			System.out.println(jornada.fechafin.compareTo(cita.fechafin)<=0);
+			if (jornada.fechainicio.compareTo(cita.fechainicio)>=0 
+					&& jornada.fechafin.compareTo(cita.fechafin)<=0) {
 					return true; // La cita está disponible!!
 			}
 		}
