@@ -447,6 +447,27 @@ public class VentanaJornadaLaboral extends JFrame {
 	private JButton getButtonBuscarNombre() {
 		if (buttonBuscarNombre == null) {
 			buttonBuscarNombre = new JButton("Buscar por nombre");
+			buttonBuscarNombre.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(chckbxMedico.isSelected()) {
+						for(EmpleadoDto em : jc.getMedicos()) {
+							if(textFieldBuscarNombre.getText().equals(em.nombre)) {
+								DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
+								filtro.addElement(em);
+								list.setModel(filtro);
+							}
+						}
+					}else if(chckbxEnfermero.isSelected()) {
+						for(EmpleadoDto em : jc.getEnfermeros()) {
+							if(textFieldBuscarNombre.getText().equals(em.nombre)) {
+								DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
+								filtro.addElement(em);
+								list.setModel(filtro);
+							}
+						}
+					}
+				}
+			});
 			buttonBuscarNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			buttonBuscarNombre.setBounds(437, 122, 147, 23);
 		}
