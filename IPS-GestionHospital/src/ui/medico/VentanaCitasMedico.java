@@ -61,15 +61,6 @@ public class VentanaCitasMedico extends JFrame {
 	private JLabel lblNewLabel;
 	private JButton btnGestionar;
 	private JPanel pnGestionCita;
-	private JLabel label;
-	private JLabel label_1;
-	private JTextField txPaciente;
-	private JLabel label_2;
-	private JTextField txSala;
-	private JLabel lblFechaInicio;
-	private JTextField txFechaInicio;
-	private JLabel lblFechaFin;
-	private JTextField txFechaFin;
 	private JPanel panel_2;
 	private JTextArea txSintomas;
 	private JButton btnAtrasGestion;
@@ -178,6 +169,8 @@ public class VentanaCitasMedico extends JFrame {
 						mostrarMensaje("Debe seleccionar una cita para consultar!", "Error: No hay cita seleccionada",
 								JOptionPane.ERROR_MESSAGE);
 					} else {
+						
+						
 						c.show(getPanel(), "PanelConsultaCita");
 						getTxtInfoHistorial().setText(
 								citasController.cargarDatosHistorial(getLsCitas().getSelectedValue().idPaciente));
@@ -326,7 +319,7 @@ public class VentanaCitasMedico extends JFrame {
 			btnGestionar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if (lsCitas.getSelectedValue() != null) {
-						c.show(panel, "pnGestion");
+						abrirVentanaGestionCita(lsCitas.getSelectedValue());
 					} else
 						JOptionPane.showMessageDialog(contentPane, "Debe seleccionar una cita para gestionar",
 								"No hay cita seleccionada", JOptionPane.WARNING_MESSAGE);
@@ -340,101 +333,11 @@ public class VentanaCitasMedico extends JFrame {
 		if (pnGestionCita == null) {
 			pnGestionCita = new JPanel();
 			pnGestionCita.setLayout(null);
-			pnGestionCita.add(getLabel());
-			pnGestionCita.add(getLabel_1());
-			pnGestionCita.add(getTxPaciente());
-			pnGestionCita.add(getLabel_2());
-			pnGestionCita.add(getTxSala());
-			pnGestionCita.add(getLblFechaInicio());
-			pnGestionCita.add(getTxFechaInicio());
-			pnGestionCita.add(getLblFechaFin());
-			pnGestionCita.add(getTxFechaFin());
 			pnGestionCita.add(getPanel_2());
 			pnGestionCita.add(getBtnAtrasGestion());
 			pnGestionCita.add(getBtnConfirmar());
 		}
 		return pnGestionCita;
-	}
-
-	private JLabel getLabel() {
-		if (label == null) {
-			label = new JLabel("Gesti\u00F3n de cita");
-			label.setFont(new Font("Tahoma", Font.PLAIN, 17));
-			label.setBounds(45, 30, 172, 35);
-		}
-		return label;
-	}
-
-	private JLabel getLabel_1() {
-		if (label_1 == null) {
-			label_1 = new JLabel("Paciente:");
-			label_1.setBounds(45, 90, 57, 20);
-		}
-		return label_1;
-	}
-
-	private JTextField getTxPaciente() {
-		if (txPaciente == null) {
-			txPaciente = new JTextField();
-			txPaciente.setEditable(false);
-			txPaciente.setColumns(10);
-			txPaciente.setBounds(107, 90, 201, 20);
-		}
-		return txPaciente;
-	}
-
-	private JLabel getLabel_2() {
-		if (label_2 == null) {
-			label_2 = new JLabel("Sala:");
-			label_2.setBounds(45, 134, 46, 14);
-		}
-		return label_2;
-	}
-
-	private JTextField getTxSala() {
-		if (txSala == null) {
-			txSala = new JTextField();
-			txSala.setEditable(false);
-			txSala.setBounds(107, 131, 201, 20);
-			txSala.setColumns(10);
-		}
-		return txSala;
-	}
-
-	private JLabel getLblFechaInicio() {
-		if (lblFechaInicio == null) {
-			lblFechaInicio = new JLabel("Fecha inicio:");
-			lblFechaInicio.setBounds(333, 93, 74, 14);
-		}
-		return lblFechaInicio;
-	}
-
-	private JTextField getTxFechaInicio() {
-		if (txFechaInicio == null) {
-			txFechaInicio = new JTextField();
-			txFechaInicio.setEditable(false);
-			txFechaInicio.setColumns(10);
-			txFechaInicio.setBounds(406, 90, 201, 20);
-		}
-		return txFechaInicio;
-	}
-
-	private JLabel getLblFechaFin() {
-		if (lblFechaFin == null) {
-			lblFechaFin = new JLabel("Fecha fin:");
-			lblFechaFin.setBounds(333, 134, 66, 14);
-		}
-		return lblFechaFin;
-	}
-
-	private JTextField getTxFechaFin() {
-		if (txFechaFin == null) {
-			txFechaFin = new JTextField();
-			txFechaFin.setEditable(false);
-			txFechaFin.setBounds(406, 131, 201, 20);
-			txFechaFin.setColumns(10);
-		}
-		return txFechaFin;
 	}
 
 	private JPanel getPanel_2() {
@@ -470,5 +373,11 @@ public class VentanaCitasMedico extends JFrame {
 			btnConfirmar.setBounds(576, 434, 105, 23);
 		}
 		return btnConfirmar;
+	}
+
+	private void abrirVentanaGestionCita(CitaDto cita) {
+		VentanaGestionCita vGC = new VentanaGestionCita(cita);
+		vGC.setVisible(true);
+		vGC.setLocationRelativeTo(this);
 	}
 }
