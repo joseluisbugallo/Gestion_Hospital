@@ -442,7 +442,7 @@ public class VentanaCitasMedico extends JFrame {
 			panel_2 = new JPanel();
 			panel_2.setBorder(new TitledBorder(null, "S\u00EDntomas del paciente", TitledBorder.LEADING,
 					TitledBorder.TOP, null, null));
-			panel_2.setBounds(45, 196, 567, 101);
+			panel_2.setBounds(45, 196, 567, 225);
 			panel_2.setLayout(new GridLayout(1, 0, 0, 0));
 			panel_2.add(getTxSintomas());
 		}

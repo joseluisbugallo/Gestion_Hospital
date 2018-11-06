@@ -9,6 +9,10 @@ public class CitaDto {
 	public int idPaciente;
 	public int idEmpleado;
 	public String sala;
+	public String sintomas;
+	public String procedimientos;
+//	public String diagnostico;
+	public String prescripcion;
 
 	
 	public String mostrarCitaMedico() {
