@@ -43,6 +43,7 @@ public class VentanaGestionAntecedentes extends JDialog {
 	private JLabel lblTipoAntecedente;
 	private JComboBox<TiposAntecedentes> comboBox;
 	Map<TiposAntecedentes, List<String>> antecedentes = new HashMap<>();
+	private JButton btnReiniciar;
 
 	/**
 	 * Create the dialog.
@@ -57,6 +58,7 @@ public class VentanaGestionAntecedentes extends JDialog {
 		setBounds(100, 100, 707, 507);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(getPnlPrincipal());
+		txtAreaAntecedentes.setText(cita.antecedentes);
 	}
 
 	private JPanel getPnlPrincipal() {
@@ -81,6 +83,7 @@ public class VentanaGestionAntecedentes extends JDialog {
 			panel.add(getBtnAniadirProcedimiento());
 			panel.add(getLblTipoAntecedente());
 			panel.add(getComboBox());
+			panel.add(getBtnReiniciar());
 		}
 		return panel;
 	}
@@ -111,7 +114,7 @@ public class VentanaGestionAntecedentes extends JDialog {
 					}
 				}
 			});
-			btnAadirProcedimiento.setBounds(256, 114, 173, 25);
+			btnAadirProcedimiento.setBounds(372, 114, 173, 25);
 		}
 		return btnAadirProcedimiento;
 	}
@@ -222,5 +225,18 @@ public class VentanaGestionAntecedentes extends JDialog {
 	
 	private void mostrarMensaje(String mess, String title, int icon) {
 		JOptionPane.showMessageDialog(this, mess, title, icon);
+	}
+	private JButton getBtnReiniciar() {
+		if (btnReiniciar == null) {
+			btnReiniciar = new JButton("Borrar Antecedentes");
+			btnReiniciar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					inicializarMapa();
+					txtAreaAntecedentes.setText("");
+				}
+			});
+			btnReiniciar.setBounds(168, 114, 173, 25);
+		}
+		return btnReiniciar;
 	}
 }
