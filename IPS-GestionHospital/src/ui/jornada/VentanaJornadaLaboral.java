@@ -56,10 +56,10 @@ public class VentanaJornadaLaboral extends JFrame {
 	private JButton btnLimpiar;
 	private JPanel panelEmpleado;
 	private JPanel panelJornada;
-	
+
 	DefaultListModel<EmpleadoDto> listModelEnfermeros;
 	DefaultListModel<EmpleadoDto> listModelMedicos;
-	
+
 	private JornadaController jc = new JornadaController();
 
 	private JList<String> listDias;
@@ -71,7 +71,7 @@ public class VentanaJornadaLaboral extends JFrame {
 	private JTextField textField;
 	private JPanel panelBuscador;
 	private JLabel lblSeleccionarEmpleado;
-	private JList<EmpleadoDto> listEmpleados;
+	//private JList<EmpleadoDto> listEmpleados;
 	private JTextField textFieldBuscarDni;
 	private JButton buttonBuscarDni;
 	private JTextField textFieldBuscarNombre;
@@ -82,12 +82,17 @@ public class VentanaJornadaLaboral extends JFrame {
 	private JCheckBox chckbxEnfermero;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JScrollPane scrollPane;
-	private JList<EmpleadoDto> list;
+	private JList<EmpleadoDto> listEmpleados;
+
+	private EmpleadoDto empleado;
+	
+	private CardLayout c;
 
 	/**
 	 * Create the frame.
 	 */
 	public VentanaJornadaLaboral() {
+		c= new CardLayout();
 		setResizable(false);
 		setTitle("Asignar jornada laboral a m\u00E9dicos o enfermeros");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -96,11 +101,11 @@ public class VentanaJornadaLaboral extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new CardLayout(0, 0));
+		contentPane.setLayout(c);
 		contentPane.add(getPanelPrincipal(), "panelPrincipal");
 		contentPane.add(getPanel_3(), "panelBuscador");
 	}
-	
+
 	private void inicializarListas() {
 		listModelEnfermeros = new DefaultListModel<EmpleadoDto>();
 		for (EmpleadoDto paciente : jc.getEnfermeros()) {
@@ -153,11 +158,17 @@ public class VentanaJornadaLaboral extends JFrame {
 		if (btnSiguiente == null) {
 			btnSiguiente = new JButton("Siguiente");
 			btnSiguiente.setBounds(487, 373, 97, 25);
-//			btnSiguiente.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent e) {
+			btnSiguiente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 //					comprobarCampos();
-//				}
-//			});
+					jc.asignarJornada(getInicioDate(), getFinDate(), getTextAreaDias().getText().toString(),
+							empleado.id);
+					JOptionPane.showMessageDialog(contentPane, "Jornada asignada correctamente", "Confirmado",
+							JOptionPane.PLAIN_MESSAGE);
+					inicializar();
+					dispose();
+				}
+			});
 			btnSiguiente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return btnSiguiente;
@@ -178,7 +189,7 @@ public class VentanaJornadaLaboral extends JFrame {
 	}
 
 	protected void inicializar() {
-	
+
 		textAreaDias.setText("");
 		getDcFin().setCalendar(null);
 		getDcInicio().setCalendar(null);
@@ -336,13 +347,14 @@ public class VentanaJornadaLaboral extends JFrame {
 			btnSeleccionarEmpleado = new JButton("Seleccionar empleado");
 			btnSeleccionarEmpleado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					((CardLayout)contentPane.getLayout()).show(contentPane,"panelBuscador" );
+					((CardLayout) contentPane.getLayout()).show(contentPane, "panelBuscador");
 				}
 			});
 			btnSeleccionarEmpleado.setBounds(12, 25, 159, 25);
 		}
 		return btnSeleccionarEmpleado;
 	}
+
 	private JPanel getPanelPrincipal() {
 		if (panelPrincipal == null) {
 			panelPrincipal = new JPanel();
@@ -355,6 +367,7 @@ public class VentanaJornadaLaboral extends JFrame {
 		}
 		return panelPrincipal;
 	}
+
 	private JTextField getTextField() {
 		if (textField == null) {
 			textField = new JTextField();
@@ -364,12 +377,13 @@ public class VentanaJornadaLaboral extends JFrame {
 		}
 		return textField;
 	}
+
 	private JPanel getPanel_3() {
 		if (panelBuscador == null) {
 			panelBuscador = new JPanel();
 			panelBuscador.setLayout(null);
 			panelBuscador.add(getLblSeleccionarEmpleado());
-			//panelBuscador.add(getListEmpleados());
+			// panelBuscador.add(getListEmpleados());
 			panelBuscador.add(getTextFieldBuscarDni());
 			panelBuscador.add(getButtonBuscarDni());
 			panelBuscador.add(getTextFieldBuscarNombre());
@@ -382,6 +396,7 @@ public class VentanaJornadaLaboral extends JFrame {
 		}
 		return panelBuscador;
 	}
+
 	private JLabel getLblSeleccionarEmpleado() {
 		if (lblSeleccionarEmpleado == null) {
 			lblSeleccionarEmpleado = new JLabel("Seleccionar empleado");
@@ -390,6 +405,7 @@ public class VentanaJornadaLaboral extends JFrame {
 		}
 		return lblSeleccionarEmpleado;
 	}
+
 //	private JList<EmpleadoDto> getListEmpleados() {
 //		if (listEmpleados == null) {
 //			listEmpleados = new JList<EmpleadoDto>((ListModel) null);
@@ -406,6 +422,7 @@ public class VentanaJornadaLaboral extends JFrame {
 		}
 		return textFieldBuscarDni;
 	}
+
 	private JButton getButtonBuscarDni() {
 		if (buttonBuscarDni == null) {
 			buttonBuscarDni = new JButton("Buscar por ID");
@@ -419,6 +436,7 @@ public class VentanaJornadaLaboral extends JFrame {
 		}
 		return buttonBuscarDni;
 	}
+
 	private JTextField getTextFieldBuscarNombre() {
 		if (textFieldBuscarNombre == null) {
 			textFieldBuscarNombre = new JTextField();
@@ -427,6 +445,7 @@ public class VentanaJornadaLaboral extends JFrame {
 		}
 		return textFieldBuscarNombre;
 	}
+
 	private JButton getButtonBuscarNombre() {
 		if (buttonBuscarNombre == null) {
 			buttonBuscarNombre = new JButton("Buscar por nombre");
@@ -440,29 +459,50 @@ public class VentanaJornadaLaboral extends JFrame {
 		}
 		return buttonBuscarNombre;
 	}
+
 	private JButton getButtonAceptar() {
 		if (buttonAceptar == null) {
 			buttonAceptar = new JButton("Aceptar");
+			buttonAceptar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (listEmpleados.getSelectedValue() != null) {
+						empleado = listEmpleados.getSelectedValue();
+						textField.setText(empleado.nombre);
+						c.show(contentPane, "panelPrincipal");
+					} else
+						JOptionPane.showMessageDialog(contentPane,
+								"Debe seleccionar un empleado al que asignar la jornada laboral",
+								"No hay empleado seleccionado", JOptionPane.WARNING_MESSAGE);
+				}
+			});
 			buttonAceptar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			buttonAceptar.setBounds(496, 370, 89, 23);
 		}
 		return buttonAceptar;
 	}
+
 	private JButton getButtonCancelar() {
 		if (buttonCancelar == null) {
 			buttonCancelar = new JButton("Cancelar");
+			buttonCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					inicializar();
+					c.show(contentPane, "pnPrincipal");
+				}
+			});
 			buttonCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			buttonCancelar.setBounds(395, 370, 89, 23);
 		}
 		return buttonCancelar;
 	}
+
 	private JCheckBox getChckbxMedico() {
 		if (chckbxMedico == null) {
 			chckbxMedico = new JCheckBox("M\u00E9dico");
 			chckbxMedico.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent arg0) {
-					if(chckbxMedico.isSelected()) {
-						list.setModel(listModelMedicos);
+					if (chckbxMedico.isSelected()) {
+						listEmpleados.setModel(listModelMedicos);
 					}
 				}
 			});
@@ -471,13 +511,14 @@ public class VentanaJornadaLaboral extends JFrame {
 		}
 		return chckbxMedico;
 	}
+
 	private JCheckBox getChckbxEnfermero() {
 		if (chckbxEnfermero == null) {
 			chckbxEnfermero = new JCheckBox("Enfermero");
 			chckbxEnfermero.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent arg0) {
-					if(chckbxEnfermero.isSelected()) {
-						list.setModel(listModelEnfermeros);
+					if (chckbxEnfermero.isSelected()) {
+						listEmpleados.setModel(listModelEnfermeros);
 					}
 				}
 			});
@@ -486,56 +527,58 @@ public class VentanaJornadaLaboral extends JFrame {
 		}
 		return chckbxEnfermero;
 	}
+
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(12, 173, 572, 184);
-			scrollPane.setViewportView(getList());
+			scrollPane.setViewportView(getListEmpleados());
 		}
 		return scrollPane;
 	}
-	private JList<EmpleadoDto> getList() {
-		if (list == null) {
-			list = new JList<EmpleadoDto>();
+
+	private JList<EmpleadoDto> getListEmpleados() {
+		if (listEmpleados == null) {
+			listEmpleados = new JList<EmpleadoDto>();
 		}
-		return list;
+		return listEmpleados;
 	}
 
 	private void buscarNombreFiltro() {
-		if(chckbxMedico.isSelected()) {
-			for(EmpleadoDto em : jc.getMedicos()) {
-				if(textFieldBuscarNombre.getText().equals(em.nombre)) {
+		if (chckbxMedico.isSelected()) {
+			for (EmpleadoDto em : jc.getMedicos()) {
+				if (textFieldBuscarNombre.getText().equals(em.nombre)) {
 					DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
 					filtro.addElement(em);
-					list.setModel(filtro);
+					listEmpleados.setModel(filtro);
 				}
 			}
-		}else if(chckbxEnfermero.isSelected()) {
-			for(EmpleadoDto em : jc.getEnfermeros()) {
-				if(textFieldBuscarNombre.getText().equals(em.nombre)) {
+		} else if (chckbxEnfermero.isSelected()) {
+			for (EmpleadoDto em : jc.getEnfermeros()) {
+				if (textFieldBuscarNombre.getText().equals(em.nombre)) {
 					DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
 					filtro.addElement(em);
-					list.setModel(filtro);
+					listEmpleados.setModel(filtro);
 				}
 			}
 		}
 	}
 
 	private void buscarIdFiltro() {
-		if(chckbxMedico.isSelected()) {
-			for(EmpleadoDto em : jc.getMedicos()) {
-				if(Integer.parseInt(textFieldBuscarDni.getText())==em.id) {
+		if (chckbxMedico.isSelected()) {
+			for (EmpleadoDto em : jc.getMedicos()) {
+				if (Integer.parseInt(textFieldBuscarDni.getText()) == em.id) {
 					DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
 					filtro.addElement(em);
-					list.setModel(filtro);
+					listEmpleados.setModel(filtro);
 				}
 			}
-		}else if(chckbxEnfermero.isSelected()) {
-			for(EmpleadoDto em : jc.getEnfermeros()) {
-				if(Integer.parseInt(textFieldBuscarDni.getText())==em.id) {
+		} else if (chckbxEnfermero.isSelected()) {
+			for (EmpleadoDto em : jc.getEnfermeros()) {
+				if (Integer.parseInt(textFieldBuscarDni.getText()) == em.id) {
 					DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
 					filtro.addElement(em);
-					list.setModel(filtro);
+					listEmpleados.setModel(filtro);
 				}
 			}
 		}
