@@ -1,9 +1,15 @@
 package ui.medico;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.util.Calendar;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -13,27 +19,19 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+
+import com.toedter.calendar.JDateChooser;
 
 import business.CitasController;
 import business.dto.CitaDto;
 import business.dto.EmpleadoDto;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Date;
-import java.awt.CardLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextArea;
-import javax.swing.border.TitledBorder;
-
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;
-
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 
 public class VentanaCitasMedico extends JFrame {
 
@@ -61,17 +59,35 @@ public class VentanaCitasMedico extends JFrame {
 	private JPanel panel_1;
 	private JButton btnConsultarCitas;
 	private JLabel lblNewLabel;
+	private JButton btnGestionar;
+	private JPanel pnGestionCita;
+	private JLabel label;
+	private JLabel label_1;
+	private JTextField txPaciente;
+	private JLabel label_2;
+	private JTextField txSala;
+	private JLabel lblFechaInicio;
+	private JTextField txFechaInicio;
+	private JLabel lblFechaFin;
+	private JTextField txFechaFin;
+	private JPanel panel_2;
+	private JTextArea txSintomas;
+	private JButton btnAtrasGestion;
+	private JButton btnConfirmar;
+	
+	private CardLayout c;
 
 	/**
 	 * Constructor de la ventana.
 	 */
 	public VentanaCitasMedico(EmpleadoDto medico) {
+		c = new CardLayout();
 		this.medico = medico;
 		this.citasController = new CitasController();
 		this.modeloCitas = new DefaultListModel<CitaDto>();
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1100, 800);
+		setBounds(100, 100, 707, 507);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -105,6 +121,7 @@ public class VentanaCitasMedico extends JFrame {
 			pnlBotonConsulta = new JPanel();
 			FlowLayout fl_pnlBotonConsulta = (FlowLayout) pnlBotonConsulta.getLayout();
 			fl_pnlBotonConsulta.setAlignment(FlowLayout.RIGHT);
+			pnlBotonConsulta.add(getBtnGestionar());
 			pnlBotonConsulta.add(getBtnConsulta());
 		}
 		return pnlBotonConsulta;
@@ -133,9 +150,10 @@ public class VentanaCitasMedico extends JFrame {
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setLayout(new CardLayout(0, 0));
+			panel.setLayout(c);
 			panel.add(getPnlListadoCitas(), "PanelListadoCitas");
 			panel.add(getPnlConsultaCita(), "PanelConsultaCita");
+			panel.add(getPnGestionCita(), "pnGestion");
 		}
 		return panel;
 	}
@@ -160,7 +178,7 @@ public class VentanaCitasMedico extends JFrame {
 						mostrarMensaje("Debe seleccionar una cita para consultar!", "Error: No hay cita seleccionada",
 								JOptionPane.ERROR_MESSAGE);
 					} else {
-						((CardLayout) getPanel().getLayout()).show(getPanel(), "PanelConsultaCita");
+						c.show(getPanel(), "PanelConsultaCita");
 						getTxtInfoHistorial().setText(
 								citasController.cargarDatosHistorial(getLsCitas().getSelectedValue().idPaciente));
 						// TODO hay que cargar toda la información una vez seleccionemos todo
@@ -186,7 +204,7 @@ public class VentanaCitasMedico extends JFrame {
 			btnAtras = new JButton("Atr\u00E1s");
 			btnAtras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					((CardLayout) getPanel().getLayout()).show(getPanel(), "PanelListadoCitas");
+					c.show(getPanel(), "PanelListadoCitas");
 					getTxtInfoHistorial().setText("");
 				}
 			});
@@ -241,15 +259,15 @@ public class VentanaCitasMedico extends JFrame {
 	private void cargarModelo() {
 		modeloCitas.removeAllElements();
 		List<CitaDto> citas = citasController.getListadoCitas(medico);
-		
+
 		java.util.Date fecha = getCalendario().getDate();
 		int diaMes = fecha.getDate();
 		int year = fecha.getYear();
 		int month = fecha.getMonth();
-		
-		
+
 		for (CitaDto cita : citas) {
-			if(cita.fechainicio.getYear() == year && cita.fechainicio.getDate() == diaMes && cita.fechainicio.getMonth() == month)
+			if (cita.fechainicio.getYear() == year && cita.fechainicio.getDate() == diaMes
+					&& cita.fechainicio.getMonth() == month)
 				modeloCitas.addElement(cita);
 		}
 	}
@@ -265,14 +283,14 @@ public class VentanaCitasMedico extends JFrame {
 	}
 
 	private JDateChooser getCalendario() {
-		if(calendario == null)
-		{
+		if (calendario == null) {
 			calendario = new JDateChooser();
 			calendario.setDate(new java.util.Date());
 		}
 		return calendario;
 
 	}
+
 	private JPanel getPanel_1() {
 		if (panel_1 == null) {
 			panel_1 = new JPanel();
@@ -282,6 +300,7 @@ public class VentanaCitasMedico extends JFrame {
 		}
 		return panel_1;
 	}
+
 	private JButton getBtnConsultarCitas() {
 		if (btnConsultarCitas == null) {
 			btnConsultarCitas = new JButton("Consultar Citas");
@@ -293,10 +312,163 @@ public class VentanaCitasMedico extends JFrame {
 		}
 		return btnConsultarCitas;
 	}
+
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("Consultar citas para este dia:");
 		}
 		return lblNewLabel;
+	}
+
+	private JButton getBtnGestionar() {
+		if (btnGestionar == null) {
+			btnGestionar = new JButton("Gestionar");
+			btnGestionar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if (lsCitas.getSelectedValue() != null) {
+						c.show(panel, "pnGestion");
+					} else
+						JOptionPane.showMessageDialog(contentPane, "Debe seleccionar una cita para gestionar",
+								"No hay cita seleccionada", JOptionPane.WARNING_MESSAGE);
+				}
+			});
+		}
+		return btnGestionar;
+	}
+
+	private JPanel getPnGestionCita() {
+		if (pnGestionCita == null) {
+			pnGestionCita = new JPanel();
+			pnGestionCita.setLayout(null);
+			pnGestionCita.add(getLabel());
+			pnGestionCita.add(getLabel_1());
+			pnGestionCita.add(getTxPaciente());
+			pnGestionCita.add(getLabel_2());
+			pnGestionCita.add(getTxSala());
+			pnGestionCita.add(getLblFechaInicio());
+			pnGestionCita.add(getTxFechaInicio());
+			pnGestionCita.add(getLblFechaFin());
+			pnGestionCita.add(getTxFechaFin());
+			pnGestionCita.add(getPanel_2());
+			pnGestionCita.add(getBtnAtrasGestion());
+			pnGestionCita.add(getBtnConfirmar());
+		}
+		return pnGestionCita;
+	}
+
+	private JLabel getLabel() {
+		if (label == null) {
+			label = new JLabel("Gesti\u00F3n de cita");
+			label.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			label.setBounds(45, 30, 172, 35);
+		}
+		return label;
+	}
+
+	private JLabel getLabel_1() {
+		if (label_1 == null) {
+			label_1 = new JLabel("Paciente:");
+			label_1.setBounds(45, 90, 57, 20);
+		}
+		return label_1;
+	}
+
+	private JTextField getTxPaciente() {
+		if (txPaciente == null) {
+			txPaciente = new JTextField();
+			txPaciente.setEditable(false);
+			txPaciente.setColumns(10);
+			txPaciente.setBounds(107, 90, 201, 20);
+		}
+		return txPaciente;
+	}
+
+	private JLabel getLabel_2() {
+		if (label_2 == null) {
+			label_2 = new JLabel("Sala:");
+			label_2.setBounds(45, 134, 46, 14);
+		}
+		return label_2;
+	}
+
+	private JTextField getTxSala() {
+		if (txSala == null) {
+			txSala = new JTextField();
+			txSala.setEditable(false);
+			txSala.setBounds(107, 131, 201, 20);
+			txSala.setColumns(10);
+		}
+		return txSala;
+	}
+
+	private JLabel getLblFechaInicio() {
+		if (lblFechaInicio == null) {
+			lblFechaInicio = new JLabel("Fecha inicio:");
+			lblFechaInicio.setBounds(333, 93, 74, 14);
+		}
+		return lblFechaInicio;
+	}
+
+	private JTextField getTxFechaInicio() {
+		if (txFechaInicio == null) {
+			txFechaInicio = new JTextField();
+			txFechaInicio.setEditable(false);
+			txFechaInicio.setColumns(10);
+			txFechaInicio.setBounds(406, 90, 201, 20);
+		}
+		return txFechaInicio;
+	}
+
+	private JLabel getLblFechaFin() {
+		if (lblFechaFin == null) {
+			lblFechaFin = new JLabel("Fecha fin:");
+			lblFechaFin.setBounds(333, 134, 66, 14);
+		}
+		return lblFechaFin;
+	}
+
+	private JTextField getTxFechaFin() {
+		if (txFechaFin == null) {
+			txFechaFin = new JTextField();
+			txFechaFin.setEditable(false);
+			txFechaFin.setBounds(406, 131, 201, 20);
+			txFechaFin.setColumns(10);
+		}
+		return txFechaFin;
+	}
+
+	private JPanel getPanel_2() {
+		if (panel_2 == null) {
+			panel_2 = new JPanel();
+			panel_2.setBorder(new TitledBorder(null, "S\u00EDntomas del paciente", TitledBorder.LEADING,
+					TitledBorder.TOP, null, null));
+			panel_2.setBounds(45, 196, 567, 101);
+			panel_2.setLayout(new GridLayout(1, 0, 0, 0));
+			panel_2.add(getTxSintomas());
+		}
+		return panel_2;
+	}
+
+	private JTextArea getTxSintomas() {
+		if (txSintomas == null) {
+			txSintomas = new JTextArea();
+		}
+		return txSintomas;
+	}
+
+	private JButton getBtnAtrasGestion() {
+		if (btnAtrasGestion == null) {
+			btnAtrasGestion = new JButton("Atr\u00E1s");
+			btnAtrasGestion.setBounds(470, 434, 89, 23);
+		}
+		return btnAtrasGestion;
+	}
+
+	private JButton getBtnConfirmar() {
+		if (btnConfirmar == null) {
+			btnConfirmar = new JButton("Confirmar");
+			btnConfirmar.setBounds(576, 434, 105, 23);
+		}
+		return btnConfirmar;
 	}
 }
