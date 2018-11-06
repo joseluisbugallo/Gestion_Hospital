@@ -1,32 +1,30 @@
 package ui.medico;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import business.dto.CitaDto;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import java.awt.Font;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.TitledBorder;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.border.TitledBorder;
+
+import business.dto.CitaDto;
+import ui.medico.gestionCitas.VentanaGestionAntecedentes;
 
 public class VentanaGestionCita extends JDialog {
 
 	private final JPanel pnlPrincipal = new JPanel();
-	
-	
+
 	private CitaDto cita;
 	private JLabel lblGestinDeLa;
 	private JPanel panel;
@@ -70,6 +68,7 @@ public class VentanaGestionCita extends JDialog {
 		pnlPrincipal.add(getBtnFinalizar());
 		pnlPrincipal.add(getPanel_2());
 	}
+
 	private JLabel getLblGestinDeLa() {
 		if (lblGestinDeLa == null) {
 			lblGestinDeLa = new JLabel("Gesti\u00F3n de la Cita");
@@ -78,10 +77,12 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return lblGestinDeLa;
 	}
+
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Datos de la cita:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Datos de la cita:",
+					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel.setBounds(357, 77, 332, 176);
 			panel.setLayout(null);
 			panel.add(getLabel_2());
@@ -93,6 +94,7 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return panel;
 	}
+
 	private JLabel getLabel_2() {
 		if (label_2 == null) {
 			label_2 = new JLabel("Sala:");
@@ -100,6 +102,7 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return label_2;
 	}
+
 	private JTextField getTextField_1() {
 		if (textField_1 == null) {
 			textField_1 = new JTextField();
@@ -109,6 +112,7 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return textField_1;
 	}
+
 	private JLabel getLabel_3() {
 		if (label_3 == null) {
 			label_3 = new JLabel("Fecha inicio:");
@@ -116,6 +120,7 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return label_3;
 	}
+
 	private JTextField getTextField_2() {
 		if (textField_2 == null) {
 			textField_2 = new JTextField();
@@ -125,6 +130,7 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return textField_2;
 	}
+
 	private JLabel getLabel_4() {
 		if (label_4 == null) {
 			label_4 = new JLabel("Fecha fin:");
@@ -132,6 +138,7 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return label_4;
 	}
+
 	private JTextField getTextField_3() {
 		if (textField_3 == null) {
 			textField_3 = new JTextField();
@@ -141,10 +148,12 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return textField_3;
 	}
+
 	private JPanel getPanel_1() {
 		if (panel_1 == null) {
 			panel_1 = new JPanel();
-			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Opciones:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Opciones:",
+					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel_1.setBounds(12, 266, 677, 141);
 			panel_1.setLayout(new GridLayout(2, 3, 0, 0));
 			panel_1.add(getBtnHistorial());
@@ -156,6 +165,7 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return panel_1;
 	}
+
 	private JButton getBtnAtras() {
 		if (btnAtras == null) {
 			btnAtras = new JButton("Atras");
@@ -168,6 +178,7 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return btnAtras;
 	}
+
 	private JButton getBtnFinalizar() {
 		if (btnFinalizar == null) {
 			btnFinalizar = new JButton("Finalizar");
@@ -175,47 +186,60 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return btnFinalizar;
 	}
+
 	private JButton getBtnHistorial() {
 		if (btnHistorial == null) {
 			btnHistorial = new JButton("Historial");
 		}
 		return btnHistorial;
 	}
+
 	private JButton getBtnAntecedentes() {
 		if (btnAntecedentes == null) {
 			btnAntecedentes = new JButton("Antecedentes");
+			btnAntecedentes.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					abrirVentanaGestionAntecedentes();
+				}
+			});
 		}
 		return btnAntecedentes;
 	}
+
 	private JButton getBtnProcedimientos() {
 		if (btnProcedimientos == null) {
 			btnProcedimientos = new JButton("Procedimientos");
 		}
 		return btnProcedimientos;
 	}
+
 	private JButton getBtnDiagnostico() {
 		if (btnDiagnostico == null) {
 			btnDiagnostico = new JButton("Diagnostico");
 		}
 		return btnDiagnostico;
 	}
+
 	private JButton getBtnSintomas() {
 		if (btnSintomas == null) {
 			btnSintomas = new JButton("Sintomas");
 		}
 		return btnSintomas;
 	}
+
 	private JButton getBtnPrescripcion() {
 		if (btnPrescripcion == null) {
 			btnPrescripcion = new JButton("Prescripcion");
 		}
 		return btnPrescripcion;
 	}
+
 	private JPanel getPanel_2() {
 		if (panel_2 == null) {
 			panel_2 = new JPanel();
 			panel_2.setLayout(null);
-			panel_2.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Datos del Paciente:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel_2.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Datos del Paciente:",
+					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel_2.setBounds(12, 77, 333, 176);
 			panel_2.add(getLblNombre());
 			panel_2.add(getTextField());
@@ -225,6 +249,7 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return panel_2;
 	}
+
 	private JLabel getLblNombre() {
 		if (lblNombre == null) {
 			lblNombre = new JLabel("Nombre:");
@@ -232,6 +257,7 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return lblNombre;
 	}
+
 	private JTextField getTextField() {
 		if (textField == null) {
 			textField = new JTextField();
@@ -241,6 +267,7 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return textField;
 	}
+
 	private JLabel getLblTelefono() {
 		if (lblTelefono == null) {
 			lblTelefono = new JLabel("Telefono:");
@@ -248,6 +275,7 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return lblTelefono;
 	}
+
 	private JTextField getTextField_4() {
 		if (textField_4 == null) {
 			textField_4 = new JTextField();
@@ -257,6 +285,7 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return textField_4;
 	}
+
 	private JButton getBtnCalendarioDeVacunas() {
 		if (btnCalendarioDeVacunas == null) {
 			btnCalendarioDeVacunas = new JButton("Calendario de Vacunas");
@@ -264,11 +293,17 @@ public class VentanaGestionCita extends JDialog {
 		}
 		return btnCalendarioDeVacunas;
 	}
-	
+
 	private void cerrarVentana() {
 		int resp = JOptionPane.showConfirmDialog(this, "¿Estás seguro de querer cerrar sin guardar?",
 				"Cerrar sin guardar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-		if(resp == JOptionPane.OK_OPTION)
-			this.dispose();		
+		if (resp == JOptionPane.OK_OPTION)
+			this.dispose();
+	}
+
+	private void abrirVentanaGestionAntecedentes() {
+		VentanaGestionAntecedentes vGA = new VentanaGestionAntecedentes(cita, this);
+		vGA.setVisible(true);
+		this.dispose();
 	}
 }

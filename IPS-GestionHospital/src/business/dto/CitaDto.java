@@ -11,7 +11,7 @@ public class CitaDto {
 	public String sala;
 	public String sintomas;
 	public String procedimientos;
-//	public String diagnostico;
+	public String antecedentes;
 	public String prescripcion;
 
 	
