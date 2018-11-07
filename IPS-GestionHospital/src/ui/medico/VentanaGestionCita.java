@@ -69,12 +69,8 @@ public class VentanaGestionCita extends JDialog {
 	 */
 	public VentanaGestionCita(CitaDto cita) {
 		setResizable(false);
-<<<<<<< HEAD
+
 		this.cita = cC.precargarDatos(cita);
-=======
-		this.cita=cita;
-		
->>>>>>> b5ecd96a64ef13fb9e9cdc3335440daaae016015
 		cargarDatosPersona();
 		setDefaultCloseOperation(0);
 		setBounds(100, 100, 707, 507);
@@ -375,6 +371,7 @@ public class VentanaGestionCita extends JDialog {
 		vGA.setLocationRelativeTo(this);
 		vGA.setModal(true);
 		vGA.setVisible(true);
+		
 		this.dispose();
 	}
 	
@@ -384,14 +381,10 @@ public class VentanaGestionCita extends JDialog {
 		vGP.setLocationRelativeTo(this);
 		vGP.setModal(true);
 		vGP.setVisible(true);
-<<<<<<< HEAD
-	
+
 		this.dispose();
 	}
-=======
-		this.dispose();
-}
->>>>>>> b5ecd96a64ef13fb9e9cdc3335440daaae016015
+
 
 	private void abrirVentanaGestionDiagnsticos() {
 		VentanaGestionDiagnosticos vGA = new VentanaGestionDiagnosticos(cita);
