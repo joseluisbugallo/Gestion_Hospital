@@ -3,12 +3,14 @@ package ui.medico.gestionCitas;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import business.dto.CitaDto;
+import business.dto.DiagnosticoDto;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -22,6 +24,10 @@ public class VentanaGestionDiagnosticos extends JDialog {
 
 	
 	CitaDto cita;
+	private DefaultListModel<DiagnosticoDto> modeloDiagosticosPosibles;
+	private DefaultListModel<DiagnosticoDto> modeloDiagosticosFinales;
+	
+	
 	
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblSelecionarLosDiagnsticos;
