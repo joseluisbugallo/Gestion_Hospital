@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,13 +17,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import business.CitasController;
 import business.PacientesController;
 import business.dto.CitaDto;
 import business.dto.PacienteDto;
-import ui.admin.VentanaFijarCita;
 import ui.medico.gestionCitas.VentanaGestionAntecedentes;
-import ui.medico.gestionCitas.VentanaGestionPrescripciones;
 import ui.medico.gestionCitas.VentanaGestionDiagnosticos;
+import ui.medico.gestionCitas.VentanaGestionPrescripciones;
 import ui.medico.gestionCitas.VentanaGestionProcedimientos;
 import ui.medico.gestionCitas.VentanaGestionSintomas;
 
@@ -58,13 +57,14 @@ public class VentanaGestionCita extends JDialog {
 	private JButton btnCalendarioDeVacunas;
 	private PacienteDto p;
 	private PacientesController pc = new PacientesController();
+	private CitasController cC = new CitasController();
 
 	/**
 	 * Create the dialog.
 	 */
 	public VentanaGestionCita(CitaDto cita) {
 		setResizable(false);
-		this.cita = cita;
+		this.cita = cC.precargarDatos(cita);
 		cargarDatosPersona();
 		setDefaultCloseOperation(0);
 		setBounds(100, 100, 707, 507);
@@ -373,6 +373,8 @@ public class VentanaGestionCita extends JDialog {
 		vGP.setLocationRelativeTo(this);
 		vGP.setModal(true);
 		vGP.setVisible(true);
+	
+		this.dispose();
 	}
 
 	private void abrirVentanaGestionDiagnsticos() {

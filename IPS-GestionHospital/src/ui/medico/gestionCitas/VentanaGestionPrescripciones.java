@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import business.CitasController;
 import business.dto.CitaDto;
 import ui.medico.VentanaGestionCita;
 
@@ -37,6 +38,7 @@ public class VentanaGestionPrescripciones extends JDialog {
 	private JList<String> listPrescripcion;
 	private List<String> prescripciones;
 	private JButton btnEliminarPrescripcion;
+	private CitasController cC = new CitasController();
 
 	/**
 	 * Create the dialog.
@@ -55,8 +57,8 @@ public class VentanaGestionPrescripciones extends JDialog {
 
 	private void precargarLista() {
 		if (!this.cita.prescripcion.isEmpty()) {
-			String[] lista = this.cita.prescripcion.split(System.getProperty("line.separator"));
-			this.prescripciones=new ArrayList<String>();
+			String[] lista = this.cita.prescripcion.split("\n");
+			this.cita.listadoPrescripciones=new ArrayList<String>();
 			for (int i = 0; i < lista.length; i++) {
 				this.cita.listadoPrescripciones.add(lista[i]);
 			}
@@ -196,6 +198,7 @@ public class VentanaGestionPrescripciones extends JDialog {
 			for(String s: this.prescripciones) {
 				cita.prescripcion+=s + "\n";
 			}
+			cC.actualizarCita(cita);
 			VentanaGestionCita v = new VentanaGestionCita(this.cita);
 			v.setLocationRelativeTo(this);
 			v.setVisible(true);
