@@ -58,7 +58,7 @@ public class VentanaGestionAntecedentes extends JDialog {
 		setBounds(100, 100, 707, 507);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(getPnlPrincipal());
-		//txtAreaAntecedentes.setText(cita.antecedentes);
+		txtAreaAntecedentes.setText(cita.antecedentes);
 	}
 
 	private JPanel getPnlPrincipal() {
@@ -211,6 +211,7 @@ public class VentanaGestionAntecedentes extends JDialog {
 		
 		if(respuesta==JOptionPane.YES_OPTION) {
 			VentanaGestionCita v = new VentanaGestionCita(cita);
+			v.setLocationRelativeTo(this);
 			v.setVisible(true);
 			this.dispose();
 		}
@@ -223,7 +224,7 @@ public class VentanaGestionAntecedentes extends JDialog {
 		if(respuesta==JOptionPane.YES_OPTION) {
 			this.cita.antecedentes=getTxtAreaAntecedentes().getText();
 			VentanaGestionCita v = new VentanaGestionCita(this.cita);
-			v.setLocationRelativeTo(null);
+			v.setLocationRelativeTo(this);
 			v.setVisible(true);
 			this.dispose();
 		}

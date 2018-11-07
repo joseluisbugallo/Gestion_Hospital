@@ -18,8 +18,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import business.PacientesController;
 import business.dto.CitaDto;
 import ui.medico.gestionCitas.VentanaGestionAntecedentes;
+import ui.medico.gestionCitas.VentanaGestionPrescripciones;
 import ui.medico.gestionCitas.VentanaGestionProcedimientos;
 
 public class VentanaGestionCita extends JDialog {
@@ -50,6 +52,8 @@ public class VentanaGestionCita extends JDialog {
 	private JLabel lblTelefono;
 	private JTextField textField_4;
 	private JButton btnCalendarioDeVacunas;
+	private PacientesController pC;
+	private PacienteDto p;
 
 	/**
 	 * Create the dialog.
@@ -57,6 +61,8 @@ public class VentanaGestionCita extends JDialog {
 	public VentanaGestionCita(CitaDto cita) {
 		setResizable(false);
 		this.cita=cita;
+		pC= new PacientesController();
+		cargarDatosPersona();
 		setDefaultCloseOperation(0);
 		setBounds(100, 100, 707, 507);
 		getContentPane().setLayout(new BorderLayout());
@@ -69,6 +75,11 @@ public class VentanaGestionCita extends JDialog {
 		pnlPrincipal.add(getBtnAtras());
 		pnlPrincipal.add(getBtnFinalizar());
 		pnlPrincipal.add(getPanel_2());
+	}
+
+	private void cargarDatosPersona() {
+		this.p = pC.findPacienteByID(this.cita.idPaciente);
+		
 	}
 
 	private JLabel getLblGestinDeLa() {
@@ -245,6 +256,11 @@ public class VentanaGestionCita extends JDialog {
 	private JButton getBtnPrescripcion() {
 		if (btnPrescripcion == null) {
 			btnPrescripcion = new JButton("Prescripcion");
+			btnPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					abrirVentanaGestionPrescripcion();
+				}
+			});
 		}
 		return btnPrescripcion;
 	}
@@ -321,6 +337,14 @@ public class VentanaGestionCita extends JDialog {
 		vGA.setLocationRelativeTo(this);
 		vGA.setModal(true);
 		vGA.setVisible(true);
+		this.dispose();
+	}
+	
+	private void abrirVentanaGestionPrescripcion() {
+		VentanaGestionPrescripciones vGP = new VentanaGestionPrescripciones(cita);
+		vGP.setLocationRelativeTo(this);
+		vGP.setModal(true);
+		vGP.setVisible(true);
 		this.dispose();
 	}
 }
