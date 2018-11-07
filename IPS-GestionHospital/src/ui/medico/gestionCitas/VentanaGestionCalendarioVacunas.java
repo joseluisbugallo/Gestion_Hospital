@@ -146,7 +146,7 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 			v.setVisible(true);
 			this.dispose();
 		}
-	}
+	}	
 	
 
 	private JLabel getLblAadirRangoVacunacion() {
