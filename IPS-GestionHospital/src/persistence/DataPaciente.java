@@ -133,8 +133,9 @@ public class DataPaciente extends DataManager {
 			while (rs.next()) {
 				
 				paciente.id = rs.getInt(1);
-				paciente.nombre = rs.getString(2);
-				paciente.dni = rs.getString(3);
+				
+				paciente.dni = rs.getString(2);
+				paciente.nombre = rs.getString(3);
 				paciente.contacto = rs.getString(4);
 			}
 
