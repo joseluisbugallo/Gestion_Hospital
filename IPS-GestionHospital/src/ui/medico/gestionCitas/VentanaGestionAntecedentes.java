@@ -232,6 +232,7 @@ public class VentanaGestionAntecedentes extends JDialog {
 	private void mostrarMensaje(String mess, String title, int icon) {
 		JOptionPane.showMessageDialog(this, mess, title, icon);
 	}
+	
 	private JButton getBtnReiniciar() {
 		if (btnReiniciar == null) {
 			btnReiniciar = new JButton("Borrar Antecedentes");

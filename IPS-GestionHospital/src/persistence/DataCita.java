@@ -18,6 +18,7 @@ public class DataCita extends DataManager {
 	private static final String SQL_DELETE_CITA = "Delete from cita where idcita=?";
 	private static final String SQL_UPDATE_CITA = "Update cita set urgente=?, fechainicio=?,"
 			+ " fechafin=?, idpaciente=?, idempleado=?, sala=? where idcita=?";
+	private static final String SQL_UPDATE_PROC = "Update cita set procedimientos=?";
 
 	public List<CitaDto> list() {
 		List<CitaDto> citas = null;
@@ -123,6 +124,22 @@ public class DataCita extends DataManager {
 			st.setTimestamp(5, new Timestamp(cita.fechainicio.getTime()));
 			st.setTimestamp(6, new Timestamp(cita.fechafin.getTime()));
 			st.setInt(7, cita.id);
+			st.setString(8, cita.procedimientos);
+
+			st.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Jdbc.close(rs, st);
+		}
+	}
+	
+	public void updateProc(CitaDto cita) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = getConexion().prepareStatement(SQL_UPDATE_PROC);
+			st.setString(1, cita.procedimientos);
 
 			st.executeUpdate();
 		} catch (SQLException e) {
