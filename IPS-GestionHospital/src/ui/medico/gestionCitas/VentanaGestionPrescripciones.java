@@ -1,64 +1,83 @@
 package ui.medico.gestionCitas;
 
 import java.awt.BorderLayout;
-
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import business.dto.CitaDto;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.LineBorder;
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JTextArea;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import business.enums.TiposAntecedentes;
-import ui.medico.VentanaGestionCita;
-
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+
+import business.dto.CitaDto;
+import ui.medico.VentanaGestionCita;
 
 public class VentanaGestionPrescripciones extends JDialog {
 
 	private CitaDto cita;
-	//VentanaGestionCita vGC;
 	private JPanel pnlPrincipal;
 	private JPanel panel;
-	private JLabel lblProdcedimientoRealizado;
-	private JTextField txtAntecedente;
-	private JButton btnAadirProcedimiento;
+	private JLabel lblPrescripcion;
+	private JTextField txtPrescripcion;
 	private JButton btnGuardar;
 	private JButton btnVolver;
-	private JPanel panel_1;
-	private JTextArea txtAreaAntecedentes;
-	private JLabel lblTipoAntecedente;
-	private JComboBox<TiposAntecedentes> comboBox;
-	Map<TiposAntecedentes, List<String>> antecedentes = new HashMap<>();
-	private JButton btnReiniciar;
+	private JPanel pnlPrescripciones;
+	private JLabel lblObsrvacion;
+	private JTextField txtObservaciones;
+	private JButton btnAadirPrescripcin;
+	private JList<String> listPrescripcion;
+	private List<String> prescripciones;
+	private JButton btnEliminarPrescripcion;
 
 	/**
 	 * Create the dialog.
 	 */
-	public VentanaGestionPrescripciones(CitaDto cita) { //VentanaGestionCita vGC) {
+	public VentanaGestionPrescripciones(CitaDto cita) { // VentanaGestionCita vGC) {
 		this.cita = cita;
-		//this.vGC = vGC;
-		inicializarMapa();
-		setTitle("Antecedentes del paciente");
+		System.out.println(cita.prescripcion);
+		setTitle("Prescripcion M\u00E9dica");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 707, 507);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(getPnlPrincipal());
-		//txtAreaAntecedentes.setText(cita.antecedentes);
+		precargarLista();
+	}
+
+	private void precargarLista() {
+		if (!this.cita.prescripcion.isEmpty()) {
+			String[] lista = this.cita.prescripcion.split(System.getProperty("line.separator"));
+			this.prescripciones=new ArrayList<String>();
+			for (int i = 0; i < lista.length; i++) {
+				this.cita.listadoPrescripciones.add(lista[i]);
+			}
+		}
+		this.prescripciones = new ArrayList<>();
+		this.prescripciones.addAll(this.cita.listadoPrescripciones);
+		actualizarLista();
+	}
+
+	private void actualizarLista() {
+		String[] list = new String[this.prescripciones.size()];
+		for(int i=0;i<list.length; i++) {
+			list[i]=this.prescripciones.get(i);
+		}
+		if(list.length!=0) {
+			this.listPrescripcion.setListData(list);
+		}
+		else {
+			String[] datos= {"No hay datos aun."};
+			this.listPrescripcion.setListData(datos);;
+		}
 	}
 
 	private JPanel getPnlPrincipal() {
@@ -68,56 +87,45 @@ public class VentanaGestionPrescripciones extends JDialog {
 			pnlPrincipal.add(getPanel());
 			pnlPrincipal.add(getBtnGuardar());
 			pnlPrincipal.add(getBtnVolver());
-			pnlPrincipal.add(getPanel_1());
+			pnlPrincipal.add(getPnlPrescripciones());
 		}
 		return pnlPrincipal;
 	}
+
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "A\u00F1adir Antecedente", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "A\u00F1adir prescripcion",
+					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel.setBounds(12, 13, 677, 152);
 			panel.setLayout(null);
-			panel.add(getLblProdcedimientoRealizado());
-			panel.add(getTxtAntecedente());
-			panel.add(getBtnAniadirProcedimiento());
-			panel.add(getLblTipoAntecedente());
-			panel.add(getComboBox());
-			panel.add(getBtnReiniciar());
+			panel.add(getLblPrescripcion());
+			panel.add(getTxtPrescripcion());
+			panel.add(getLblObsrvacion());
+			panel.add(getTxtObservaciones());
+			panel.add(getBtnAadirPrescripcin());
+			panel.add(getBtnEliminarPrescripcion());
 		}
 		return panel;
 	}
-	private JLabel getLblProdcedimientoRealizado() {
-		if (lblProdcedimientoRealizado == null) {
-			lblProdcedimientoRealizado = new JLabel("Antecedente:");
-			lblProdcedimientoRealizado.setBounds(26, 26, 178, 28);
+
+	private JLabel getLblPrescripcion() {
+		if (lblPrescripcion == null) {
+			lblPrescripcion = new JLabel("Prescripcion:");
+			lblPrescripcion.setBounds(26, 26, 178, 28);
 		}
-		return lblProdcedimientoRealizado;
+		return lblPrescripcion;
 	}
-	private JTextField getTxtAntecedente() {
-		if (txtAntecedente == null) {
-			txtAntecedente = new JTextField();
-			txtAntecedente.setBounds(26, 54, 315, 28);
-			txtAntecedente.setColumns(10);
+
+	private JTextField getTxtPrescripcion() {
+		if (txtPrescripcion == null) {
+			txtPrescripcion = new JTextField();
+			txtPrescripcion.setBounds(26, 54, 315, 28);
+			txtPrescripcion.setColumns(10);
 		}
-		return txtAntecedente;
+		return txtPrescripcion;
 	}
-	private JButton getBtnAniadirProcedimiento() {
-		if (btnAadirProcedimiento == null) {
-			btnAadirProcedimiento = new JButton("A\u00F1adir Antecedente");
-			btnAadirProcedimiento.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if(getTxtAntecedente().getText().isEmpty()) {
-						mostrarMensaje("¡El campo de antecedentes esta en blanco!", "Error:no se ha especificado antecedente", JOptionPane.ERROR_MESSAGE);
-					}else {
-						addAntecedente(getTxtAntecedente().getText(),(TiposAntecedentes) getComboBox().getSelectedItem());
-					}
-				}
-			});
-			btnAadirProcedimiento.setBounds(372, 114, 173, 25);
-		}
-		return btnAadirProcedimiento;
-	}
+
 	private JButton getBtnGuardar() {
 		if (btnGuardar == null) {
 			btnGuardar = new JButton("Guardar");
@@ -130,6 +138,7 @@ public class VentanaGestionPrescripciones extends JDialog {
 		}
 		return btnGuardar;
 	}
+
 	private JButton getBtnVolver() {
 		if (btnVolver == null) {
 			btnVolver = new JButton("Volver");
@@ -142,106 +151,127 @@ public class VentanaGestionPrescripciones extends JDialog {
 		}
 		return btnVolver;
 	}
-	private JPanel getPanel_1() {
-		if (panel_1 == null) {
-			panel_1 = new JPanel();
-			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Antecedentes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel_1.setBounds(12, 169, 677, 196);
-			panel_1.setLayout(new BorderLayout(0, 0));
-			panel_1.add(getTxtAreaAntecedentes());
+
+	private JPanel getPnlPrescripciones() {
+		if (pnlPrescripciones == null) {
+			pnlPrescripciones = new JPanel();
+			pnlPrescripciones.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Prescripciones",
+					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			pnlPrescripciones.setBounds(12, 169, 677, 196);
+			pnlPrescripciones.setLayout(new BorderLayout(0, 0));
+			pnlPrescripciones.add(getListPrescripcion(), BorderLayout.CENTER);
 		}
-		return panel_1;
-	}
-	private JTextArea getTxtAreaAntecedentes() {
-		if (txtAreaAntecedentes == null) {
-			txtAreaAntecedentes = new JTextArea();
-			txtAreaAntecedentes.setLineWrap(true);
-			txtAreaAntecedentes.setEditable(false);
-//			if(cita.antecedentes==null) {
-//				txtAreaAntecedentes.setText(" ");
-//			}else {
-//				txtAreaAntecedentes.setText(cita.antecedentes);
-//			}
-		}
-		return txtAreaAntecedentes;
-	}
-	private JLabel getLblTipoAntecedente() {
-		if (lblTipoAntecedente == null) {
-			lblTipoAntecedente = new JLabel("Tipo Antecedente:");
-			lblTipoAntecedente.setBounds(430, 32, 115, 16);
-		}
-		return lblTipoAntecedente;
-	}
-	private JComboBox<TiposAntecedentes> getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox<TiposAntecedentes>();
-			comboBox.setModel(new DefaultComboBoxModel<TiposAntecedentes>(TiposAntecedentes.values()));
-			comboBox.setBounds(440, 57, 178, 22);
-		}
-		return comboBox;
-	}
-	
-	private void addAntecedente(String antecedente, TiposAntecedentes tipo) {
-		this.antecedentes.get(tipo).add(antecedente);
-		actualizarTxtArea();
-	}
-	
-	private void actualizarTxtArea() {
-		StringBuilder antecedentes = new StringBuilder();
-		for(TiposAntecedentes t: this.antecedentes.keySet()) {
-			antecedentes.append(t + "\n");
-			for(String a: this.antecedentes.get(t)) {
-				antecedentes.append("\t- " + a + ".\n");
-			}
-			antecedentes.append("\n");
-		}
-		getTxtAreaAntecedentes().setText(antecedentes.toString());
+		return pnlPrescripciones;
 	}
 
-	private void inicializarMapa() {
-		this.antecedentes.put(TiposAntecedentes.FAMILIAR, new ArrayList<String>());
-		this.antecedentes.put(TiposAntecedentes.PERSONAL, new ArrayList<String>());
-		this.antecedentes.put(TiposAntecedentes.OTRO, new ArrayList<String>());
-		
+	private JLabel getLblObsrvacion() {
+		if (lblObsrvacion == null) {
+			lblObsrvacion = new JLabel("Observaciones:");
+			lblObsrvacion.setBounds(26, 95, 115, 16);
+		}
+		return lblObsrvacion;
 	}
-	
+
 	private void salirSinGuardar() {
-		int respuesta =JOptionPane.showConfirmDialog(null,"Seguro que quiere salir sin guardar los datos?",
-				"Salir sin guardar",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
-		
-		if(respuesta==JOptionPane.YES_OPTION) {
+		int respuesta = JOptionPane.showConfirmDialog(null, "Seguro que quiere salir sin guardar los datos?",
+				"Salir sin guardar", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+		if (respuesta == JOptionPane.YES_OPTION) {
 			VentanaGestionCita v = new VentanaGestionCita(cita);
+			v.setLocationRelativeTo(this);
 			v.setVisible(true);
+			this.listPrescripcion=null;
+			this.prescripciones=new ArrayList<>();
 			this.dispose();
 		}
 	}
-	
+
 	private void guardarYSalir() {
-		int respuesta =JOptionPane.showConfirmDialog(null,"Seguro que quiere guardar estos datos?",
-				"Guardar datos",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
-		
-		if(respuesta==JOptionPane.YES_OPTION) {
-			this.cita.antecedentes=getTxtAreaAntecedentes().getText();
+		int respuesta = JOptionPane.showConfirmDialog(null, "Seguro que quiere guardar estos datos?", "Guardar datos",
+				JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+		if (respuesta == JOptionPane.YES_OPTION) {
+			this.cita.listadoPrescripciones = this.prescripciones;
+			cita.prescripcion="";
+			for(String s: this.prescripciones) {
+				cita.prescripcion+=s + "\n";
+			}
 			VentanaGestionCita v = new VentanaGestionCita(this.cita);
+			v.setLocationRelativeTo(this);
 			v.setVisible(true);
+			this.listPrescripcion=null;
+			this.prescripciones=new ArrayList<>();
 			this.dispose();
 		}
 	}
-	
+
 	private void mostrarMensaje(String mess, String title, int icon) {
 		JOptionPane.showMessageDialog(this, mess, title, icon);
 	}
-	private JButton getBtnReiniciar() {
-		if (btnReiniciar == null) {
-			btnReiniciar = new JButton("Borrar Antecedentes");
-			btnReiniciar.addActionListener(new ActionListener() {
+
+	private JTextField getTxtObservaciones() {
+		if (txtObservaciones == null) {
+			txtObservaciones = new JTextField();
+			txtObservaciones.setColumns(10);
+			txtObservaciones.setBounds(26, 111, 315, 28);
+		}
+		return txtObservaciones;
+	}
+
+	private JButton getBtnAadirPrescripcin() {
+		if (btnAadirPrescripcin == null) {
+			btnAadirPrescripcin = new JButton("A\u00F1adir Prescripci\u00F3n");
+			btnAadirPrescripcin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					inicializarMapa();
-					txtAreaAntecedentes.setText("");
+					if (getTxtPrescripcion().getText().isEmpty()) {
+						mostrarMensaje("No ha apuntado ningun antecedente", "Error al añadir antecedente",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						addPrescripcion();
+					}
+				}
+
+			});
+			btnAadirPrescripcin.setBounds(428, 55, 205, 26);
+		}
+		return btnAadirPrescripcin;
+	}
+
+	private JList<String> getListPrescripcion() {
+		if (listPrescripcion == null) {
+			listPrescripcion = new JList<>();
+		}
+		return listPrescripcion;
+	}
+
+	private void addPrescripcion() {
+		String prescripcion = getTxtPrescripcion().getText();
+		prescripcion = prescripcion + (getTxtObservaciones().getText().isEmpty() ? ". "
+				: ". Observaciones: " + getTxtObservaciones().getText() + ".");
+
+		this.prescripciones.add(prescripcion);
+		getTxtPrescripcion().setText("");
+		getTxtObservaciones().setText("");
+		actualizarLista();
+	}
+
+	private JButton getBtnEliminarPrescripcion() {
+		if (btnEliminarPrescripcion == null) {
+			btnEliminarPrescripcion = new JButton("Eliminar Prescripci\u00F3n");
+			btnEliminarPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (getListPrescripcion().isSelectionEmpty()) {
+						mostrarMensaje("No hay ninguna prescripción seleccionada", "Error al eliminar",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						int seleccion = getListPrescripcion().getSelectedIndex();
+						prescripciones.remove(seleccion);
+						actualizarLista();
+					}
 				}
 			});
-			btnReiniciar.setBounds(168, 114, 173, 25);
+			btnEliminarPrescripcion.setBounds(428, 113, 205, 26);
 		}
-		return btnReiniciar;
+		return btnEliminarPrescripcion;
 	}
 }
