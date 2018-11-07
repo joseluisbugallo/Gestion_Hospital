@@ -120,4 +120,29 @@ public class CitasController {
 		DataCita dc = new DataCita();
 		return dc.listCitaById(id).get(0);
 	}
+
+	public void actualizarCita(CitaDto cita) {
+		DataCita dc = new DataCita();
+		dc.update(cita);
+		
+	}
+
+	public CitaDto precargarDatos(CitaDto cita) {
+		CitaDto c = new CitaDto();
+		c.id=cita.id;
+		c.fechainicio=cita.fechainicio;
+		c.fechafin=cita.fechafin;
+		c.diagnostico=cita.diagnostico;
+		c.idEmpleado=cita.idEmpleado;
+		c.idPaciente=cita.idPaciente;
+		c.listadoPrescripciones=cita.listadoPrescripciones;
+		c.mapaAntecedentes=cita.mapaAntecedentes;
+		c.sala=cita.sala;
+		c.urgente=cita.urgente;
+		c.sintomas=cita.sintomas==null?"":cita.sintomas;
+		c.antecedentes= cita.antecedentes==null?"":cita.antecedentes;
+		c.procedimientos=cita.procedimientos==null?"":cita.procedimientos;
+		c.prescripcion=cita.prescripcion==null?"":cita.prescripcion;		
+		return c;
+	}
 }

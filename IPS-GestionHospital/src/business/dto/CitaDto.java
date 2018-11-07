@@ -1,9 +1,12 @@
 package business.dto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import business.PacientesController;
+import business.enums.TiposAntecedentes;
 
 
 public class CitaDto {
@@ -15,12 +18,15 @@ public class CitaDto {
 	public int idPaciente;
 	public int idEmpleado;
 	public String sala;
-	public String sintomas;
-	public String procedimientos;
+	public String sintomas="";
+	public String procedimientos="";
 	public String antecedentes="";
 	public String prescripcion="";
 	public ArrayList<DiagnosticoDto> diagnostico= new ArrayList<DiagnosticoDto>();
+	
+	//DATOS AUXILIARES PARA TRATAR MI VENTANA(VIC)
 	public List<String> listadoPrescripciones= new ArrayList<>();
+	public Map<TiposAntecedentes, List<String>> mapaAntecedentes = new HashMap<>();
 
 	
 	public String mostrarCitaMedico() {
