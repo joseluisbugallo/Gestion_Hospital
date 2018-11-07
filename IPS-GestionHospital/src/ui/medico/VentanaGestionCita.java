@@ -23,6 +23,7 @@ import business.dto.CitaDto;
 import business.dto.PacienteDto;
 import ui.admin.VentanaFijarCita;
 import ui.medico.gestionCitas.VentanaGestionAntecedentes;
+import ui.medico.gestionCitas.VentanaGestionCalendarioVacunas;
 import ui.medico.gestionCitas.VentanaGestionPrescripciones;
 import ui.medico.gestionCitas.VentanaGestionDiagnosticos;
 import ui.medico.gestionCitas.VentanaGestionProcedimientos;
@@ -355,6 +356,11 @@ public class VentanaGestionCita extends JDialog {
 		if (btnCalendarioDeVacunas == null) {
 			btnCalendarioDeVacunas = new JButton("Calendario de Vacunas");
 			btnCalendarioDeVacunas.setBounds(56, 126, 225, 25);
+			btnCalendarioDeVacunas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					abrirVentanaVacunas();
+				}
+			});
 		}
 		return btnCalendarioDeVacunas;
 	}
@@ -368,6 +374,14 @@ public class VentanaGestionCita extends JDialog {
 
 	private void abrirVentanaGestionAntecedentes() {
 		VentanaGestionAntecedentes vGA = new VentanaGestionAntecedentes(cita);
+		vGA.setLocationRelativeTo(this);
+		vGA.setModal(true);
+		vGA.setVisible(true);
+		this.dispose();
+	}
+	
+	private void abrirVentanaVacunas() {
+		VentanaGestionCalendarioVacunas vGA = new VentanaGestionCalendarioVacunas(cita);
 		vGA.setLocationRelativeTo(this);
 		vGA.setModal(true);
 		vGA.setVisible(true);
