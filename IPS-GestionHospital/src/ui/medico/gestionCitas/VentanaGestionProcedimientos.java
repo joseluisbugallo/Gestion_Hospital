@@ -42,11 +42,12 @@ public class VentanaGestionProcedimientos extends JDialog{
 	private JTextArea textAreaProc;
 	
 	public VentanaGestionProcedimientos(CitaDto cita) {
+		this.cc = new CitasController();
+		this.cita=cita;
 		setBounds(100, 100, 707, 507);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		getContentPane().add(getPanelPrincipal(), BorderLayout.CENTER);
-		this.cc = new CitasController();
-		this.cita=cita;
+		
 	}
 	
 	private JPanel getPanelPrincipal() {
@@ -150,6 +151,7 @@ public class VentanaGestionProcedimientos extends JDialog{
 			textAreaProc.setLineWrap(true);
 			textAreaProc.setWrapStyleWord(true);
 			textAreaProc.setEditable(false);
+			
 			String p = cc.obtenerProcCita(cita);
 			if(p==null) {
 				textAreaProc.setText(" ");

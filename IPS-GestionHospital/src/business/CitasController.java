@@ -94,6 +94,15 @@ public class CitasController {
 	}
 	
 	public String obtenerProcCita (CitaDto cita){
-		return cita.procedimientos;
+		System.out.println("obtenerProcedimientos");
+		if(cita.procedimientos != null) {
+			System.out.println("obtenerProcedimientos IF");
+			return cita.procedimientos;
+		}
+		else {
+			System.out.println("obtenerProcedimientos else");
+			return "No hay procedimientos aun";
+		}
+			
 	}
 }

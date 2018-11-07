@@ -221,7 +221,7 @@ public class VentanaGestionCita extends JDialog {
 	}
 
 	private void abrirVentanaProcedimientos() {
-		VentanaGestionProcedimientos dialogo = new VentanaGestionProcedimientos(this.cita);
+		VentanaGestionProcedimientos dialogo = new VentanaGestionProcedimientos(cita);
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setModal(true);
 		dialogo.setVisible(true);
