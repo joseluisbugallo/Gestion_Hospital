@@ -22,6 +22,7 @@ import business.PacientesController;
 import business.dto.CitaDto;
 import ui.admin.VentanaFijarCita;
 import ui.medico.gestionCitas.VentanaGestionAntecedentes;
+import ui.medico.gestionCitas.VentanaGestionPrescripciones;
 import ui.medico.gestionCitas.VentanaGestionDiagnosticos;
 import ui.medico.gestionCitas.VentanaGestionProcedimientos;
 import ui.medico.gestionCitas.VentanaGestionSintomas;
@@ -54,8 +55,13 @@ public class VentanaGestionCita extends JDialog {
 	private JLabel lblTelefono;
 	private JTextField txTelefonoPaciente;
 	private JButton btnCalendarioDeVacunas;
+<<<<<<< HEAD
+	private PacientesController pC;
+	private PacienteDto p;
+=======
 	
 	private PacientesController pc = new PacientesController();
+>>>>>>> f43dcda14f923975e764ae15b7c6c52a7da6e509
 
 	/**
 	 * Create the dialog.
@@ -63,6 +69,8 @@ public class VentanaGestionCita extends JDialog {
 	public VentanaGestionCita(CitaDto cita) {
 		setResizable(false);
 		this.cita=cita;
+		pC= new PacientesController();
+		cargarDatosPersona();
 		setDefaultCloseOperation(0);
 		setBounds(100, 100, 707, 507);
 		getContentPane().setLayout(new BorderLayout());
@@ -82,6 +90,11 @@ public class VentanaGestionCita extends JDialog {
 		txSalaCita.setText(cita.sala);
 		txFechaInicioCita.setText(cita.fechainicio.toString());
 		txFechaFinCita.setText(cita.fechafin.toString());
+		
+	}
+
+	private void cargarDatosPersona() {
+		this.p = pC.findPacienteByID(this.cita.idPaciente);
 		
 	}
 
@@ -271,6 +284,11 @@ public class VentanaGestionCita extends JDialog {
 	private JButton getBtnPrescripcion() {
 		if (btnPrescripcion == null) {
 			btnPrescripcion = new JButton("Prescripcion");
+			btnPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					abrirVentanaGestionPrescripcion();
+				}
+			});
 		}
 		return btnPrescripcion;
 	}
@@ -350,11 +368,19 @@ public class VentanaGestionCita extends JDialog {
 		this.dispose();
 	}
 	
+<<<<<<< HEAD
+	private void abrirVentanaGestionPrescripcion() {
+		VentanaGestionPrescripciones vGP = new VentanaGestionPrescripciones(cita);
+		vGP.setLocationRelativeTo(this);
+		vGP.setModal(true);
+		vGP.setVisible(true);
+=======
 	private void abrirVentanaGestionDiagnsticos() {
 		VentanaGestionDiagnosticos vGA = new VentanaGestionDiagnosticos(cita);
 		vGA.setLocationRelativeTo(this);
 		vGA.setModal(true);
 		vGA.setVisible(true);
+>>>>>>> f43dcda14f923975e764ae15b7c6c52a7da6e509
 		this.dispose();
 	}
 }
