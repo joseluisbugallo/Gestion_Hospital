@@ -45,7 +45,6 @@ public class VentanaGestionCita extends JDialog {
 	private JLabel label_4;
 	private JTextField txFechaInicioCita;
 	private JPanel panel_1;
-	private JButton btnAtras;
 	private JButton btnFinalizar;
 	private JButton btnHistorial;
 	private JButton btnAntecedentes;
@@ -85,7 +84,6 @@ public class VentanaGestionCita extends JDialog {
 		pnlPrincipal.add(getLblGestinDeLa());
 		pnlPrincipal.add(getPanel());
 		pnlPrincipal.add(getPanel_1());
-		pnlPrincipal.add(getBtnAtras());
 		pnlPrincipal.add(getBtnFinalizar());
 		pnlPrincipal.add(getPanel_2());
 		
@@ -203,22 +201,14 @@ public class VentanaGestionCita extends JDialog {
 		return panel_1;
 	}
 
-	private JButton getBtnAtras() {
-		if (btnAtras == null) {
-			btnAtras = new JButton("Atras");
-			btnAtras.addActionListener(new ActionListener() {
+	private JButton getBtnFinalizar() {
+		if (btnFinalizar == null) {
+			btnFinalizar = new JButton("Finalizar");
+			btnFinalizar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cerrarVentana();
 				}
 			});
-			btnAtras.setBounds(485, 420, 97, 25);
-		}
-		return btnAtras;
-	}
-
-	private JButton getBtnFinalizar() {
-		if (btnFinalizar == null) {
-			btnFinalizar = new JButton("Finalizar");
 			btnFinalizar.setBounds(592, 420, 97, 25);
 		}
 		return btnFinalizar;
@@ -369,10 +359,12 @@ public class VentanaGestionCita extends JDialog {
 	}
 
 	private void cerrarVentana() {
-		int resp = JOptionPane.showConfirmDialog(this, "¿Estás seguro de querer cerrar sin guardar?",
-				"Cerrar sin guardar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-		if (resp == JOptionPane.OK_OPTION)
+		int resp = JOptionPane.showConfirmDialog(this, "¿Estás seguro de querer finalizar la cita?",
+				"Finalizar la cita", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+		if (resp == JOptionPane.OK_OPTION) {
+			cC.actualizarCita(cita);
 			this.dispose();
+		}
 	}
 
 	private void abrirVentanaGestionAntecedentes() {
