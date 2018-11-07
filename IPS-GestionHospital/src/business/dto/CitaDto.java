@@ -3,6 +3,8 @@ package business.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import business.PacientesController;
+
 
 public class CitaDto {
 
@@ -22,15 +24,15 @@ public class CitaDto {
 
 	
 	public String mostrarCitaMedico() {
+		PacientesController pc = new PacientesController();
 		return "Hora inicio:"+ fechainicio.getHours() + ":"+ fechainicio.getMinutes() + " Hora fin:" + fechafin.getHours()+
-				":"+fechafin.getMinutes()+ "  Paciente: "+ idPaciente + " En la sala: "+ sala ;
+				":"+fechafin.getMinutes()+ "  Paciente: "+ pc.findPacientesById(idPaciente).nombre + " En la sala: "+ sala ;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Cita: id" + id + ",  ¿Es urgente?" + urgente + ", Fecha inicio:" + fechainicio + ", Fecha fin:" + fechafin
-				+ ", idPaciente=" + idPaciente + ", idEmpleado=" + idEmpleado + ", sala=" + sala;
+		return mostrarCitaMedico();
 	}
 	
 	

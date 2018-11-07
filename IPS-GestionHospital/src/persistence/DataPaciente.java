@@ -106,8 +106,8 @@ public class DataPaciente extends DataManager {
 			while (rs.next()) {
 				PacienteDto paciente = new PacienteDto();
 				paciente.id = rs.getInt(1);
-				paciente.nombre = rs.getString(2);
-				paciente.dni = rs.getString(3);
+				paciente.nombre = rs.getString(3);
+				paciente.dni = rs.getString(2);
 				paciente.contacto = rs.getString(4);
 				pacientes.add(paciente);
 			}
@@ -133,9 +133,10 @@ public class DataPaciente extends DataManager {
 			while (rs.next()) {
 				
 				paciente.id = rs.getInt(1);
-				
-				paciente.dni = rs.getString(2);
+
 				paciente.nombre = rs.getString(3);
+				paciente.dni = rs.getString(2);
+
 				paciente.contacto = rs.getString(4);
 			}
 
