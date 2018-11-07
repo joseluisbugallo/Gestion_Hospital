@@ -1,6 +1,7 @@
 package business.dto;
 
-import java.util.List;
+import java.util.ArrayList;
+
 
 public class CitaDto {
 
@@ -15,7 +16,7 @@ public class CitaDto {
 	public String procedimientos;
 	public String antecedentes;
 	public String prescripcion;
-	public DiagnosticoDto diagnostico;
+	public ArrayList<DiagnosticoDto> diagnostico= new ArrayList<DiagnosticoDto>();
 
 	
 	public String mostrarCitaMedico() {
