@@ -20,6 +20,7 @@ import javax.swing.border.TitledBorder;
 
 import business.dto.CitaDto;
 import ui.medico.gestionCitas.VentanaGestionAntecedentes;
+import ui.medico.gestionCitas.VentanaGestionDiagnosticos;
 import ui.medico.gestionCitas.VentanaGestionProcedimientos;
 
 public class VentanaGestionCita extends JDialog {
@@ -231,6 +232,11 @@ public class VentanaGestionCita extends JDialog {
 	private JButton getBtnDiagnostico() {
 		if (btnDiagnostico == null) {
 			btnDiagnostico = new JButton("Diagnostico");
+			btnDiagnostico.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					abrirVentanaGestionDiagnsticos();
+				}
+			});
 		}
 		return btnDiagnostico;
 	}
@@ -318,6 +324,14 @@ public class VentanaGestionCita extends JDialog {
 
 	private void abrirVentanaGestionAntecedentes() {
 		VentanaGestionAntecedentes vGA = new VentanaGestionAntecedentes(cita);
+		vGA.setLocationRelativeTo(this);
+		vGA.setModal(true);
+		vGA.setVisible(true);
+		this.dispose();
+	}
+	
+	private void abrirVentanaGestionDiagnsticos() {
+		VentanaGestionDiagnosticos vGA = new VentanaGestionDiagnosticos(cita);
 		vGA.setLocationRelativeTo(this);
 		vGA.setModal(true);
 		vGA.setVisible(true);

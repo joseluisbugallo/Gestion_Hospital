@@ -20,9 +20,14 @@ public class DiagnosticoController {
 	
 	public void addDiagnosticoACita(CitaDto cita, DiagnosticoDto diagnostico)
 	{
-		cita.diagnostico.add(diagnostico);
 		DataDiagnostico dd = new DataDiagnostico();
 		dd.addDiagnosticoCita(cita.id, diagnostico.id);
+	}
+	
+	public void borrarDiagnosticosCita(CitaDto cita)
+	{
+		DataDiagnostico dd = new DataDiagnostico();
+		dd.borrarDiagnosticosCita(cita.id);
 	}
 
 }
