@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.awt.event.ActionEvent;
 
-public class VentanaGestionAntecedentes extends JDialog {
+public class VentanaGestionPrescripciones extends JDialog {
 
 	private CitaDto cita;
 	//VentanaGestionCita vGC;
@@ -48,7 +48,7 @@ public class VentanaGestionAntecedentes extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VentanaGestionAntecedentes(CitaDto cita) { //VentanaGestionCita vGC) {
+	public VentanaGestionPrescripciones(CitaDto cita) { //VentanaGestionCita vGC) {
 		this.cita = cita;
 		//this.vGC = vGC;
 		inicializarMapa();
@@ -223,7 +223,6 @@ public class VentanaGestionAntecedentes extends JDialog {
 		if(respuesta==JOptionPane.YES_OPTION) {
 			this.cita.antecedentes=getTxtAreaAntecedentes().getText();
 			VentanaGestionCita v = new VentanaGestionCita(this.cita);
-			v.setLocationRelativeTo(null);
 			v.setVisible(true);
 			this.dispose();
 		}

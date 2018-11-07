@@ -321,5 +321,6 @@ public class VentanaGestionCita extends JDialog {
 		vGA.setLocationRelativeTo(this);
 		vGA.setModal(true);
 		vGA.setVisible(true);
+		this.dispose();
 	}
 }
