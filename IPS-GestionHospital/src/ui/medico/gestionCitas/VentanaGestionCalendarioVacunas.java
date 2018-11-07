@@ -1,6 +1,7 @@
 package ui.medico.gestionCitas;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 
 
@@ -14,8 +15,10 @@ import com.toedter.calendar.JCalendar;
 
 
 import business.PacientesController;
+import business.VacunaController;
 import business.dto.CitaDto;
 import business.dto.DiagnosticoDto;
+import business.dto.VacunaDto;
 import ui.medico.VentanaGestionCita;
 
 import java.awt.event.ActionListener;
@@ -81,20 +84,6 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Confirmar");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						// Cambiar el objeto con los diagnosticos creados
-						guardarYSalir();
-						
-					}
-
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
 				JButton cancelButton = new JButton("Atras");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -104,6 +93,35 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		
+		colorearCalendario();
+	}
+
+	private void colorearCalendario() {
+		// TODO Auto-generated method stub
+		VacunaController vc = new VacunaController();
+		ArrayList<VacunaDto> vacunas = vc.getVacunasPaciente(cita.idPaciente);
+		for (VacunaDto v: vacunas)
+		{
+			if(v.fechainicio.getMonth() == getCalendar().getMonthChooser().getMonth())
+			{
+				if(v.fechafin.getMonth() != getCalendar().getMonthChooser().getMonth())
+				{
+					//colorear hasta final de mes
+					for(int i=v.fechainicio.getDate();i<31;i++)
+					{
+						getCalendar().getDayChooser().getComponent(i).setBackground(new Color(87,166,57));
+					}
+				}
+				else {
+					//colorear de fecha inicio a fecha fin
+					for(int i=v.fechainicio.getDate();i<=v.fechafin.getDate();i++)
+					{
+						getCalendar().getDayChooser().getComponent(i).setBackground(new Color(87,166,57));
+					}
+				}
+			}
+		}		
 	}
 
 	private void mostrarMensaje(String mess, String title, int icon) {
@@ -111,7 +129,7 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 	}
 	
 	private void salirSinGuardar() {
-		int respuesta =JOptionPane.showConfirmDialog(null,"Seguro que quiere salir sin guardar los datos?",
+		int respuesta =JOptionPane.showConfirmDialog(null,"Seguro que quiere salir?",
 				"Salir sin guardar",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
 		
 		if(respuesta==JOptionPane.YES_OPTION) {
@@ -121,21 +139,7 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 		}
 	}
 	
-	private void guardarYSalir() {
-		int respuesta =JOptionPane.showConfirmDialog(null,"Seguro que quiere guardar estos datos?",
-				"Guardar datos",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
-		
-		if(respuesta==JOptionPane.YES_OPTION) {
-			//cosas
-			
-			
-			
-			
-			VentanaGestionCita v = new VentanaGestionCita(this.cita);
-			v.setVisible(true);
-			this.dispose();
-		}
-	}
+
 	private JLabel getLblAadirRangoVacunacion() {
 		if (lblAadirRangoVacunacion == null) {
 			lblAadirRangoVacunacion = new JLabel("A\u00F1adir rango vacunacion:");
@@ -162,6 +166,17 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 			btnAadir = new JButton("A\u00F1adir");
 			btnAadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					VacunaDto vacuna = new VacunaDto();
+					VacunaController vc = new VacunaController();
+					if(!(getTxtVacuna().getText().length()==0)&& getDcInicio().getDate()!=null &&getDcFin().getDate()!=null)
+					{
+						vacuna.fechafin=getDcFin().getDate();
+						vacuna.fechainicio= getDcInicio().getDate();
+						vacuna.vacuna = getTxtVacuna().getText();
+						vc.addVacuna(vacuna);
+						mostrarMensaje("Rango de fechas para vacuna añadido", "Vacuna añadida", JOptionPane.INFORMATION_MESSAGE);
+					}
+					colorearCalendario();
 				}
 			});
 			btnAadir.setBounds(631, 36, 97, 59);

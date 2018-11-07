@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,13 +17,17 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import business.CitasController;
 import business.PacientesController;
 import business.dto.CitaDto;
 import business.dto.PacienteDto;
-import ui.admin.VentanaFijarCita;
 import ui.medico.gestionCitas.VentanaGestionAntecedentes;
+
+import ui.medico.gestionCitas.VentanaGestionCalendarioVacunas;
 import ui.medico.gestionCitas.VentanaGestionPrescripciones;
+
 import ui.medico.gestionCitas.VentanaGestionDiagnosticos;
+import ui.medico.gestionCitas.VentanaGestionPrescripciones;
 import ui.medico.gestionCitas.VentanaGestionProcedimientos;
 import ui.medico.gestionCitas.VentanaGestionSintomas;
 
@@ -42,7 +45,6 @@ public class VentanaGestionCita extends JDialog {
 	private JLabel label_4;
 	private JTextField txFechaInicioCita;
 	private JPanel panel_1;
-	private JButton btnAtras;
 	private JButton btnFinalizar;
 	private JButton btnHistorial;
 	private JButton btnAntecedentes;
@@ -62,6 +64,7 @@ public class VentanaGestionCita extends JDialog {
 
 	
 	private PacientesController pc = new PacientesController();
+	private CitasController cC = new CitasController();
 
 
 	/**
@@ -69,8 +72,8 @@ public class VentanaGestionCita extends JDialog {
 	 */
 	public VentanaGestionCita(CitaDto cita) {
 		setResizable(false);
-		this.cita=cita;
-		
+
+		this.cita = cC.precargarDatos(cita);
 		cargarDatosPersona();
 		setDefaultCloseOperation(0);
 		setBounds(100, 100, 707, 507);
@@ -81,7 +84,6 @@ public class VentanaGestionCita extends JDialog {
 		pnlPrincipal.add(getLblGestinDeLa());
 		pnlPrincipal.add(getPanel());
 		pnlPrincipal.add(getPanel_1());
-		pnlPrincipal.add(getBtnAtras());
 		pnlPrincipal.add(getBtnFinalizar());
 		pnlPrincipal.add(getPanel_2());
 		
@@ -199,22 +201,14 @@ public class VentanaGestionCita extends JDialog {
 		return panel_1;
 	}
 
-	private JButton getBtnAtras() {
-		if (btnAtras == null) {
-			btnAtras = new JButton("Atras");
-			btnAtras.addActionListener(new ActionListener() {
+	private JButton getBtnFinalizar() {
+		if (btnFinalizar == null) {
+			btnFinalizar = new JButton("Finalizar");
+			btnFinalizar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cerrarVentana();
 				}
 			});
-			btnAtras.setBounds(485, 420, 97, 25);
-		}
-		return btnAtras;
-	}
-
-	private JButton getBtnFinalizar() {
-		if (btnFinalizar == null) {
-			btnFinalizar = new JButton("Finalizar");
 			btnFinalizar.setBounds(592, 420, 97, 25);
 		}
 		return btnFinalizar;
@@ -355,19 +349,34 @@ public class VentanaGestionCita extends JDialog {
 		if (btnCalendarioDeVacunas == null) {
 			btnCalendarioDeVacunas = new JButton("Calendario de Vacunas");
 			btnCalendarioDeVacunas.setBounds(56, 126, 225, 25);
+			btnCalendarioDeVacunas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					abrirVentanaVacunas();
+				}
+			});
 		}
 		return btnCalendarioDeVacunas;
 	}
 
 	private void cerrarVentana() {
-		int resp = JOptionPane.showConfirmDialog(this, "¿Estás seguro de querer cerrar sin guardar?",
-				"Cerrar sin guardar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-		if (resp == JOptionPane.OK_OPTION)
+		int resp = JOptionPane.showConfirmDialog(this, "¿Estás seguro de querer finalizar la cita?",
+				"Finalizar la cita", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+		if (resp == JOptionPane.OK_OPTION) {
+			cC.actualizarCita(cita);
 			this.dispose();
+		}
 	}
 
 	private void abrirVentanaGestionAntecedentes() {
 		VentanaGestionAntecedentes vGA = new VentanaGestionAntecedentes(cita);
+		vGA.setLocationRelativeTo(this);
+		vGA.setModal(true);
+		vGA.setVisible(true);
+		this.dispose();
+	}
+	
+	private void abrirVentanaVacunas() {
+		VentanaGestionCalendarioVacunas vGA = new VentanaGestionCalendarioVacunas(cita);
 		vGA.setLocationRelativeTo(this);
 		vGA.setModal(true);
 		vGA.setVisible(true);
