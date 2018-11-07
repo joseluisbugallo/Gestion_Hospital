@@ -20,6 +20,7 @@ public class DiagnosticoController {
 	
 	public void addDiagnosticoACita(CitaDto cita, DiagnosticoDto diagnostico)
 	{
+		cita.diagnostico = diagnostico;
 		DataDiagnostico dd = new DataDiagnostico();
 		dd.addDiagnosticoCita(cita.id, diagnostico.id);
 	}
