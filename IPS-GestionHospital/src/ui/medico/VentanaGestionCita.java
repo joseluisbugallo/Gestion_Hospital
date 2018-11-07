@@ -56,7 +56,6 @@ public class VentanaGestionCita extends JDialog {
 	private JLabel lblTelefono;
 	private JTextField txTelefonoPaciente;
 	private JButton btnCalendarioDeVacunas;
-	private PacientesController pC;
 	private PacienteDto p;
 	private PacientesController pc = new PacientesController();
 
@@ -66,7 +65,6 @@ public class VentanaGestionCita extends JDialog {
 	public VentanaGestionCita(CitaDto cita) {
 		setResizable(false);
 		this.cita = cita;
-		pC = new PacientesController();
 		cargarDatosPersona();
 		setDefaultCloseOperation(0);
 		setBounds(100, 100, 707, 507);
@@ -91,7 +89,7 @@ public class VentanaGestionCita extends JDialog {
 	}
 
 	private void cargarDatosPersona() {
-		// this.p = pC.findPacienteByID(this.cita.idPaciente);
+		 this.p = pc.findPacientesById(this.cita.idPaciente);
 
 	}
 
@@ -134,6 +132,7 @@ public class VentanaGestionCita extends JDialog {
 			txSalaCita = new JTextField();
 			txSalaCita.setBounds(110, 32, 144, 22);
 			txSalaCita.setEditable(false);
+			txSalaCita.setText(this.cita.sala);
 			txSalaCita.setColumns(10);
 		}
 		return txSalaCita;
@@ -152,6 +151,7 @@ public class VentanaGestionCita extends JDialog {
 			txFechaFinCita = new JTextField();
 			txFechaFinCita.setBounds(110, 118, 144, 22);
 			txFechaFinCita.setEditable(false);
+			txFechaFinCita.setText(this.cita.fechafin.toString());
 			txFechaFinCita.setColumns(10);
 		}
 		return txFechaFinCita;
@@ -170,6 +170,7 @@ public class VentanaGestionCita extends JDialog {
 			txFechaInicioCita = new JTextField();
 			txFechaInicioCita.setBounds(110, 76, 144, 22);
 			txFechaInicioCita.setEditable(false);
+			txFechaFinCita.setText(this.cita.fechainicio.toString());
 			txFechaInicioCita.setColumns(10);
 		}
 		return txFechaInicioCita;
@@ -319,6 +320,7 @@ public class VentanaGestionCita extends JDialog {
 			txNombrePaciente = new JTextField();
 			txNombrePaciente.setEditable(false);
 			txNombrePaciente.setColumns(10);
+			txNombrePaciente.setText(this.p.nombre);
 			txNombrePaciente.setBounds(92, 24, 198, 22);
 		}
 		return txNombrePaciente;
@@ -337,6 +339,7 @@ public class VentanaGestionCita extends JDialog {
 			txTelefonoPaciente = new JTextField();
 			txTelefonoPaciente.setEditable(false);
 			txTelefonoPaciente.setColumns(10);
+			txTelefonoPaciente.setText(this.p.contacto);
 			txTelefonoPaciente.setBounds(92, 75, 198, 22);
 		}
 		return txTelefonoPaciente;
