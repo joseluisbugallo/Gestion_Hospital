@@ -1,5 +1,7 @@
 package business.dto;
 
+import java.util.List;
+
 public class CitaDto {
 
 	public int id;
