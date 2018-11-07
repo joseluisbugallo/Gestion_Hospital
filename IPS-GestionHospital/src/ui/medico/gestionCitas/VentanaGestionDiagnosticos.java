@@ -19,19 +19,20 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
+import javax.swing.JCheckBox;
 
 public class VentanaGestionDiagnosticos extends JDialog {
 
 	
 	CitaDto cita;
-	private DefaultListModel<DiagnosticoDto> modeloDiagosticosPosibles;
-	private DefaultListModel<DiagnosticoDto> modeloDiagosticosFinales;
+	private DefaultListModel<DiagnosticoDto> modeloDiagosticosPosibles = new DefaultListModel<DiagnosticoDto>();
+	private DefaultListModel<DiagnosticoDto> modeloDiagosticosFinales = new DefaultListModel<DiagnosticoDto>();
 	
 	
 	
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblSelecionarLosDiagnsticos;
-	private JTextField textField;
+	private JTextField txtFiltroCie;
 	private JLabel lblNewLabel;
 	private JButton btnBuscar;
 	private JList listPosibles;
@@ -43,6 +44,7 @@ public class VentanaGestionDiagnosticos extends JDialog {
 	private JLabel lblDiagnosticosQueSe;
 	private JLabel lblAadir;
 	private JLabel lblQuitarSeleccionado;
+	private JCheckBox chckEdo;
 
 
 
@@ -50,6 +52,7 @@ public class VentanaGestionDiagnosticos extends JDialog {
 	 * Create the dialog.
 	 */
 	public VentanaGestionDiagnosticos(CitaDto cita) {
+		setResizable(false);
 		setTitle("Seleccion de diagnosticos CIE 10");
 		setDefaultCloseOperation(0);
 		this.cita=cita;
@@ -59,7 +62,7 @@ public class VentanaGestionDiagnosticos extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		contentPanel.add(getLblSelecionarLosDiagnsticos());
-		contentPanel.add(getTextField());
+		contentPanel.add(getTxtFiltroCie());
 		contentPanel.add(getLblNewLabel());
 		contentPanel.add(getBtnBuscar());
 		contentPanel.add(getListPosibles());
@@ -70,6 +73,7 @@ public class VentanaGestionDiagnosticos extends JDialog {
 		contentPanel.add(getLblDiagnosticosQueSe());
 		contentPanel.add(getLblAadir());
 		contentPanel.add(getLblQuitarSeleccionado());
+		contentPanel.add(getChckEdo());
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -101,13 +105,13 @@ public class VentanaGestionDiagnosticos extends JDialog {
 		}
 		return lblSelecionarLosDiagnsticos;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBounds(273, 22, 365, 22);
-			textField.setColumns(10);
+	private JTextField getTxtFiltroCie() {
+		if (txtFiltroCie == null) {
+			txtFiltroCie = new JTextField();
+			txtFiltroCie.setBounds(273, 22, 365, 22);
+			txtFiltroCie.setColumns(10);
 		}
-		return textField;
+		return txtFiltroCie;
 	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
@@ -121,6 +125,12 @@ public class VentanaGestionDiagnosticos extends JDialog {
 	private JButton getBtnBuscar() {
 		if (btnBuscar == null) {
 			btnBuscar = new JButton("Buscar");
+			btnBuscar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					
+				}
+			});
 			btnBuscar.setBounds(664, 21, 97, 25);
 		}
 		return btnBuscar;
@@ -128,14 +138,14 @@ public class VentanaGestionDiagnosticos extends JDialog {
 	private JList getListPosibles() {
 		if (listPosibles == null) {
 			listPosibles = new JList();
-			listPosibles.setBounds(36, 151, 280, 267);
+			listPosibles.setBounds(36, 115, 280, 267);
 		}
 		return listPosibles;
 	}
 	private JList getListDefinitivos() {
 		if (listDefinitivos == null) {
 			listDefinitivos = new JList();
-			listDefinitivos.setBounds(467, 151, 294, 267);
+			listDefinitivos.setBounds(467, 115, 294, 267);
 		}
 		return listDefinitivos;
 	}
@@ -146,14 +156,18 @@ public class VentanaGestionDiagnosticos extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 				}
 			});
-			añadirDiagnostico.setBounds(341, 218, 97, 25);
+			añadirDiagnostico.setBounds(341, 178, 97, 25);
 		}
 		return añadirDiagnostico;
 	}
 	private JButton getEliminarDiagnostico() {
 		if (eliminarDiagnostico == null) {
 			eliminarDiagnostico = new JButton("<<<<<");
-			eliminarDiagnostico.setBounds(341, 340, 97, 25);
+			eliminarDiagnostico.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
+			eliminarDiagnostico.setBounds(341, 245, 97, 25);
 		}
 		return eliminarDiagnostico;
 	}
@@ -166,14 +180,14 @@ public class VentanaGestionDiagnosticos extends JDialog {
 	private JLabel getLblPosiblesDiagnosticosSegn() {
 		if (lblPosiblesDiagnosticosSegn == null) {
 			lblPosiblesDiagnosticosSegn = new JLabel("Posibles diagnosticos seg\u00FAn el filtro:");
-			lblPosiblesDiagnosticosSegn.setBounds(36, 122, 264, 16);
+			lblPosiblesDiagnosticosSegn.setBounds(36, 86, 264, 16);
 		}
 		return lblPosiblesDiagnosticosSegn;
 	}
 	private JLabel getLblDiagnosticosQueSe() {
 		if (lblDiagnosticosQueSe == null) {
 			lblDiagnosticosQueSe = new JLabel("Diagnosticos que se a\u00F1adir\u00E1n:");
-			lblDiagnosticosQueSe.setBounds(467, 122, 294, 16);
+			lblDiagnosticosQueSe.setBounds(467, 86, 294, 16);
 		}
 		return lblDiagnosticosQueSe;
 	}
@@ -181,7 +195,7 @@ public class VentanaGestionDiagnosticos extends JDialog {
 		if (lblAadir == null) {
 			lblAadir = new JLabel("A\u00F1adir seleccionado");
 			lblAadir.setHorizontalAlignment(SwingConstants.CENTER);
-			lblAadir.setBounds(328, 199, 127, 16);
+			lblAadir.setBounds(328, 149, 127, 16);
 		}
 		return lblAadir;
 	}
@@ -189,8 +203,15 @@ public class VentanaGestionDiagnosticos extends JDialog {
 		if (lblQuitarSeleccionado == null) {
 			lblQuitarSeleccionado = new JLabel("Quitar seleccionado");
 			lblQuitarSeleccionado.setHorizontalAlignment(SwingConstants.CENTER);
-			lblQuitarSeleccionado.setBounds(328, 321, 127, 16);
+			lblQuitarSeleccionado.setBounds(328, 216, 127, 16);
 		}
 		return lblQuitarSeleccionado;
+	}
+	private JCheckBox getChckEdo() {
+		if (chckEdo == null) {
+			chckEdo = new JCheckBox("<html><body>Seleccionar<br> si hay alguna<br>enfermedad EDO</body></html>");
+			chckEdo.setBounds(341, 295, 113, 73);
+		}
+		return chckEdo;
 	}
 }
