@@ -108,4 +108,16 @@ public class CitasController {
 		cita.procedimientos=proc;
 		dc.updateProc(cita);
 	}
+
+	public void modificarSintomas(CitaDto cita, String text) {
+		DataCita dc= new DataCita();
+		cita.sintomas=text;
+		dc.updateSintomas(cita);
+		
+	}
+	
+	public CitaDto getCitaById(int id) {
+		DataCita dc = new DataCita();
+		return dc.listCitaById(id).get(0);
+	}
 }
