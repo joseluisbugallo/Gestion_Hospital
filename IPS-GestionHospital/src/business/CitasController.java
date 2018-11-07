@@ -92,4 +92,8 @@ public class CitasController {
 		}
 		
 	}
+	
+	public String obtenerProcCita (CitaDto cita){
+		return cita.procedimientos;
+	}
 }

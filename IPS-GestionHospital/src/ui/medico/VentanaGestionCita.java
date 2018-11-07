@@ -20,6 +20,7 @@ import javax.swing.border.TitledBorder;
 
 import business.dto.CitaDto;
 import ui.medico.gestionCitas.VentanaGestionAntecedentes;
+import ui.medico.gestionCitas.VentanaGestionProcedimientos;
 
 public class VentanaGestionCita extends JDialog {
 
@@ -55,6 +56,7 @@ public class VentanaGestionCita extends JDialog {
 	 */
 	public VentanaGestionCita(CitaDto cita) {
 		setResizable(false);
+		this.cita=cita;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 707, 507);
 		getContentPane().setLayout(new BorderLayout());
@@ -209,8 +211,21 @@ public class VentanaGestionCita extends JDialog {
 	private JButton getBtnProcedimientos() {
 		if (btnProcedimientos == null) {
 			btnProcedimientos = new JButton("Procedimientos");
+			btnProcedimientos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					abrirVentanaProcedimientos();
+				}
+			});
 		}
 		return btnProcedimientos;
+	}
+
+	private void abrirVentanaProcedimientos() {
+		VentanaGestionProcedimientos dialogo = new VentanaGestionProcedimientos(this.cita);
+		dialogo.setLocationRelativeTo(this);
+		dialogo.setModal(true);
+		dialogo.setVisible(true);
+
 	}
 
 	private JButton getBtnDiagnostico() {
@@ -302,8 +317,9 @@ public class VentanaGestionCita extends JDialog {
 	}
 
 	private void abrirVentanaGestionAntecedentes() {
-		VentanaGestionAntecedentes vGA = new VentanaGestionAntecedentes(cita, this);
+		VentanaGestionAntecedentes vGA = new VentanaGestionAntecedentes(cita);
+		vGA.setLocationRelativeTo(this);
+		vGA.setModal(true);
 		vGA.setVisible(true);
-		this.dispose();
 	}
 }

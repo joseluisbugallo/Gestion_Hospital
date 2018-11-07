@@ -30,7 +30,7 @@ import java.awt.event.ActionEvent;
 public class VentanaGestionAntecedentes extends JDialog {
 
 	private CitaDto cita;
-	VentanaGestionCita vGC;
+	//VentanaGestionCita vGC;
 	private JPanel pnlPrincipal;
 	private JPanel panel;
 	private JLabel lblProdcedimientoRealizado;
@@ -48,9 +48,9 @@ public class VentanaGestionAntecedentes extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VentanaGestionAntecedentes(CitaDto cita, VentanaGestionCita vGC) {
+	public VentanaGestionAntecedentes(CitaDto cita) { //VentanaGestionCita vGC) {
 		this.cita = cita;
-		this.vGC = vGC;
+		//this.vGC = vGC;
 		inicializarMapa();
 		setTitle("Antecedentes del paciente");
 		setResizable(false);
@@ -58,7 +58,7 @@ public class VentanaGestionAntecedentes extends JDialog {
 		setBounds(100, 100, 707, 507);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(getPnlPrincipal());
-		txtAreaAntecedentes.setText(cita.antecedentes);
+		//txtAreaAntecedentes.setText(cita.antecedentes);
 	}
 
 	private JPanel getPnlPrincipal() {
@@ -157,6 +157,11 @@ public class VentanaGestionAntecedentes extends JDialog {
 			txtAreaAntecedentes = new JTextArea();
 			txtAreaAntecedentes.setLineWrap(true);
 			txtAreaAntecedentes.setEditable(false);
+//			if(cita.antecedentes==null) {
+//				txtAreaAntecedentes.setText(" ");
+//			}else {
+//				txtAreaAntecedentes.setText(cita.antecedentes);
+//			}
 		}
 		return txtAreaAntecedentes;
 	}
