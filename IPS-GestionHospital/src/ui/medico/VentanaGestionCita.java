@@ -55,16 +55,26 @@ public class VentanaGestionCita extends JDialog {
 	private JLabel lblTelefono;
 	private JTextField txTelefonoPaciente;
 	private JButton btnCalendarioDeVacunas;
+
+
 	private PacienteDto p;
+
+	
 	private PacientesController pc = new PacientesController();
 	private CitasController cC = new CitasController();
+
 
 	/**
 	 * Create the dialog.
 	 */
 	public VentanaGestionCita(CitaDto cita) {
 		setResizable(false);
+<<<<<<< HEAD
 		this.cita = cC.precargarDatos(cita);
+=======
+		this.cita=cita;
+		
+>>>>>>> b5ecd96a64ef13fb9e9cdc3335440daaae016015
 		cargarDatosPersona();
 		setDefaultCloseOperation(0);
 		setBounds(100, 100, 707, 507);
@@ -78,19 +88,19 @@ public class VentanaGestionCita extends JDialog {
 		pnlPrincipal.add(getBtnAtras());
 		pnlPrincipal.add(getBtnFinalizar());
 		pnlPrincipal.add(getPanel_2());
-
+		
 		txNombrePaciente.setText(pc.findPacientesById(cita.idPaciente).nombre);
 		txTelefonoPaciente.setText(pc.findPacientesById(cita.idPaciente).contacto);
-
+		
 		txSalaCita.setText(cita.sala);
 		txFechaInicioCita.setText(cita.fechainicio.toString());
 		txFechaFinCita.setText(cita.fechafin.toString());
-
+		
 	}
 
 	private void cargarDatosPersona() {
-		 this.p = pc.findPacientesById(this.cita.idPaciente);
-
+		this.p = pc.findPacientesById(this.cita.idPaciente);
+		
 	}
 
 	private JLabel getLblGestinDeLa() {
@@ -367,15 +377,21 @@ public class VentanaGestionCita extends JDialog {
 		vGA.setVisible(true);
 		this.dispose();
 	}
+	
 
 	private void abrirVentanaGestionPrescripcion() {
 		VentanaGestionPrescripciones vGP = new VentanaGestionPrescripciones(cita);
 		vGP.setLocationRelativeTo(this);
 		vGP.setModal(true);
 		vGP.setVisible(true);
+<<<<<<< HEAD
 	
 		this.dispose();
 	}
+=======
+		this.dispose();
+}
+>>>>>>> b5ecd96a64ef13fb9e9cdc3335440daaae016015
 
 	private void abrirVentanaGestionDiagnsticos() {
 		VentanaGestionDiagnosticos vGA = new VentanaGestionDiagnosticos(cita);
