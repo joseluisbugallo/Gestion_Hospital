@@ -193,6 +193,7 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 		if (calendar == null) {
 			calendar = new JCalendar();
 			calendar.setBounds(121, 138, 496, 353);
+			
 		}
 		return calendar;
 	}
