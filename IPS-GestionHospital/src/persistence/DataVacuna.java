@@ -37,6 +37,7 @@ public class DataVacuna extends DataManager {
 				vacuna.vacuna = rs.getString(5);
 				
 				vacunas.add(vacuna);
+				System.out.println(vacuna.toString());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

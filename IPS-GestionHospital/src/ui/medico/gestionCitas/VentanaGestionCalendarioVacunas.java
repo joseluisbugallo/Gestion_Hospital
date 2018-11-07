@@ -100,29 +100,38 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 	private void colorearCalendario() {
 		// TODO Auto-generated method stub
 		VacunaController vc = new VacunaController();
-		ArrayList<VacunaDto> vacunas = vc.getVacunasPaciente(cita.idPaciente);
+		ArrayList<VacunaDto> vacunas = vc.getVacunasPaciente(this.cita.idPaciente);
+		System.out.println("Coloreando"+ cita.idPaciente);
 		for (VacunaDto v: vacunas)
 		{
+			System.out.println("Coloreando");
 			if(v.fechainicio.getMonth() == getCalendar().getMonthChooser().getMonth())
 			{
+				System.out.println("Primer if");
 				if(v.fechafin.getMonth() != getCalendar().getMonthChooser().getMonth())
 				{
 					//colorear hasta final de mes
 					for(int i=v.fechainicio.getDate();i<31;i++)
 					{
-						getCalendar().getDayChooser().getComponent(i).setBackground(new Color(87,166,57));
+						System.out.println("Coloreando");
+						//getCalendar().getDayChooser().getComponent(i).setBackground(new Color(87,166,57));
+						getCalendar().getDayChooser().getComponents()[i].setBackground(new Color(87,166,57));
 					}
 				}
 				else {
 					//colorear de fecha inicio a fecha fin
 					for(int i=v.fechainicio.getDate();i<=v.fechafin.getDate();i++)
 					{
-						getCalendar().getDayChooser().getComponent(i).setBackground(new Color(87,166,57));
+						//getCalendar().getDayChooser().getComponent(i).setBackground(new Color(87,166,57));
+						getCalendar().getDayChooser().getDayPanel().getComponent(i-1).setBackground(new Color(87,166,57));
+						System.out.println("Coloreando: "+ getCalendar().getDayChooser().getDayPanel().getComponent(i-1).getName());
 					}
 				}
 			}
 		}		
 	}
+	
+	
 
 	private void mostrarMensaje(String mess, String title, int icon) {
 		JOptionPane.showMessageDialog(this, mess, title, icon);
@@ -170,13 +179,15 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 					VacunaController vc = new VacunaController();
 					if(!(getTxtVacuna().getText().length()==0)&& getDcInicio().getDate()!=null &&getDcFin().getDate()!=null)
 					{
+						vacuna.idPaciente = cita.idPaciente;
 						vacuna.fechafin=getDcFin().getDate();
 						vacuna.fechainicio= getDcInicio().getDate();
 						vacuna.vacuna = getTxtVacuna().getText();
 						vc.addVacuna(vacuna);
 						mostrarMensaje("Rango de fechas para vacuna añadido", "Vacuna añadida", JOptionPane.INFORMATION_MESSAGE);
+						colorearCalendario();
 					}
-					colorearCalendario();
+					
 				}
 			});
 			btnAadir.setBounds(631, 36, 97, 59);
