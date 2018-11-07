@@ -15,6 +15,7 @@ public class CitaDto {
 	public String procedimientos;
 	public String antecedentes;
 	public String prescripcion;
+	public DiagnosticoDto diagnostico;
 
 	
 	public String mostrarCitaMedico() {

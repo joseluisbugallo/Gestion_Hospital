@@ -57,7 +57,7 @@ public class VentanaGestionCita extends JDialog {
 	public VentanaGestionCita(CitaDto cita) {
 		setResizable(false);
 		this.cita=cita;
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(0);
 		setBounds(100, 100, 707, 507);
 		getContentPane().setLayout(new BorderLayout());
 		pnlPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -321,5 +321,6 @@ public class VentanaGestionCita extends JDialog {
 		vGA.setLocationRelativeTo(this);
 		vGA.setModal(true);
 		vGA.setVisible(true);
+		this.dispose();
 	}
 }
