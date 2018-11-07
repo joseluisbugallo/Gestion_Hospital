@@ -10,14 +10,15 @@ import com.toedter.calendar.JDateChooser;
 import business.CitasController;
 import business.dto.CitaDto;
 
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.DefaultListModel;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaGestionProcedimientos extends JDialog{
 
@@ -31,7 +32,6 @@ public class VentanaGestionProcedimientos extends JDialog{
 	private JTextField textFieldProc;
 	private JButton btnAadir;
 	private JButton btnAceptar;
-	private JButton btnBorrar;
 	private JButton btnCancelar;
 	private JLabel lblProcedimiento;
 	private JDateChooser calendario;
@@ -57,7 +57,6 @@ public class VentanaGestionProcedimientos extends JDialog{
 			panelPrincipal.add(getPanelAddProc());
 			panelPrincipal.add(getPanelProc());
 			panelPrincipal.add(getBtnAceptar());
-			panelPrincipal.add(getBtnBorrar());
 			panelPrincipal.add(getBtnCancelar());
 		}
 		return panelPrincipal;
@@ -97,28 +96,56 @@ public class VentanaGestionProcedimientos extends JDialog{
 	private JButton getBtnAadir() {
 		if (btnAadir == null) {
 			btnAadir = new JButton("A\u00F1adir");
+			btnAadir.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if(getTextFieldProc().getText().isEmpty()) {
+						mostrarMensaje("¡El campo de procedimiento esta en blanco!", "Error: procedimiento vacio", JOptionPane.ERROR_MESSAGE);
+					}else {
+						String p = cc.obtenerProcCita(cita);
+						addProc(p);
+						limpiarPanel();
+					}
+				}
+			});
 			btnAadir.setBounds(536, 122, 97, 25);
 		}
 		return btnAadir;
 	}
+	
+	private void addProc(String p) {
+		p+=textFieldProc.getText() + " ";
+		p+=getCalendario().getDate().toString();
+		p+="\n";
+		textAreaProc.setText(p);
+	}
+	
+	protected void limpiarPanel() {
+		textFieldProc.setText(null);
+		calendario.setDate(null);
+	}
+
+	private void mostrarMensaje(String mess, String title, int icon) {
+		JOptionPane.showMessageDialog(this, mess, title, icon);
+	}
+	
 	private JButton getBtnAceptar() {
 		if (btnAceptar == null) {
 			btnAceptar = new JButton("Aceptar");
+			btnAceptar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					String p = textAreaProc.getText();
+					cc.addProc(cita, p);
+					dispose();
+				}
+			});
 			btnAceptar.setBounds(580, 401, 97, 25);
 		}
 		return btnAceptar;
 	}
-	private JButton getBtnBorrar() {
-		if (btnBorrar == null) {
-			btnBorrar = new JButton("Borrar Proc");
-			btnBorrar.setBounds(453, 401, 115, 25);
-		}
-		return btnBorrar;
-	}
 	private JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Cancelar");
-			btnCancelar.setBounds(344, 401, 97, 25);
+			btnCancelar.setBounds(471, 401, 97, 25);
 		}
 		return btnCancelar;
 	}
@@ -153,11 +180,7 @@ public class VentanaGestionProcedimientos extends JDialog{
 			textAreaProc.setEditable(false);
 			
 			String p = cc.obtenerProcCita(cita);
-			if(p==null) {
-				textAreaProc.setText(" ");
-			}else {
-				textAreaProc.setText(p);
-			}
+			textAreaProc.setText(p);
 		}
 		return textAreaProc;
 	}
