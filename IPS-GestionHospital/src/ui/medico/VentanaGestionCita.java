@@ -22,11 +22,10 @@ import business.PacientesController;
 import business.dto.CitaDto;
 import business.dto.PacienteDto;
 import ui.medico.gestionCitas.VentanaGestionAntecedentes;
-<<<<<<< HEAD
+
 import ui.medico.gestionCitas.VentanaGestionCalendarioVacunas;
 import ui.medico.gestionCitas.VentanaGestionPrescripciones;
-=======
->>>>>>> 122e3b305fe4a9986b17b1a2906477c64600dbe7
+
 import ui.medico.gestionCitas.VentanaGestionDiagnosticos;
 import ui.medico.gestionCitas.VentanaGestionPrescripciones;
 import ui.medico.gestionCitas.VentanaGestionProcedimientos;
