@@ -17,6 +17,13 @@ public class PacientesController {
 			}
 		return pacientes;
 	}
+	
+	public PacienteDto findPacientesById(int id) {
+		PacienteDto pacientes = null;
+		DataPaciente dp = new DataPaciente();
+		pacientes = dp.getPacientePorId(id);
+		return pacientes;
+	}
 
 	public List<PacienteDto> findPacientesByNombre(String nombre) {
 		List<PacienteDto> pacientes = null;

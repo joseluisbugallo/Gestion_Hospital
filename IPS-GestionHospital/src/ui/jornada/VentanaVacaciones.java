@@ -452,7 +452,7 @@ public class VentanaVacaciones extends JFrame {
 									"Las fechas introducidas no son correctas, por favor, cámbielas.",
 									"Fechas incorrectas", JOptionPane.WARNING_MESSAGE);
 						} else {
-							if (existeJornada && jornadasABorrar.size() > 0) {
+							if (existeJornada && jornadasABorrar.size() > 0 && !existenVacaciones) {
 								int respuesta = JOptionPane.showConfirmDialog(contentPane,
 										"Existe una jornada laboral para esas fechas, sí acepta estas jornadas se borrarán, ¿desea continuar?",
 										"Jornadas existentes", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

@@ -20,9 +20,12 @@ import javax.swing.border.TitledBorder;
 
 import business.PacientesController;
 import business.dto.CitaDto;
+import ui.admin.VentanaFijarCita;
 import ui.medico.gestionCitas.VentanaGestionAntecedentes;
 import ui.medico.gestionCitas.VentanaGestionPrescripciones;
+import ui.medico.gestionCitas.VentanaGestionDiagnosticos;
 import ui.medico.gestionCitas.VentanaGestionProcedimientos;
+import ui.medico.gestionCitas.VentanaGestionSintomas;
 
 public class VentanaGestionCita extends JDialog {
 
@@ -32,11 +35,11 @@ public class VentanaGestionCita extends JDialog {
 	private JLabel lblGestinDeLa;
 	private JPanel panel;
 	private JLabel label_2;
-	private JTextField textField_1;
+	private JTextField txSalaCita;
 	private JLabel label_3;
-	private JTextField textField_2;
+	private JTextField txFechaFinCita;
 	private JLabel label_4;
-	private JTextField textField_3;
+	private JTextField txFechaInicioCita;
 	private JPanel panel_1;
 	private JButton btnAtras;
 	private JButton btnFinalizar;
@@ -48,12 +51,17 @@ public class VentanaGestionCita extends JDialog {
 	private JButton btnPrescripcion;
 	private JPanel panel_2;
 	private JLabel lblNombre;
-	private JTextField textField;
+	private JTextField txNombrePaciente;
 	private JLabel lblTelefono;
-	private JTextField textField_4;
+	private JTextField txTelefonoPaciente;
 	private JButton btnCalendarioDeVacunas;
+<<<<<<< HEAD
 	private PacientesController pC;
 	private PacienteDto p;
+=======
+	
+	private PacientesController pc = new PacientesController();
+>>>>>>> f43dcda14f923975e764ae15b7c6c52a7da6e509
 
 	/**
 	 * Create the dialog.
@@ -75,6 +83,14 @@ public class VentanaGestionCita extends JDialog {
 		pnlPrincipal.add(getBtnAtras());
 		pnlPrincipal.add(getBtnFinalizar());
 		pnlPrincipal.add(getPanel_2());
+		
+		txNombrePaciente.setText(pc.findPacientesById(cita.idPaciente).nombre);
+		txTelefonoPaciente.setText(pc.findPacientesById(cita.idPaciente).contacto);
+		
+		txSalaCita.setText(cita.sala);
+		txFechaInicioCita.setText(cita.fechainicio.toString());
+		txFechaFinCita.setText(cita.fechafin.toString());
+		
 	}
 
 	private void cargarDatosPersona() {
@@ -99,11 +115,11 @@ public class VentanaGestionCita extends JDialog {
 			panel.setBounds(357, 77, 332, 176);
 			panel.setLayout(null);
 			panel.add(getLabel_2());
-			panel.add(getTextField_1());
+			panel.add(getTxSalaCita());
 			panel.add(getLabel_3());
-			panel.add(getTextField_2());
+			panel.add(getTxFechaFinCita());
 			panel.add(getLabel_4());
-			panel.add(getTextField_3());
+			panel.add(getTxFechaInicioCita());
 		}
 		return panel;
 	}
@@ -116,14 +132,14 @@ public class VentanaGestionCita extends JDialog {
 		return label_2;
 	}
 
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setBounds(110, 32, 144, 22);
-			textField_1.setEditable(false);
-			textField_1.setColumns(10);
+	private JTextField getTxSalaCita() {
+		if (txSalaCita == null) {
+			txSalaCita = new JTextField();
+			txSalaCita.setBounds(110, 32, 144, 22);
+			txSalaCita.setEditable(false);
+			txSalaCita.setColumns(10);
 		}
-		return textField_1;
+		return txSalaCita;
 	}
 
 	private JLabel getLabel_3() {
@@ -134,14 +150,14 @@ public class VentanaGestionCita extends JDialog {
 		return label_3;
 	}
 
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setBounds(110, 118, 144, 22);
-			textField_2.setEditable(false);
-			textField_2.setColumns(10);
+	private JTextField getTxFechaFinCita() {
+		if (txFechaFinCita == null) {
+			txFechaFinCita = new JTextField();
+			txFechaFinCita.setBounds(110, 118, 144, 22);
+			txFechaFinCita.setEditable(false);
+			txFechaFinCita.setColumns(10);
 		}
-		return textField_2;
+		return txFechaFinCita;
 	}
 
 	private JLabel getLabel_4() {
@@ -152,14 +168,14 @@ public class VentanaGestionCita extends JDialog {
 		return label_4;
 	}
 
-	private JTextField getTextField_3() {
-		if (textField_3 == null) {
-			textField_3 = new JTextField();
-			textField_3.setBounds(110, 76, 144, 22);
-			textField_3.setEditable(false);
-			textField_3.setColumns(10);
+	private JTextField getTxFechaInicioCita() {
+		if (txFechaInicioCita == null) {
+			txFechaInicioCita = new JTextField();
+			txFechaInicioCita.setBounds(110, 76, 144, 22);
+			txFechaInicioCita.setEditable(false);
+			txFechaInicioCita.setColumns(10);
 		}
-		return textField_3;
+		return txFechaInicioCita;
 	}
 
 	private JPanel getPanel_1() {
@@ -242,6 +258,11 @@ public class VentanaGestionCita extends JDialog {
 	private JButton getBtnDiagnostico() {
 		if (btnDiagnostico == null) {
 			btnDiagnostico = new JButton("Diagnostico");
+			btnDiagnostico.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					abrirVentanaGestionDiagnsticos();
+				}
+			});
 		}
 		return btnDiagnostico;
 	}
@@ -249,6 +270,13 @@ public class VentanaGestionCita extends JDialog {
 	private JButton getBtnSintomas() {
 		if (btnSintomas == null) {
 			btnSintomas = new JButton("Sintomas");
+			btnSintomas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					VentanaGestionSintomas vgs = new VentanaGestionSintomas(cita);
+					vgs.setVisible(true);
+					vgs.setLocationRelativeTo(null);
+				}
+			});
 		}
 		return btnSintomas;
 	}
@@ -273,9 +301,9 @@ public class VentanaGestionCita extends JDialog {
 					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel_2.setBounds(12, 77, 333, 176);
 			panel_2.add(getLblNombre());
-			panel_2.add(getTextField());
+			panel_2.add(getTxNombrePaciente());
 			panel_2.add(getLblTelefono());
-			panel_2.add(getTextField_4());
+			panel_2.add(getTxTelefonoPaciente());
 			panel_2.add(getBtnCalendarioDeVacunas());
 		}
 		return panel_2;
@@ -289,14 +317,14 @@ public class VentanaGestionCita extends JDialog {
 		return lblNombre;
 	}
 
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setEditable(false);
-			textField.setColumns(10);
-			textField.setBounds(92, 24, 198, 22);
+	private JTextField getTxNombrePaciente() {
+		if (txNombrePaciente == null) {
+			txNombrePaciente = new JTextField();
+			txNombrePaciente.setEditable(false);
+			txNombrePaciente.setColumns(10);
+			txNombrePaciente.setBounds(92, 24, 198, 22);
 		}
-		return textField;
+		return txNombrePaciente;
 	}
 
 	private JLabel getLblTelefono() {
@@ -307,14 +335,14 @@ public class VentanaGestionCita extends JDialog {
 		return lblTelefono;
 	}
 
-	private JTextField getTextField_4() {
-		if (textField_4 == null) {
-			textField_4 = new JTextField();
-			textField_4.setEditable(false);
-			textField_4.setColumns(10);
-			textField_4.setBounds(92, 75, 198, 22);
+	private JTextField getTxTelefonoPaciente() {
+		if (txTelefonoPaciente == null) {
+			txTelefonoPaciente = new JTextField();
+			txTelefonoPaciente.setEditable(false);
+			txTelefonoPaciente.setColumns(10);
+			txTelefonoPaciente.setBounds(92, 75, 198, 22);
 		}
-		return textField_4;
+		return txTelefonoPaciente;
 	}
 
 	private JButton getBtnCalendarioDeVacunas() {
@@ -340,11 +368,19 @@ public class VentanaGestionCita extends JDialog {
 		this.dispose();
 	}
 	
+<<<<<<< HEAD
 	private void abrirVentanaGestionPrescripcion() {
 		VentanaGestionPrescripciones vGP = new VentanaGestionPrescripciones(cita);
 		vGP.setLocationRelativeTo(this);
 		vGP.setModal(true);
 		vGP.setVisible(true);
+=======
+	private void abrirVentanaGestionDiagnsticos() {
+		VentanaGestionDiagnosticos vGA = new VentanaGestionDiagnosticos(cita);
+		vGA.setLocationRelativeTo(this);
+		vGA.setModal(true);
+		vGA.setVisible(true);
+>>>>>>> f43dcda14f923975e764ae15b7c6c52a7da6e509
 		this.dispose();
 	}
 }
