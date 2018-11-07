@@ -71,7 +71,7 @@ public class VentanaJornadaLaboral extends JFrame {
 	private JTextField textField;
 	private JPanel panelBuscador;
 	private JLabel lblSeleccionarEmpleado;
-	//private JList<EmpleadoDto> listEmpleados;
+
 	private JTextField textFieldBuscarDni;
 	private JButton buttonBuscarDni;
 	private JTextField textFieldBuscarNombre;
@@ -85,14 +85,16 @@ public class VentanaJornadaLaboral extends JFrame {
 	private JList<EmpleadoDto> listEmpleados;
 
 	private EmpleadoDto empleado;
-	
+
+	private boolean camposRellenados;
+
 	private CardLayout c;
 
 	/**
 	 * Create the frame.
 	 */
 	public VentanaJornadaLaboral() {
-		c= new CardLayout();
+		c = new CardLayout();
 		setResizable(false);
 		setTitle("Asignar jornada laboral a m\u00E9dicos o enfermeros");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -160,13 +162,16 @@ public class VentanaJornadaLaboral extends JFrame {
 			btnSiguiente.setBounds(487, 373, 97, 25);
 			btnSiguiente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-//					comprobarCampos();
-					jc.asignarJornada(getInicioDate(), getFinDate(), getTextAreaDias().getText().toString(),
-							empleado.id);
-					JOptionPane.showMessageDialog(contentPane, "Jornada asignada correctamente", "Confirmado",
-							JOptionPane.PLAIN_MESSAGE);
-					inicializar();
-					dispose();
+					comprobarCampos();
+					if (camposRellenados) {
+//						jc.asignarJornada(getInicioDate(), getFinDate(), getTextAreaDias().getText().toString(),
+//								empleado.id);
+//						JOptionPane.showMessageDialog(contentPane, "Jornada asignada correctamente", "Confirmado",
+//								JOptionPane.PLAIN_MESSAGE);
+//						inicializar();
+//						dispose();
+					}
+
 				}
 			});
 			btnSiguiente.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -326,22 +331,27 @@ public class VentanaJornadaLaboral extends JFrame {
 		return getTextAreaDias().getText();
 	}
 
-//	public void muestraDialogo() {
-//		VentanaConfirmacionJornada dialogo = new VentanaConfirmacionJornada(
-//				(EmpleadoDto) cmbxEmpleados.getSelectedItem(), this);
-//		dialogo.setLocationRelativeTo(this);
-//		dialogo.setModal(true);
-//		dialogo.setVisible(true);
-//	}
+	public void muestraDialogo() {
+		VentanaConfirmacionJornada dialogo = new VentanaConfirmacionJornada(listEmpleados.getSelectedValue(), this);
+		dialogo.setLocationRelativeTo(this);
+		dialogo.setModal(true);
+		dialogo.setVisible(true);
+	}
 
-//	public void comprobarCampos() {
-//		if ((!chckbxMedico.isSelected() && !chckbxEnfermero.isSelected()) || cmbxEmpleados.getSelectedItem() == null
-//				|| dcFin.getDate() == null || dcInicio.getDate() == null || textAreaDias.getText().isEmpty()) {
-//			JOptionPane.showMessageDialog(this, "Rellene todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
-//		} else {
-//			muestraDialogo();
-//		}
-//	}
+	public void comprobarCampos() {
+		camposRellenados = false;
+		if ((!chckbxMedico.isSelected() && !chckbxEnfermero.isSelected()) || listEmpleados.getSelectedValue() == null
+				|| dcFin.getDate() == null || dcInicio.getDate() == null || textAreaDias.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Rellene todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+		} else if (dcFin.getDate().before(dcInicio.getDate())) {
+			JOptionPane.showMessageDialog(this, "Las fechas son incompatibles", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		else {
+			camposRellenados = true;
+			muestraDialogo();
+		}
+	}
+
 	private JButton getBtnSeleccionarEmpleado() {
 		if (btnSeleccionarEmpleado == null) {
 			btnSeleccionarEmpleado = new JButton("Seleccionar empleado");
