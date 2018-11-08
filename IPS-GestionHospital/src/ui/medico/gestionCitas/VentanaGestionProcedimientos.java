@@ -49,6 +49,7 @@ public class VentanaGestionProcedimientos extends JDialog{
 		getContentPane().add(getPanelPrincipal(), BorderLayout.CENTER);	
 		textAreaProc.setText(cc.getCitaById(cita.id).procedimientos);
 		this.cita=cita;
+		//System.out.println(cita);
 	}
 	
 	private JPanel getPanelPrincipal() {
@@ -99,9 +100,13 @@ public class VentanaGestionProcedimientos extends JDialog{
 			btnAadir = new JButton("A\u00F1adir");
 			btnAadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					String p = textAreaProc.getText();
-					addProc(p);
-					limpiarPanel();
+					if(textFieldProc.getText().isEmpty()) {
+						mostrarMensaje("¡Procedimientos vacío!", "Campo vacío", JOptionPane.ERROR_MESSAGE);
+					}else {
+						String p = textAreaProc.getText();
+						addProc(p);
+						limpiarPanel();
+					}
 				}
 			});
 			btnAadir.setBounds(536, 122, 97, 25);
@@ -130,11 +135,14 @@ public class VentanaGestionProcedimientos extends JDialog{
 			btnAceptar = new JButton("Aceptar");
 			btnAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					String p = textAreaProc.getText();
-					cc.addProc(cita, p);
-					//System.out.println(cc.obtenerProcCita(cita));
-					mostrarMensaje("¡Se han añadido procedimientos!", "Procedimiento añadido", JOptionPane.DEFAULT_OPTION);
-					dispose();
+					if(textAreaProc.getText().isEmpty()) {
+						mostrarMensaje("¡Procedimientos vacío!", "Campo vacío", JOptionPane.ERROR_MESSAGE);
+					}else {
+						String p = textAreaProc.getText();
+						cc.addProc(cita, p);
+						mostrarMensaje("¡Se han añadido procedimientos!", "Procedimiento añadido", JOptionPane.DEFAULT_OPTION);
+						dispose();
+					}
 				}
 			});
 			btnAceptar.setBounds(580, 401, 97, 25);
@@ -174,9 +182,6 @@ public class VentanaGestionProcedimientos extends JDialog{
 			textAreaProc.setLineWrap(true);
 			textAreaProc.setWrapStyleWord(true);
 			textAreaProc.setEditable(false);
-			
-			//String p = cc.obtenerProcCita(cita);
-			//textAreaProc.setText(p);
 		}
 		return textAreaProc;
 	}
@@ -184,6 +189,7 @@ public class VentanaGestionProcedimientos extends JDialog{
 		if (calendario == null) {
 			calendario = new JDateChooser();
 			calendario.setBounds(12, 122, 129, 22);
+			calendario.setDate(new java.util.Date());
 		}
 		return calendario;
 	}

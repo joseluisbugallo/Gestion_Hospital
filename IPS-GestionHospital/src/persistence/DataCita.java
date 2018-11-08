@@ -18,7 +18,7 @@ public class DataCita extends DataManager {
 	private static final String SQL_DELETE_CITA = "Delete from cita where idcita=?";
 	private static final String SQL_UPDATE_CITA = "Update cita set urgente=?, fechainicio=?,"
 			+ " fechafin=?, idpaciente=?, idempleado=?, sala=?,procedimientos=?, antecedentes=?, prescripciones=? where idcita=?";
-	private static final String SQL_UPDATE_PROC = "Update cita set procedimientos=?";
+	private static final String SQL_UPDATE_PROC = "Update cita set procedimientos=? where idcita=?";
 	private static final String SQL_UPDATE_SINTOMAS = "Update cita set sintomas=? where idcita=?";
 	//(VIC) TIRO DEL UPDATE_CITA-->
 	//	private static final String SQL_UPDATE_PRESCRIPCIONES= "Update cita set prescripciones=? where idcita=?";
@@ -147,7 +147,8 @@ public class DataCita extends DataManager {
 		try {
 			st = getConexion().prepareStatement(SQL_UPDATE_PROC);
 			st.setString(1, cita.procedimientos);
-
+			st.setInt(2,cita.id);
+			
 			st.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -194,6 +195,7 @@ public class DataCita extends DataManager {
 				cita.antecedentes =rs.getString(8);
 				cita.sintomas= rs.getString(9);
 				cita.prescripcion= rs.getString(10);
+				cita.procedimientos=rs.getString(11);
 				citas.add(cita);
 			}
 		} catch (SQLException e) {
