@@ -21,6 +21,7 @@ import business.CitasController;
 import business.PacientesController;
 import business.dto.CitaDto;
 import business.dto.PacienteDto;
+import ui.medico.gestionCitas.VentanaConsultaHistorial;
 import ui.medico.gestionCitas.VentanaGestionAntecedentes;
 
 import ui.medico.gestionCitas.VentanaGestionCalendarioVacunas;
@@ -217,6 +218,11 @@ public class VentanaGestionCita extends JDialog {
 	private JButton getBtnHistorial() {
 		if (btnHistorial == null) {
 			btnHistorial = new JButton("Historial");
+			btnHistorial.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					abrirVentanaConsultaHistorial();
+				}
+			});
 		}
 		return btnHistorial;
 	}
@@ -398,6 +404,14 @@ public class VentanaGestionCita extends JDialog {
 		vGA.setModal(true);
 		vGA.setVisible(true);
 
+		this.dispose();
+	}
+	
+	private void abrirVentanaConsultaHistorial() {
+		VentanaConsultaHistorial vCH = new VentanaConsultaHistorial(cita);
+		vCH.setLocationRelativeTo(this);
+		vCH.setModal(true);
+		vCH.setVisible(true);
 		this.dispose();
 	}
 }

@@ -41,19 +41,11 @@ public class VentanaCitasMedico extends JFrame {
 	private JLabel lblListadoDeCitas;
 	private JPanel pnlListadoCitas;
 	private JPanel pnlBotonConsulta;
-	private JButton btnConsulta;
 	private JPanel panel;
-	private JPanel pnlConsultaCita;
-	private JPanel pnlBotonAtras;
-	private JButton btnAtras;
-	private JPanel pnlInfoCosulta;
 	private JList<CitaDto> lsCitas;
 	private DefaultListModel<CitaDto> modeloCitas;
 	private EmpleadoDto medico;
 	private CitasController citasController;
-	private JLabel lblInformacinSobreLa;
-	private JPanel pnlInfoHistorial;
-	private JTextArea txtInfoHistorial;
 	private JPanel pnlCentral;
 	private JDateChooser calendario;
 	private JPanel panel_1;
@@ -113,7 +105,6 @@ public class VentanaCitasMedico extends JFrame {
 			FlowLayout fl_pnlBotonConsulta = (FlowLayout) pnlBotonConsulta.getLayout();
 			fl_pnlBotonConsulta.setAlignment(FlowLayout.RIGHT);
 			pnlBotonConsulta.add(getBtnGestionar());
-			pnlBotonConsulta.add(getBtnConsulta());
 		}
 		return pnlBotonConsulta;
 	}
@@ -126,7 +117,7 @@ public class VentanaCitasMedico extends JFrame {
 				public void mouseClicked(MouseEvent e) {
 					CitaDto seleccion = lsCitas.getSelectedValue();
 					if (seleccion != null) {
-						btnConsulta.setEnabled(true);
+						btnGestionar.setEnabled(true);
 
 					}
 				}
@@ -143,106 +134,9 @@ public class VentanaCitasMedico extends JFrame {
 			panel = new JPanel();
 			panel.setLayout(c);
 			panel.add(getPnlListadoCitas(), "PanelListadoCitas");
-			panel.add(getPnlConsultaCita(), "PanelConsultaCita");
 			panel.add(getPnGestionCita(), "pnGestion");
 		}
 		return panel;
-	}
-
-	private JPanel getPnlConsultaCita() {
-		if (pnlConsultaCita == null) {
-			pnlConsultaCita = new JPanel();
-			pnlConsultaCita.setLayout(new BorderLayout(0, 0));
-			pnlConsultaCita.add(getLblInformacinSobreLa(), BorderLayout.NORTH);
-			pnlConsultaCita.add(getPnlInfoConsulta(), BorderLayout.CENTER);
-			pnlConsultaCita.add(getPnlBotonAtras(), BorderLayout.SOUTH);
-		}
-		return pnlConsultaCita;
-	}
-
-	private JButton getBtnConsulta() {
-		if (btnConsulta == null) {
-			btnConsulta = new JButton("Consultar");
-			btnConsulta.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (getLsCitas().isSelectionEmpty()) {
-						mostrarMensaje("Debe seleccionar una cita para consultar!", "Error: No hay cita seleccionada",
-								JOptionPane.ERROR_MESSAGE);
-					} else {
-						
-						
-						c.show(getPanel(), "PanelConsultaCita");
-						getTxtInfoHistorial().setText(
-								citasController.cargarDatosHistorial(getLsCitas().getSelectedValue().idPaciente));
-						// TODO hay que cargar toda la información una vez seleccionemos todo
-					}
-				}
-			});
-			btnConsulta.setEnabled(false);
-		}
-		return btnConsulta;
-	}
-
-	private JPanel getPnlBotonAtras() {
-		if (pnlBotonAtras == null) {
-			pnlBotonAtras = new JPanel();
-			pnlBotonAtras.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
-			pnlBotonAtras.add(getBtnAtras());
-		}
-		return pnlBotonAtras;
-	}
-
-	private JButton getBtnAtras() {
-		if (btnAtras == null) {
-			btnAtras = new JButton("Atr\u00E1s");
-			btnAtras.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					c.show(getPanel(), "PanelListadoCitas");
-					getTxtInfoHistorial().setText("");
-				}
-			});
-		}
-		return btnAtras;
-	}
-
-	private JPanel getPnlInfoConsulta() {
-		if (pnlInfoCosulta == null) {
-			pnlInfoCosulta = new JPanel();
-			pnlInfoCosulta.setLayout(new BorderLayout(0, 0));
-			pnlInfoCosulta.add(getPnlInfoHistorial(), BorderLayout.CENTER);
-		}
-		return pnlInfoCosulta;
-	}
-
-	private JLabel getLblInformacinSobreLa() {
-		if (lblInformacinSobreLa == null) {
-			lblInformacinSobreLa = new JLabel("Informaci\u00F3n sobre la cita");
-			lblInformacinSobreLa.setHorizontalAlignment(SwingConstants.CENTER);
-			lblInformacinSobreLa.setFont(new Font("Tahoma", Font.PLAIN, 38));
-		}
-		return lblInformacinSobreLa;
-	}
-
-	private JPanel getPnlInfoHistorial() {
-		if (pnlInfoHistorial == null) {
-			pnlInfoHistorial = new JPanel();
-			pnlInfoHistorial.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Historial:",
-					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			pnlInfoHistorial.setLayout(new BorderLayout(0, 0));
-			pnlInfoHistorial.add(getTxtInfoHistorial(), BorderLayout.CENTER);
-		}
-		return pnlInfoHistorial;
-	}
-
-	private JTextArea getTxtInfoHistorial() {
-		if (txtInfoHistorial == null) {
-			txtInfoHistorial = new JTextArea();
-			txtInfoHistorial.setLineWrap(true);
-			txtInfoHistorial.setFont(new Font("Monospaced", Font.PLAIN, 16));
-			txtInfoHistorial.setEditable(false);
-			txtInfoHistorial.setRows(10);
-		}
-		return txtInfoHistorial;
 	}
 
 	private void mostrarMensaje(String mess, String title, int icon) {
@@ -316,6 +210,7 @@ public class VentanaCitasMedico extends JFrame {
 	private JButton getBtnGestionar() {
 		if (btnGestionar == null) {
 			btnGestionar = new JButton("Gestionar");
+			btnGestionar.setEnabled(false);
 			btnGestionar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if (lsCitas.getSelectedValue() != null) {
@@ -376,7 +271,9 @@ public class VentanaCitasMedico extends JFrame {
 	}
 
 	private void abrirVentanaGestionCita(CitaDto cita) {
-		VentanaGestionCita vGC = new VentanaGestionCita(cita);
+		CitaDto c = citasController.getCitaById(cita.id);
+		CitaDto aux = citasController.precargarDatos(c);
+		VentanaGestionCita vGC = new VentanaGestionCita(aux);
 		vGC.setVisible(true);
 		vGC.setLocationRelativeTo(this);
 	}

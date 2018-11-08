@@ -289,6 +289,7 @@ public class VentanaGestionDiagnosticos extends JDialog {
 		if(respuesta==JOptionPane.YES_OPTION) {
 			VentanaGestionCita v = new VentanaGestionCita(cita);
 			v.setVisible(true);
+			v.setLocationRelativeTo(this);
 			this.dispose();
 		}
 	}
@@ -329,6 +330,7 @@ public class VentanaGestionDiagnosticos extends JDialog {
 				}
 			}
 			VentanaGestionCita v = new VentanaGestionCita(this.cita);
+			v.setLocationRelativeTo(this);
 			v.setVisible(true);
 			this.dispose();
 		}

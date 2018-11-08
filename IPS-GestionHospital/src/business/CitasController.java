@@ -51,6 +51,16 @@ public class CitasController {
 		return historial.datos;
 	}
 	
+	public HistorialDto obtenerHistorial(int idPaciente) {
+		HistorialDto historial = new HistorialDto();
+		DataHistorial dH = new DataHistorial();
+		historial = dH.getHistorialByPaciente(idPaciente);
+		if(historial.idPaciente!=idPaciente) {
+			return null;
+		}
+		return historial;
+	}
+	
 	public List<CitaDto> getListadoCompletoDecitas() {
 		List<CitaDto> citas =null;
 		DataCita dC = new DataCita();
