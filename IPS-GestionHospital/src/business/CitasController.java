@@ -104,8 +104,9 @@ public class CitasController {
 	}
 	
 	public String obtenerProcCita (CitaDto cita){
-		if(cita.procedimientos != null) {
-			return cita.procedimientos;
+		CitaDto c=getCitaById(cita.id);
+		if(c.procedimientos != null) {
+			return c.procedimientos;
 		}
 		else {
 			return " ";

@@ -43,11 +43,12 @@ public class VentanaGestionProcedimientos extends JDialog{
 	
 	public VentanaGestionProcedimientos(CitaDto cita) {
 		this.cc = new CitasController();
-		this.cita=cita;
+		//this.cita=cita;
 		setBounds(100, 100, 707, 507);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		getContentPane().add(getPanelPrincipal(), BorderLayout.CENTER);
-		
+		getContentPane().add(getPanelPrincipal(), BorderLayout.CENTER);	
+		textAreaProc.setText(cc.getCitaById(cita.id).procedimientos);
+		this.cita=cita;
 	}
 	
 	private JPanel getPanelPrincipal() {
@@ -98,13 +99,9 @@ public class VentanaGestionProcedimientos extends JDialog{
 			btnAadir = new JButton("A\u00F1adir");
 			btnAadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if(getTextFieldProc().getText().isEmpty()) {
-						mostrarMensaje("¡El campo de procedimiento esta en blanco!", "Error: procedimiento vacio", JOptionPane.ERROR_MESSAGE);
-					}else {
-						String p = cc.obtenerProcCita(cita);
-						addProc(p);
-						limpiarPanel();
-					}
+					String p = textAreaProc.getText();
+					addProc(p);
+					limpiarPanel();
 				}
 			});
 			btnAadir.setBounds(536, 122, 97, 25);
@@ -133,11 +130,9 @@ public class VentanaGestionProcedimientos extends JDialog{
 			btnAceptar = new JButton("Aceptar");
 			btnAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if(getTextFieldProc().getText().isEmpty()) {
-						mostrarMensaje("¡El campo de procedimientos esta en blanco!", "Error:no se ha especificado antecedente", JOptionPane.ERROR_MESSAGE);
-					}
 					String p = textAreaProc.getText();
 					cc.addProc(cita, p);
+					//System.out.println(cc.obtenerProcCita(cita));
 					mostrarMensaje("¡Se han añadido procedimientos!", "Procedimiento añadido", JOptionPane.DEFAULT_OPTION);
 					dispose();
 				}
@@ -180,8 +175,8 @@ public class VentanaGestionProcedimientos extends JDialog{
 			textAreaProc.setWrapStyleWord(true);
 			textAreaProc.setEditable(false);
 			
-			String p = cc.obtenerProcCita(cita);
-			textAreaProc.setText(p);
+			//String p = cc.obtenerProcCita(cita);
+			//textAreaProc.setText(p);
 		}
 		return textAreaProc;
 	}
