@@ -15,8 +15,10 @@ public class DataDiagnostico extends DataManager {
 	
 	private static final String SQL_SELECT_DIAGNOSTICOS = "Select * from cie10";
 	private static final String SQL_SELECT_DIAGNOSTICOS_DE_CITA = "Select * from cie10 where id10 in( select idcie10 from diagnosticosdecitas where idcita = ?)";
-	private static final String SQL_INSERT_DIAGNOSTICO_DE_CITA = "Insert into diagnosticosdecita (idCita, idcie)" + "values (?, ?)";
+	private static final String SQL_INSERT_DIAGNOSTICO_DE_CITA = "Insert into diagnosticosdecitas (idCita, idcie10)" + "values (?, ?)";
 
+	private static final String SQL_DELETE_DIAGNOSTICOS_DE_CITA = "Delete from diagnosticosdecitas where idcita=?";
+	
 	public ArrayList<DiagnosticoDto> list() {
 		ArrayList<DiagnosticoDto> diagnosticos = null;
 		PreparedStatement st = null;
@@ -81,6 +83,23 @@ public class DataDiagnostico extends DataManager {
 			Jdbc.close(rs, st);
 		}
 		
+	}
+
+
+	public void borrarDiagnosticosCita(int id) {
+		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = getConexion().prepareStatement(SQL_DELETE_DIAGNOSTICOS_DE_CITA);
+			st.setInt(1,  id);
+
+			st.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Jdbc.close(rs, st);
+		}
 	}
 
 }

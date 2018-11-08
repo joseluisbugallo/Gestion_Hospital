@@ -1,6 +1,12 @@
 package business.dto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import business.PacientesController;
+import business.enums.TiposAntecedentes;
 
 
 public class CitaDto {
@@ -12,23 +18,27 @@ public class CitaDto {
 	public int idPaciente;
 	public int idEmpleado;
 	public String sala;
-	public String sintomas;
-	public String procedimientos;
-	public String antecedentes;
-	public String prescripcion;
+	public String sintomas="";
+	public String procedimientos="";
+	public String antecedentes="";
+	public String prescripcion="";
 	public ArrayList<DiagnosticoDto> diagnostico= new ArrayList<DiagnosticoDto>();
+	
+	//DATOS AUXILIARES PARA TRATAR MI VENTANA(VIC)
+	public List<String> listadoPrescripciones= new ArrayList<>();
+	public Map<TiposAntecedentes, List<String>> mapaAntecedentes = new HashMap<>();
 
 	
 	public String mostrarCitaMedico() {
+		PacientesController pc = new PacientesController();
 		return "Hora inicio:"+ fechainicio.getHours() + ":"+ fechainicio.getMinutes() + " Hora fin:" + fechafin.getHours()+
-				":"+fechafin.getMinutes()+ "  Paciente: "+ idPaciente + " En la sala: "+ sala ;
+				":"+fechafin.getMinutes()+ "  Paciente: "+ pc.findPacientesById(idPaciente).nombre + " En la sala: "+ sala ;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Cita: id" + id + ",  ¿Es urgente?" + urgente + ", Fecha inicio:" + fechainicio + ", Fecha fin:" + fechafin
-				+ ", idPaciente=" + idPaciente + ", idEmpleado=" + idEmpleado + ", sala=" + sala;
+		return mostrarCitaMedico();
 	}
 	
 	

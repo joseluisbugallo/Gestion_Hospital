@@ -51,8 +51,8 @@ public class DataJornada extends DataManager {
 		try {
 			st = getConexion().prepareStatement(SQL_INSERT_JORNADA);
 			st.setInt(1, jornada.idempleado);
-			st.setTimestamp(3, new Timestamp(jornada.fechainicio.getTime()));
-			st.setTimestamp(2, new Timestamp(jornada.fechafin.getTime()));
+			st.setTimestamp(2, new Timestamp(jornada.fechainicio.getTime()));
+			st.setTimestamp(3, new Timestamp(jornada.fechafin.getTime()));
 			
 
 			st.executeUpdate();
@@ -84,8 +84,8 @@ public class DataJornada extends DataManager {
 		try {
 			st = getConexion().prepareStatement(SQL_UPDATE_JORNADA);
 			st.setInt(1, jornada.idempleado);
-			st.setTimestamp(3, new Timestamp(jornada.fechainicio.getTime()));
-			st.setTimestamp(2, new Timestamp(jornada.fechafin.getTime()));
+			st.setTimestamp(2, new Timestamp(jornada.fechainicio.getTime()));
+			st.setTimestamp(3, new Timestamp(jornada.fechafin.getTime()));
 			
 			st.setInt(4, jornada.id);
 

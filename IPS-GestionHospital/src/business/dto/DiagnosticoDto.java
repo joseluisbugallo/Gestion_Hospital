@@ -15,7 +15,7 @@ public class DiagnosticoDto {
 	
 	@Override
 	public String toString() {
-		return "DiagnosticoDto [id=" + id + ", diagnostico=" + diagnostico + ", grupo=" + grupo + "]";
+		return  id + ": "+ diagnostico;
 	}	
 
 }

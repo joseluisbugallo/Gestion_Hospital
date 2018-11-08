@@ -104,4 +104,17 @@ public class JornadaController {
 
 	}
 
+	public List<JornadaLaboralDto> getJornadasByEmpleado(EmpleadoDto empleado) {
+		DataJornada dj = new DataJornada();
+		return dj.listJornadasByEmpleado(empleado.id);
+	}
+
+	public void eliminarJornadas(List<JornadaLaboralDto> jornadas) {
+		DataJornada dj = new DataJornada();
+		for (JornadaLaboralDto jornada: jornadas) {
+			dj.delete(jornada);
+		}
+		
+	}
+
 }

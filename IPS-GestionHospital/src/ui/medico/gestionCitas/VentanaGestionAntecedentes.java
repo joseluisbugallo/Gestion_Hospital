@@ -6,6 +6,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import business.CitasController;
 import business.dto.CitaDto;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
@@ -44,13 +45,13 @@ public class VentanaGestionAntecedentes extends JDialog {
 	private JComboBox<TiposAntecedentes> comboBox;
 	Map<TiposAntecedentes, List<String>> antecedentes = new HashMap<>();
 	private JButton btnReiniciar;
+	CitasController cC= new CitasController();
 
 	/**
 	 * Create the dialog.
 	 */
 	public VentanaGestionAntecedentes(CitaDto cita) { //VentanaGestionCita vGC) {
 		this.cita = cita;
-		//this.vGC = vGC;
 		inicializarMapa();
 		setTitle("Antecedentes del paciente");
 		setResizable(false);
@@ -58,7 +59,7 @@ public class VentanaGestionAntecedentes extends JDialog {
 		setBounds(100, 100, 707, 507);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(getPnlPrincipal());
-		//txtAreaAntecedentes.setText(cita.antecedentes);
+		txtAreaAntecedentes.setText(cita.antecedentes);
 	}
 
 	private JPanel getPnlPrincipal() {
@@ -157,11 +158,6 @@ public class VentanaGestionAntecedentes extends JDialog {
 			txtAreaAntecedentes = new JTextArea();
 			txtAreaAntecedentes.setLineWrap(true);
 			txtAreaAntecedentes.setEditable(false);
-//			if(cita.antecedentes==null) {
-//				txtAreaAntecedentes.setText(" ");
-//			}else {
-//				txtAreaAntecedentes.setText(cita.antecedentes);
-//			}
 		}
 		return txtAreaAntecedentes;
 	}
@@ -211,7 +207,9 @@ public class VentanaGestionAntecedentes extends JDialog {
 		
 		if(respuesta==JOptionPane.YES_OPTION) {
 			VentanaGestionCita v = new VentanaGestionCita(cita);
+			v.setLocationRelativeTo(this);
 			v.setVisible(true);
+			getTxtAreaAntecedentes().setText("");
 			this.dispose();
 		}
 	}
@@ -222,9 +220,11 @@ public class VentanaGestionAntecedentes extends JDialog {
 		
 		if(respuesta==JOptionPane.YES_OPTION) {
 			this.cita.antecedentes=getTxtAreaAntecedentes().getText();
+			cC.actualizarCita(cita);
 			VentanaGestionCita v = new VentanaGestionCita(this.cita);
-			v.setLocationRelativeTo(null);
+			v.setLocationRelativeTo(this);
 			v.setVisible(true);
+			getTxtAreaAntecedentes().setText("");
 			this.dispose();
 		}
 	}
