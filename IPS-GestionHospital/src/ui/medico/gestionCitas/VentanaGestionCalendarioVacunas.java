@@ -21,6 +21,8 @@ import ui.medico.VentanaGestionCita;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
@@ -118,7 +120,21 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 							System.out.println("Coloreando");
 							// getCalendar().getDayChooser().getComponent(i).setBackground(new
 							// Color(87,166,57));
-							getCalendar().getDayChooser().getDayPanel().getComponent(i - 1 + 10)
+							Date date = new Date();
+							date.setMonth(getCalendar().getMonthChooser().getMonth());
+							date.setDate(1);
+							
+							Calendar c = Calendar.getInstance();
+							c.setTime(date);
+							c.setFirstDayOfWeek(c.MONDAY);
+							
+							int a = 0;
+							if(date.getDay() == 0)
+								a= 6;
+							else 
+								a= date.getDay()-1;
+							
+							getCalendar().getDayChooser().getDayPanel().getComponent(i +a + 7 -1)
 									.setBackground(new Color(87, 166, 57));
 						}
 					} else {
@@ -126,7 +142,21 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 						for (int i = v.fechainicio.getDate(); i <= v.fechafin.getDate(); i++) {
 							// getCalendar().getDayChooser().getComponent(i).setBackground(new
 							// Color(87,166,57));
-							getCalendar().getDayChooser().getDayPanel().getComponent(i - 1 + 10)
+							Date date = new Date();
+							date.setMonth(getCalendar().getMonthChooser().getMonth());
+							date.setDate(1);
+							Calendar c = Calendar.getInstance();
+							c.setTime(date);
+							c.setFirstDayOfWeek(c.MONDAY);
+							int a = 0;
+							if(date.getDay() == 0)
+								a= 6;
+							else 
+								a= date.getDay()-1;
+							System.out.println("##################");
+							System.out.println(a+"  +"+ i);
+							System.out.println("##################");
+							getCalendar().getDayChooser().getDayPanel().getComponent(i +a + 7 -1 )
 									.setBackground(new Color(87, 166, 57));
 							System.out.println("Coloreando: "
 									+ getCalendar().getDayChooser().getDayPanel().getComponent(i - 1).getName());
