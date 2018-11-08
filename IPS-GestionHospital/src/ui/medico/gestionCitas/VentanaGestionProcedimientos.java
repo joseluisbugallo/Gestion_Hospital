@@ -133,6 +133,9 @@ public class VentanaGestionProcedimientos extends JDialog{
 			btnAceptar = new JButton("Aceptar");
 			btnAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					if(getTextFieldProc().getText().isEmpty()) {
+						mostrarMensaje("¡El campo de procedimientos esta en blanco!", "Error:no se ha especificado antecedente", JOptionPane.ERROR_MESSAGE);
+					}
 					String p = textAreaProc.getText();
 					cc.addProc(cita, p);
 					mostrarMensaje("¡Se han añadido procedimientos!", "Procedimiento añadido", JOptionPane.DEFAULT_OPTION);
