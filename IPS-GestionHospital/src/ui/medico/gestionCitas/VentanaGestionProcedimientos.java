@@ -34,12 +34,12 @@ public class VentanaGestionProcedimientos extends JDialog{
 	private JButton btnAceptar;
 	private JButton btnCancelar;
 	private JLabel lblProcedimiento;
-	private JDateChooser calendario;
 	private JLabel lblFecha;
 	
 	private CitaDto cita;
 	private CitasController cc;
 	private JTextArea textAreaProc;
+	private JDateChooser calendario;
 	
 	public VentanaGestionProcedimientos(CitaDto cita) {
 		this.cc = new CitasController();
@@ -135,6 +135,7 @@ public class VentanaGestionProcedimientos extends JDialog{
 				public void actionPerformed(ActionEvent arg0) {
 					String p = textAreaProc.getText();
 					cc.addProc(cita, p);
+					mostrarMensaje("¡Se han añadido procedimientos!", "Procedimiento añadido", JOptionPane.DEFAULT_OPTION);
 					dispose();
 				}
 			});
@@ -142,9 +143,15 @@ public class VentanaGestionProcedimientos extends JDialog{
 		}
 		return btnAceptar;
 	}
+	
 	private JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Cancelar");
+			btnCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					dispose();
+				}
+			});
 			btnCancelar.setBounds(471, 401, 97, 25);
 		}
 		return btnCancelar;
@@ -163,15 +170,6 @@ public class VentanaGestionProcedimientos extends JDialog{
 		}
 		return lblFecha;
 	}
-	
-	private JDateChooser getCalendario() {
-		if (calendario == null) {
-			calendario = new JDateChooser();
-			calendario.setBounds(12, 132, 145, -21);
-			calendario.setDate(new java.util.Date());
-		}
-		return calendario;
-	}
 	private JTextArea getTextAreaProc() {
 		if (textAreaProc == null) {
 			textAreaProc = new JTextArea();
@@ -183,5 +181,12 @@ public class VentanaGestionProcedimientos extends JDialog{
 			textAreaProc.setText(p);
 		}
 		return textAreaProc;
+	}
+	private JDateChooser getCalendario() {
+		if (calendario == null) {
+			calendario = new JDateChooser();
+			calendario.setBounds(12, 122, 129, 22);
+		}
+		return calendario;
 	}
 }
