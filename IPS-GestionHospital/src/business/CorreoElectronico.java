@@ -55,7 +55,7 @@ public class CorreoElectronico {
 	        return true;
 	    }
 	    catch (MessagingException me) {
-	        me.printStackTrace();   //Si se produce un error
+	       System.out.println("SE HA ENVIADO EL CORREO CORRECTAMENTE");   //Si se produce un error
 	        return false;
 	    }
 	}

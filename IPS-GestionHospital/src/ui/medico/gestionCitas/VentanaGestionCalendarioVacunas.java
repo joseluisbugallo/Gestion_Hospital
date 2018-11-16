@@ -93,7 +93,7 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 				JButton cancelButton = new JButton("Atras");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						salirSinGuardar();
+						salir();
 					}
 				});
 				buttonPane.add(cancelButton);
@@ -171,12 +171,13 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 		JOptionPane.showMessageDialog(this, mess, title, icon);
 	}
 
-	private void salirSinGuardar() {
+	private void salir() {
 		int respuesta = JOptionPane.showConfirmDialog(null, "Seguro que quiere salir?", "Salir sin guardar",
 				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 		if (respuesta == JOptionPane.YES_OPTION) {
 			VentanaGestionCita v = new VentanaGestionCita(cita);
+			v.setLocationRelativeTo(this);
 			v.setVisible(true);
 			this.dispose();
 		}
