@@ -22,6 +22,7 @@ import ui.admin.VentanaConsultarCitas;
 import ui.admin.VentanaDesactivarEmpleado;
 import ui.admin.VentanaDesactivarPaciente;
 import ui.admin.VentanaFijarCita;
+import ui.admin.VentanaGestionarCitas;
 import ui.jornada.VentanaJornadaLaboral;
 import ui.jornada.VentanaVacaciones;
 
@@ -40,11 +41,15 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel pnJornadas;
 	private JButton btnAsignarVacaciones;
 	private JButton btnSalir;
+<<<<<<< master
 	private JButton btnDesactivarEmpleado;
 	private JButton btnVerActividadEmpleados;
 	private JPanel panel;
 	private JButton btnDesactivarPaciente;
 	private JButton btnVerActividadDePacientes;
+=======
+	private JButton btnGestionarCitas;
+>>>>>>> Inicio Gestión Citas Admin
 
 	/**
 	 * Constructor de la ventana.
@@ -64,7 +69,7 @@ public class VentanaAdministrador extends JFrame {
 	private JButton getBtnFijarCita() {
 		if (btnFijarCita == null) {
 			btnFijarCita = new JButton("Fijar cita");
-			btnFijarCita.setBounds(30, 42, 143, 23);
+			btnFijarCita.setBounds(30, 37, 143, 23);
 			btnFijarCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					VentanaFijarCita vFC = new VentanaFijarCita();
@@ -80,7 +85,7 @@ public class VentanaAdministrador extends JFrame {
 	private JButton getBtnConsultarCitas() {
 		if (btnConsultarCitas == null) {
 			btnConsultarCitas = new JButton("Consultar Citas");
-			btnConsultarCitas.setBounds(30, 88, 144, 23);
+			btnConsultarCitas.setBounds(30, 84, 144, 23);
 			btnConsultarCitas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					VentanaConsultarCitas citas = new VentanaConsultarCitas();
@@ -150,6 +155,7 @@ public class VentanaAdministrador extends JFrame {
 			pnCitas.setLayout(null);
 			pnCitas.add(getBtnFijarCita());
 			pnCitas.add(getBtnConsultarCitas());
+			pnCitas.add(getBtnGestionarCitas());
 		}
 		return pnCitas;
 	}
@@ -195,6 +201,7 @@ public class VentanaAdministrador extends JFrame {
 		}
 		return btnSalir;
 	}
+<<<<<<< master
 	private JButton getBtnDesactivarEmpleado() {
 		if (btnDesactivarEmpleado == null) {
 			btnDesactivarEmpleado = new JButton("Desactivar empleado");
@@ -261,5 +268,20 @@ public class VentanaAdministrador extends JFrame {
 			btnVerActividadDePacientes.setBounds(31, 85, 228, 23);
 		}
 		return btnVerActividadDePacientes;
+=======
+	private JButton getBtnGestionarCitas() {
+		if (btnGestionarCitas == null) {
+			btnGestionarCitas = new JButton("Gestionar Citas");
+			btnGestionarCitas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					VentanaGestionarCitas vv = new VentanaGestionarCitas();
+					vv.setVisible(true);
+					vv.setLocationRelativeTo(null);
+				}
+			});
+			btnGestionarCitas.setBounds(30, 126, 143, 25);
+		}
+		return btnGestionarCitas;
+>>>>>>> Inicio Gestión Citas Admin
 	}
 }
