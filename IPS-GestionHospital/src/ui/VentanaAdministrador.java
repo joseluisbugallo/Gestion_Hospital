@@ -18,6 +18,7 @@ import javax.swing.border.TitledBorder;
 
 import ui.admin.VentanaConsultarCitas;
 import ui.admin.VentanaFijarCita;
+import ui.admin.VentanaGestionarCitas;
 import ui.jornada.VentanaJornadaLaboral;
 import ui.jornada.VentanaVacaciones;
 
@@ -36,6 +37,7 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel pnJornadas;
 	private JButton btnAsignarVacaciones;
 	private JButton btnSalir;
+	private JButton btnGestionarCitas;
 
 	/**
 	 * Constructor de la ventana.
@@ -55,7 +57,7 @@ public class VentanaAdministrador extends JFrame {
 	private JButton getBtnFijarCita() {
 		if (btnFijarCita == null) {
 			btnFijarCita = new JButton("Fijar cita");
-			btnFijarCita.setBounds(30, 42, 143, 23);
+			btnFijarCita.setBounds(30, 37, 143, 23);
 			btnFijarCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					VentanaFijarCita vFC = new VentanaFijarCita();
@@ -71,7 +73,7 @@ public class VentanaAdministrador extends JFrame {
 	private JButton getBtnConsultarCitas() {
 		if (btnConsultarCitas == null) {
 			btnConsultarCitas = new JButton("Consultar Citas");
-			btnConsultarCitas.setBounds(30, 88, 144, 23);
+			btnConsultarCitas.setBounds(30, 84, 144, 23);
 			btnConsultarCitas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					VentanaConsultarCitas citas = new VentanaConsultarCitas();
@@ -140,6 +142,7 @@ public class VentanaAdministrador extends JFrame {
 			pnCitas.setLayout(null);
 			pnCitas.add(getBtnFijarCita());
 			pnCitas.add(getBtnConsultarCitas());
+			pnCitas.add(getBtnGestionarCitas());
 		}
 		return pnCitas;
 	}
@@ -184,5 +187,19 @@ public class VentanaAdministrador extends JFrame {
 			btnSalir.setBounds(685, 495, 89, 23);
 		}
 		return btnSalir;
+	}
+	private JButton getBtnGestionarCitas() {
+		if (btnGestionarCitas == null) {
+			btnGestionarCitas = new JButton("Gestionar Citas");
+			btnGestionarCitas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					VentanaGestionarCitas vv = new VentanaGestionarCitas();
+					vv.setVisible(true);
+					vv.setLocationRelativeTo(null);
+				}
+			});
+			btnGestionarCitas.setBounds(30, 126, 143, 25);
+		}
+		return btnGestionarCitas;
 	}
 }
