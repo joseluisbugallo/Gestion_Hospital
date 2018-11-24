@@ -227,7 +227,7 @@ public class VentanaGestionPrescripciones extends JDialog {
 			btnAadirPrescripcin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (getTxtPrescripcion().getText().isEmpty()) {
-						mostrarMensaje("No ha apuntado ningun antecedente", "Error al añadir antecedente",
+						mostrarMensaje("No ha apuntado ninguna prescripcion", "Error al añadir prescripcion",
 								JOptionPane.ERROR_MESSAGE);
 					} else {
 						addPrescripcion();

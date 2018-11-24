@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.awt.event.ActionEvent;
+import javax.swing.JList;
 
 public class VentanaGestionAntecedentes extends JDialog {
 
@@ -36,30 +37,53 @@ public class VentanaGestionAntecedentes extends JDialog {
 	private JPanel panel;
 	private JLabel lblProdcedimientoRealizado;
 	private JTextField txtAntecedente;
-	private JButton btnAadirProcedimiento;
+	private JButton btnAadirAntecedente;
 	private JButton btnGuardar;
 	private JButton btnVolver;
 	private JPanel panel_1;
-	private JTextArea txtAreaAntecedentes;
-	private JLabel lblTipoAntecedente;
-	private JComboBox<TiposAntecedentes> comboBox;
-	Map<TiposAntecedentes, List<String>> antecedentes = new HashMap<>();
-	private JButton btnReiniciar;
+	private List<String> antecedentes = new ArrayList<>();
 	CitasController cC= new CitasController();
+	private JList<String> listAntecedentes;
+	private JButton btnBorrarAntecedene;
 
 	/**
 	 * Create the dialog.
 	 */
 	public VentanaGestionAntecedentes(CitaDto cita) { //VentanaGestionCita vGC) {
 		this.cita = cita;
-		inicializarMapa();
 		setTitle("Antecedentes del paciente");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 707, 507);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(getPnlPrincipal());
-		txtAreaAntecedentes.setText(cita.antecedentes);
+		precargarLista();
+	}
+
+	private void precargarLista() {
+		if(!this.cita.antecedentes.isEmpty()) {
+			String[] lista = this.cita.antecedentes.split("\n");
+			this.cita.listadoAntecedentes = new ArrayList<>();
+			for(int i=0; i<lista.length; i++) {
+				this.cita.listadoAntecedentes.add(lista[i]);
+			}
+		}
+		this.antecedentes= new ArrayList<>();
+		this.antecedentes.addAll(this.cita.listadoAntecedentes);
+		actualizarLista();
+	}
+
+	private void actualizarLista() {
+		String[] list = new String[this.antecedentes.size()];
+		for(int i=0; i<list.length; i++) {
+			list[i]= this.antecedentes.get(i);
+		}
+		if(list.length!=0) {
+			this.listAntecedentes.setListData(list);
+		}else {
+			String[] datos = {"No hay datos aun."};
+			this.listAntecedentes.setListData(datos);
+		}
 	}
 
 	private JPanel getPnlPrincipal() {
@@ -77,14 +101,12 @@ public class VentanaGestionAntecedentes extends JDialog {
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "A\u00F1adir Antecedente", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			panel.setBounds(12, 13, 677, 152);
+			panel.setBounds(12, 13, 677, 126);
 			panel.setLayout(null);
 			panel.add(getLblProdcedimientoRealizado());
 			panel.add(getTxtAntecedente());
 			panel.add(getBtnAniadirProcedimiento());
-			panel.add(getLblTipoAntecedente());
-			panel.add(getComboBox());
-			panel.add(getBtnReiniciar());
+			panel.add(getBtnBorrarAntecedene());
 		}
 		return panel;
 	}
@@ -98,26 +120,26 @@ public class VentanaGestionAntecedentes extends JDialog {
 	private JTextField getTxtAntecedente() {
 		if (txtAntecedente == null) {
 			txtAntecedente = new JTextField();
-			txtAntecedente.setBounds(26, 54, 315, 28);
+			txtAntecedente.setBounds(26, 54, 384, 28);
 			txtAntecedente.setColumns(10);
 		}
 		return txtAntecedente;
 	}
 	private JButton getBtnAniadirProcedimiento() {
-		if (btnAadirProcedimiento == null) {
-			btnAadirProcedimiento = new JButton("A\u00F1adir Antecedente");
-			btnAadirProcedimiento.addActionListener(new ActionListener() {
+		if (btnAadirAntecedente == null) {
+			btnAadirAntecedente = new JButton("A\u00F1adir Antecedente");
+			btnAadirAntecedente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(getTxtAntecedente().getText().isEmpty()) {
 						mostrarMensaje("¡El campo de antecedentes esta en blanco!", "Error:no se ha especificado antecedente", JOptionPane.ERROR_MESSAGE);
 					}else {
-						addAntecedente(getTxtAntecedente().getText(),(TiposAntecedentes) getComboBox().getSelectedItem());
-					}
+						addAntecedente();
+						}
 				}
 			});
-			btnAadirProcedimiento.setBounds(372, 114, 173, 25);
+			btnAadirAntecedente.setBounds(456, 28, 173, 25);
 		}
-		return btnAadirProcedimiento;
+		return btnAadirAntecedente;
 	}
 	private JButton getBtnGuardar() {
 		if (btnGuardar == null) {
@@ -147,59 +169,13 @@ public class VentanaGestionAntecedentes extends JDialog {
 		if (panel_1 == null) {
 			panel_1 = new JPanel();
 			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Antecedentes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel_1.setBounds(12, 169, 677, 196);
+			panel_1.setBounds(12, 152, 677, 213);
 			panel_1.setLayout(new BorderLayout(0, 0));
-			panel_1.add(getTxtAreaAntecedentes());
+			panel_1.add(getListAntecedentes(), BorderLayout.CENTER);
 		}
 		return panel_1;
 	}
-	private JTextArea getTxtAreaAntecedentes() {
-		if (txtAreaAntecedentes == null) {
-			txtAreaAntecedentes = new JTextArea();
-			txtAreaAntecedentes.setLineWrap(true);
-			txtAreaAntecedentes.setEditable(false);
-		}
-		return txtAreaAntecedentes;
-	}
-	private JLabel getLblTipoAntecedente() {
-		if (lblTipoAntecedente == null) {
-			lblTipoAntecedente = new JLabel("Tipo Antecedente:");
-			lblTipoAntecedente.setBounds(430, 32, 115, 16);
-		}
-		return lblTipoAntecedente;
-	}
-	private JComboBox<TiposAntecedentes> getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox<TiposAntecedentes>();
-			comboBox.setModel(new DefaultComboBoxModel<TiposAntecedentes>(TiposAntecedentes.values()));
-			comboBox.setBounds(440, 57, 178, 22);
-		}
-		return comboBox;
-	}
 	
-	private void addAntecedente(String antecedente, TiposAntecedentes tipo) {
-		this.antecedentes.get(tipo).add(antecedente);
-		actualizarTxtArea();
-	}
-	
-	private void actualizarTxtArea() {
-		StringBuilder antecedentes = new StringBuilder();
-		for(TiposAntecedentes t: this.antecedentes.keySet()) {
-			antecedentes.append(t + "\n");
-			for(String a: this.antecedentes.get(t)) {
-				antecedentes.append("\t- " + a + ".\n");
-			}
-			antecedentes.append("\n");
-		}
-		getTxtAreaAntecedentes().setText(antecedentes.toString());
-	}
-
-	private void inicializarMapa() {
-		this.antecedentes.put(TiposAntecedentes.FAMILIAR, new ArrayList<String>());
-		this.antecedentes.put(TiposAntecedentes.PERSONAL, new ArrayList<String>());
-		this.antecedentes.put(TiposAntecedentes.OTRO, new ArrayList<String>());
-		
-	}
 	
 	private void salirSinGuardar() {
 		int respuesta =JOptionPane.showConfirmDialog(null,"Seguro que quiere salir sin guardar los datos?",
@@ -209,7 +185,8 @@ public class VentanaGestionAntecedentes extends JDialog {
 			VentanaGestionCita v = new VentanaGestionCita(cita);
 			v.setLocationRelativeTo(this);
 			v.setVisible(true);
-			getTxtAreaAntecedentes().setText("");
+			this.listAntecedentes=null;
+			this.antecedentes= new ArrayList<>();
 			this.dispose();
 		}
 	}
@@ -219,12 +196,12 @@ public class VentanaGestionAntecedentes extends JDialog {
 				"Guardar datos",JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
 		
 		if(respuesta==JOptionPane.YES_OPTION) {
-			this.cita.antecedentes=getTxtAreaAntecedentes().getText();
 			cC.actualizarCita(cita);
 			VentanaGestionCita v = new VentanaGestionCita(this.cita);
 			v.setLocationRelativeTo(this);
 			v.setVisible(true);
-			getTxtAreaAntecedentes().setText("");
+			this.listAntecedentes=null;
+			this.antecedentes=new ArrayList<>();
 			this.dispose();
 		}
 	}
@@ -233,17 +210,36 @@ public class VentanaGestionAntecedentes extends JDialog {
 		JOptionPane.showMessageDialog(this, mess, title, icon);
 	}
 	
-	private JButton getBtnReiniciar() {
-		if (btnReiniciar == null) {
-			btnReiniciar = new JButton("Borrar Antecedentes");
-			btnReiniciar.addActionListener(new ActionListener() {
+	private JList<String> getListAntecedentes() {
+		if (listAntecedentes == null) {
+			listAntecedentes = new JList<>();
+		}
+		return listAntecedentes;
+	}
+	private JButton getBtnBorrarAntecedene() {
+		if (btnBorrarAntecedene == null) {
+			btnBorrarAntecedene = new JButton("Borrar Antecedene");
+			btnBorrarAntecedene.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					inicializarMapa();
-					txtAreaAntecedentes.setText("");
+					if (getListAntecedentes().isSelectionEmpty()) {
+						mostrarMensaje("No hay ningun antecedente seleccionado", "Error al eliminar",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						int seleccion = getListAntecedentes().getSelectedIndex();
+						antecedentes.remove(seleccion);
+						actualizarLista();
+					}
 				}
 			});
-			btnReiniciar.setBounds(168, 114, 173, 25);
+			btnBorrarAntecedene.setBounds(456, 66, 173, 28);
 		}
-		return btnReiniciar;
+		return btnBorrarAntecedene;
+	}
+	
+	private void addAntecedente() {
+		String antecedente = getTxtAntecedente().getText();
+		this.antecedentes.add(antecedente);
+		getTxtAntecedente().setText("");
+		actualizarLista();
 	}
 }
