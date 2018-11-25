@@ -501,6 +501,7 @@ public class VentanaActividadEmpleados extends JFrame {
 	}
 
 	private void cargarTabla() {
+		model = new DefaultTableModel();
 		model.addColumn("Actividad");
 		model.addColumn("Fecha inicio");
 		model.addColumn("Fecha fin");
@@ -509,6 +510,7 @@ public class VentanaActividadEmpleados extends JFrame {
 			PacienteDto paciente = pc.findPacientesById(cita.idPaciente);
 			model.addRow(new Object[] { "Cita", cita.fechainicio, cita.fechafin, paciente.nombre });
 		}
+		table.setModel(model);
 		
 
 	}
@@ -521,7 +523,7 @@ public class VentanaActividadEmpleados extends JFrame {
 	}
 	private JTable getTable() {
 		if (table == null) {
-			table = new JTable(model);
+			table = new JTable();
 		}
 		return table;
 	}
