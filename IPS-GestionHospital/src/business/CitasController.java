@@ -156,4 +156,9 @@ public class CitasController {
 		c.prescripcion=cita.prescripcion==null?"":cita.prescripcion;		
 		return c;
 	}
+	
+	public void eliminarCita(CitaDto cita) {
+		DataCita dc = new DataCita();
+		dc.delete(cita);
+	}
 }

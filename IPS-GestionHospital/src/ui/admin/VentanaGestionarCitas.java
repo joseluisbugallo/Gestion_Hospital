@@ -79,7 +79,7 @@ public class VentanaGestionarCitas extends JFrame{
 		}
 		return lblLista;
 	}
-	private JList getList() {
+	private JList<CitaDto> getList() {
 		if (list == null) {
 			list = new JList<>(modeloCitas);
 			list.addMouseListener(new MouseAdapter() {
@@ -101,7 +101,7 @@ public class VentanaGestionarCitas extends JFrame{
 			btnModificar.setEnabled(false);
 			btnModificar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					VentanaModificarCitas vv = new VentanaModificarCitas();
+					VentanaModificarCitas vv = new VentanaModificarCitas(list.getSelectedValue());
 					vv.setVisible(true);
 					vv.setLocationRelativeTo(null);
 				}
@@ -112,6 +112,12 @@ public class VentanaGestionarCitas extends JFrame{
 	private JButton getBtnEliminar() {
 		if (btnEliminar == null) {
 			btnEliminar = new JButton("Eliminar ");
+			btnEliminar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					citasController.eliminarCita(list.getSelectedValue());
+					//TODO: eliminar el elemento de la lista dinamicamente. No se como hacerlo jajaxd
+				}
+			});
 			btnEliminar.setEnabled(false);
 		}
 		return btnEliminar;
@@ -124,4 +130,5 @@ public class VentanaGestionarCitas extends JFrame{
 		}
 		
 	}
+
 }

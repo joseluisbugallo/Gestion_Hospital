@@ -13,6 +13,7 @@ public class DataEmpleado extends DataManager {
 
 	private static final String SQL_SELECT_EMPLEADO = "Select * from empleado";
 	private static final String SQL_SELECT_EMPLEADO_BY_DNI = "Select * from empleado where dni=?";
+	private static final String SQL_SELECT_EMPLEADO_BY_ID = "Select * from empleado where idempleado=?";
 	private static final String SQL_INSERT_EMPLEADO = "Insert into empleado(nombreempleado, dni, cargo, correo)"
 			+ " values (?, ?, ?, ?)";
 	private static final String SQL_DELETE_EMPLEADO = "Delete from empleado where dni=?";
@@ -108,6 +109,30 @@ public class DataEmpleado extends DataManager {
 		try {
 			st = Jdbc.getCurrentConnection().prepareStatement(SQL_SELECT_EMPLEADO_BY_DNI);
 			st.setString(1, dni);
+			rs = st.executeQuery();
+			while (rs.next()) {
+				empleado.id = rs.getInt(1);
+				empleado.nombre = rs.getString(2);
+				empleado.dni = rs.getString(3);
+				empleado.cargo = rs.getString(4);
+				empleado.correo = rs.getString(5);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Jdbc.close(rs, st);
+		}
+		return empleado;
+	}
+	
+	public EmpleadoDto getEmpleadoPorId(int id) {
+		EmpleadoDto empleado = new EmpleadoDto();;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = Jdbc.getCurrentConnection().prepareStatement(SQL_SELECT_EMPLEADO_BY_ID);
+			st.setInt(1, id);
 			rs = st.executeQuery();
 			while (rs.next()) {
 				empleado.id = rs.getInt(1);

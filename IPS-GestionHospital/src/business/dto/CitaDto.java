@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import business.PacientesController;
+import business.PrincipalController;
 import business.enums.TiposAntecedentes;
 
 
@@ -34,7 +35,16 @@ public class CitaDto {
 		return "Hora inicio:"+ fechainicio.getHours() + ":"+ fechainicio.getMinutes() + " Hora fin:" + fechafin.getHours()+
 				":"+fechafin.getMinutes()+ "  Paciente: "+ pc.findPacientesById(idPaciente).nombre + " En la sala: "+ sala ;
 	}
-
+	
+	public String mostrarPaciente() {
+		PacientesController pc = new PacientesController();
+		return pc.findPacientesById(idPaciente).nombre;
+	}
+	
+	public String mostrarMedico() {
+		PrincipalController pc = new PrincipalController();
+		return pc.findEmpleadoId(idEmpleado).nombre;
+	}
 
 	@Override
 	public String toString() {
