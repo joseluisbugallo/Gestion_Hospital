@@ -17,4 +17,14 @@ public class PrincipalController {
 		}
 		return medico;
 	}
+	
+	public EmpleadoDto findEmpleadoId(int id) {
+		EmpleadoDto medico = null;		
+		DataEmpleado empleado = new DataEmpleado();
+		medico =empleado.getEmpleadoPorId(id);
+		if(medico.nombre==null) {
+			return null;
+		}
+		return medico;
+	}
 }
