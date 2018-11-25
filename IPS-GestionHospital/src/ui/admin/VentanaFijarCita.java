@@ -134,7 +134,8 @@ public class VentanaFijarCita extends JFrame {
 		}
 		listModelMedicos = new DefaultListModel<EmpleadoDto>();
 		for (EmpleadoDto empleado : jc.getMedicos()) {
-			listModelMedicos.addElement(empleado);
+			if (empleado.estado.equals("Activado"))
+				listModelMedicos.addElement(empleado);
 		}
 	}
 
@@ -530,14 +531,14 @@ public class VentanaFijarCita extends JFrame {
 		listPacientes.setModel(filtro);
 
 	}
-	
+
 	private void mostrarTodosMedicos() {
 		DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
 		for (EmpleadoDto em : jc.getMedicos()) {
 			filtro.addElement(em);
 		}
 		listMedicos.setModel(filtro);
-		
+
 	}
 
 	private JButton getBtnBuscarPorDniPacientes() {

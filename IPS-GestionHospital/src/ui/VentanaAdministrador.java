@@ -16,7 +16,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import ui.admin.VentanaActividadEmpleados;
 import ui.admin.VentanaConsultarCitas;
+import ui.admin.VentanaDesactivarEmpleado;
 import ui.admin.VentanaFijarCita;
 import ui.jornada.VentanaJornadaLaboral;
 import ui.jornada.VentanaVacaciones;
@@ -36,6 +38,8 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel pnJornadas;
 	private JButton btnAsignarVacaciones;
 	private JButton btnSalir;
+	private JButton btnDesactivarEmpleado;
+	private JButton btnVerActividadEmpleados;
 
 	/**
 	 * Constructor de la ventana.
@@ -87,7 +91,7 @@ public class VentanaAdministrador extends JFrame {
 	private JButton getBtnJornadaLaboral() {
 		if (btnJornadaLaboral == null) {
 			btnJornadaLaboral = new JButton("Asignar jornada laboral");
-			btnJornadaLaboral.setBounds(31, 44, 199, 23);
+			btnJornadaLaboral.setBounds(31, 44, 234, 23);
 			btnJornadaLaboral.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					VentanaJornadaLaboral jornada = new VentanaJornadaLaboral();
@@ -148,12 +152,12 @@ public class VentanaAdministrador extends JFrame {
 		if (pnJornadas == null) {
 			pnJornadas = new JPanel();
 			pnJornadas.setLayout(null);
-			pnJornadas.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null),
-					"Jornadas Laborales de empleados", TitledBorder.LEADING, TitledBorder.TOP, null,
-					new Color(0, 0, 0)));
-			pnJornadas.setBounds(402, 64, 334, 179);
+			pnJornadas.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Empleados", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			pnJornadas.setBounds(402, 64, 334, 250);
 			pnJornadas.add(getBtnJornadaLaboral());
 			pnJornadas.add(getBtnAsignarVacaciones());
+			pnJornadas.add(getBtnDesactivarEmpleado());
+			pnJornadas.add(getBtnVerActividadEmpleados());
 		}
 		return pnJornadas;
 	}
@@ -168,7 +172,7 @@ public class VentanaAdministrador extends JFrame {
 					vv.setLocationRelativeTo(null);
 				}
 			});
-			btnAsignarVacaciones.setBounds(32, 89, 198, 23);
+			btnAsignarVacaciones.setBounds(32, 89, 233, 23);
 		}
 		return btnAsignarVacaciones;
 	}
@@ -184,5 +188,33 @@ public class VentanaAdministrador extends JFrame {
 			btnSalir.setBounds(685, 495, 89, 23);
 		}
 		return btnSalir;
+	}
+	private JButton getBtnDesactivarEmpleado() {
+		if (btnDesactivarEmpleado == null) {
+			btnDesactivarEmpleado = new JButton("Desactivar empleado");
+			btnDesactivarEmpleado.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					VentanaDesactivarEmpleado vde = new VentanaDesactivarEmpleado();
+					vde.setVisible(true);
+					vde.setLocationRelativeTo(null);
+				}
+			});
+			btnDesactivarEmpleado.setBounds(32, 134, 233, 23);
+		}
+		return btnDesactivarEmpleado;
+	}
+	private JButton getBtnVerActividadEmpleados() {
+		if (btnVerActividadEmpleados == null) {
+			btnVerActividadEmpleados = new JButton("Ver actividad de los empleados");
+			btnVerActividadEmpleados.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					VentanaActividadEmpleados vae = new VentanaActividadEmpleados();
+					vae.setVisible(true);
+					vae.setLocationRelativeTo(null);
+				}
+			});
+			btnVerActividadEmpleados.setBounds(31, 181, 234, 23);
+		}
+		return btnVerActividadEmpleados;
 	}
 }
