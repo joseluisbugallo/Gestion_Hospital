@@ -110,12 +110,14 @@ public class VentanaJornadaLaboral extends JFrame {
 
 	private void inicializarListas() {
 		listModelEnfermeros = new DefaultListModel<EmpleadoDto>();
-		for (EmpleadoDto paciente : jc.getEnfermeros()) {
-			listModelEnfermeros.addElement(paciente);
+		for (EmpleadoDto enfermero : jc.getEnfermeros()) {
+			if (enfermero.estado.equals("Activado"))
+				listModelEnfermeros.addElement(enfermero);
 		}
 		listModelMedicos = new DefaultListModel<EmpleadoDto>();
 		for (EmpleadoDto empleado : jc.getMedicos()) {
-			listModelMedicos.addElement(empleado);
+			if (empleado.estado.equals("Activado"))
+				listModelMedicos.addElement(empleado);
 		}
 	}
 
@@ -345,8 +347,7 @@ public class VentanaJornadaLaboral extends JFrame {
 			JOptionPane.showMessageDialog(this, "Rellene todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
 		} else if (dcFin.getDate().before(dcInicio.getDate())) {
 			JOptionPane.showMessageDialog(this, "Las fechas son incompatibles", "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		else {
+		} else {
 			camposRellenados = true;
 			muestraDialogo();
 		}
@@ -435,7 +436,7 @@ public class VentanaJornadaLaboral extends JFrame {
 
 	private JButton getButtonBuscarDni() {
 		if (buttonBuscarDni == null) {
-			buttonBuscarDni = new JButton("Buscar por ID");
+			buttonBuscarDni = new JButton("Buscar por DNI");
 			buttonBuscarDni.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					buscarIdFiltro();
@@ -577,7 +578,7 @@ public class VentanaJornadaLaboral extends JFrame {
 	private void buscarIdFiltro() {
 		if (chckbxMedico.isSelected()) {
 			for (EmpleadoDto em : jc.getMedicos()) {
-				if (Integer.parseInt(textFieldBuscarDni.getText()) == em.id) {
+				if (textFieldBuscarDni.getText().equals(em.dni)) {
 					DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
 					filtro.addElement(em);
 					listEmpleados.setModel(filtro);
@@ -585,7 +586,7 @@ public class VentanaJornadaLaboral extends JFrame {
 			}
 		} else if (chckbxEnfermero.isSelected()) {
 			for (EmpleadoDto em : jc.getEnfermeros()) {
-				if (Integer.parseInt(textFieldBuscarDni.getText()) == em.id) {
+				if (textFieldBuscarDni.getText().equals(em.dni)) {
 					DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
 					filtro.addElement(em);
 					listEmpleados.setModel(filtro);

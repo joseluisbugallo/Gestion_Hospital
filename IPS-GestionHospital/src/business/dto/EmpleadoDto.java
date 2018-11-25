@@ -7,6 +7,7 @@ public class EmpleadoDto {
 	public String dni;
 	public String cargo;
 	public String correo;
+	public String estado;
 	
 	
 	@Override

@@ -116,11 +116,13 @@ public class VentanaVacaciones extends JFrame {
 	private void inicializarListas() {
 		listModelEnfermeros = new DefaultListModel<EmpleadoDto>();
 		for (EmpleadoDto paciente : jc.getEnfermeros()) {
-			listModelEnfermeros.addElement(paciente);
+			if (paciente.estado.equals("Activado"))
+				listModelEnfermeros.addElement(paciente);
 		}
 		listModelMedicos = new DefaultListModel<EmpleadoDto>();
 		for (EmpleadoDto empleado : jc.getMedicos()) {
-			listModelMedicos.addElement(empleado);
+			if (empleado.estado.equals("Activado"))
+				listModelMedicos.addElement(empleado);
 		}
 	}
 
@@ -375,13 +377,13 @@ public class VentanaVacaciones extends JFrame {
 										vacaciones.fechainicio.getMonth(), vacaciones.fechainicio.getDate());
 								Date vacacionesFin = new Date(vacaciones.fechafin.getYear(),
 										vacaciones.fechafin.getMonth(), vacaciones.fechafin.getDate());
-								
+
 								if (dcInicio.before(vacacionesInicio) && dcFin.after(vacacionesInicio)
 										|| dcInicio.after(vacacionesInicio) && dcInicio.before(vacacionesFin)
 										|| dcFin.after(vacacionesInicio) && dcFin.before(vacacionesFin)
-										|| dcInicio.compareTo(vacacionesInicio)==0 && dcFin.before(vacacionesFin)
-										|| dcInicio.after(vacacionesInicio) && dcFin.compareTo(vacacionesFin)==0
-										
+										|| dcInicio.compareTo(vacacionesInicio) == 0 && dcFin.before(vacacionesFin)
+										|| dcInicio.after(vacacionesInicio) && dcFin.compareTo(vacacionesFin) == 0
+
 										|| dcInicio.before(vacacionesInicio) && dcFin.after(vacacionesFin)
 										|| dcInicio.compareTo(vacacionesInicio) == 0
 										|| dcFin.compareTo(vacacionesFin) == 0) {
@@ -457,7 +459,7 @@ public class VentanaVacaciones extends JFrame {
 										"Existe una jornada laboral para esas fechas, sí acepta estas jornadas se borrarán, ¿desea continuar?",
 										"Jornadas existentes", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 								if (respuesta == 0) {
-									
+
 									borrarJornadasPorVacaciones(jornadasABorrar);
 									vc.asignarVacaciones(dcInicioVacaciones.getDate(), dcFinVacaciones.getDate(),
 											empleado.id);

@@ -22,7 +22,14 @@ public class JornadaController {
 		}
 		return medicos;
 	}
-
+	
+	public void desactivarEmpleado(EmpleadoDto empleado) {
+	
+		DataEmpleado de = new DataEmpleado();
+		de.update(empleado);
+		
+	}
+	
 	public List<EmpleadoDto> getEnfermeros() {
 		DataEmpleado dE = new DataEmpleado();
 		List<EmpleadoDto> em = dE.list();
