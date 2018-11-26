@@ -81,7 +81,7 @@ public class VentanaModificarCitas extends JFrame{
 		getContentPane().setLayout(new CardLayout(0, 0));
 		getContentPane().add(getPanelPrincipal(), "panelPrincipal");
 		getContentPane().add(getPnSeleccionarMedicos(), "pnSeleccionarMedicos");
-		getContentPane().add(getPnSeleccionarPaciente(), "name_12431767353664");
+		getContentPane().add(getPnSeleccionarPaciente(), "pnSeleccionarPaciente");
 		textFieldLocalizacion.setText(cita.sala);
 		dateChooserInicio.setDate(cita.fechainicio);
 		dateChooserFin.setDate(cita.fechafin);
@@ -219,6 +219,16 @@ public class VentanaModificarCitas extends JFrame{
 				DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
 				filtro.addElement(em);
 				listMedico.setModel(filtro);
+			}
+		}
+	}
+	
+	private void buscarDNIPacientesFiltro() {
+		for (PacienteDto em : pc.listadoPacientes()) {
+			if (textFieldDNIP.getText().toLowerCase().equals(em.dni.toLowerCase())) {
+				DefaultListModel<PacienteDto> filtro = new DefaultListModel<PacienteDto>();
+				filtro.addElement(em);
+				listPaciente.setModel(filtro);
 			}
 		}
 	}
@@ -368,6 +378,12 @@ public class VentanaModificarCitas extends JFrame{
 	private JButton getButton() {
 		if (button == null) {
 			button = new JButton("Buscar por DNI");
+			btnBuscarPorDni.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					buscarDNIPacientesFiltro();
+				}
+
+			});
 			button.setBounds(187, 94, 127, 25);
 		}
 		return button;
@@ -383,10 +399,27 @@ public class VentanaModificarCitas extends JFrame{
 	private JButton getBtnBuscarNombreP() {
 		if (btnBuscarNombreP == null) {
 			btnBuscarNombreP = new JButton("Buscar por nombre");
+			btnBuscarNombreP.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					buscarNombrePacientesFiltro();
+				}
+			});
 			btnBuscarNombreP.setBounds(561, 94, 143, 25);
 		}
 		return btnBuscarNombreP;
 	}
+	
+	private void buscarNombrePacientesFiltro() {
+
+		for (PacienteDto em : pc.listadoPacientes()) {
+			if (textFieldNombreP.getText().toLowerCase().equals(em.nombre.toLowerCase())) {
+				DefaultListModel<PacienteDto> filtro = new DefaultListModel<PacienteDto>();
+				filtro.addElement(em);
+				listPaciente.setModel(filtro);
+			}
+		}
+	}
+	
 	private JList<PacienteDto> getListPaciente() {
 		if (listPaciente == null) {
 			listPaciente = new JList<PacienteDto>(listModelPacientes);
