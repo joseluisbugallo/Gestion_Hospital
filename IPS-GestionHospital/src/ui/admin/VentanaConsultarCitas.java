@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import business.CitasController;
+import business.LogController;
+import business.dto.CambioDto;
 import business.dto.CitaDto;
 
 import javax.swing.JLabel;
@@ -24,6 +26,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
@@ -69,6 +72,12 @@ public class VentanaConsultarCitas extends JFrame {
 		contentPane.add(getPnlBuscadorCitas(), "pnlBuscadorDeCitas");
 		contentPane.add(getPnlConsultaCita(), "pnlConsultaCita");
 		cargarModelo();
+		
+		CambioDto cambio = new CambioDto();
+		cambio.cambio = "El administrador ha listado las citas";
+		cambio.fecha = new Date();					
+		LogController lc = new LogController();
+		lc.añadirCambio(cambio);
 	}
 
 	private JPanel getPnlBuscadorCitas() {

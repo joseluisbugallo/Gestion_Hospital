@@ -30,7 +30,9 @@ import com.toedter.calendar.JDateChooser;
 import business.CitasController;
 import business.CorreoElectronico;
 import business.JornadaController;
+import business.LogController;
 import business.PacientesController;
+import business.dto.CambioDto;
 import business.dto.CitaDto;
 import business.dto.EmpleadoDto;
 import business.dto.PacienteDto;
@@ -405,6 +407,12 @@ public class VentanaFijarCita extends JFrame {
 						}
 
 						cc.crearCita(cita, medicos);
+						
+						CambioDto cambio = new CambioDto();
+						cambio.cambio = "El administrador ha generado una cita con id: "+ cita.id;
+						cambio.fecha = new Date();					
+						LogController lc = new LogController();
+						lc.añadirCambio(cambio);
 
 						dispose();
 

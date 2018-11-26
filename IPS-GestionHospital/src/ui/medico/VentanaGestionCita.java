@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -18,7 +19,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import business.CitasController;
+import business.LogController;
 import business.PacientesController;
+import business.dto.CambioDto;
 import business.dto.CitaDto;
 import business.dto.PacienteDto;
 import ui.medico.gestionCitas.VentanaConsultaHistorial;
@@ -221,6 +224,13 @@ public class VentanaGestionCita extends JDialog {
 			btnHistorial.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					abrirVentanaConsultaHistorial();
+
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+							" ha accedido al historial del paciente: "+ p.id + "en la cita con id : "+ cita.id ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 		}
@@ -233,6 +243,13 @@ public class VentanaGestionCita extends JDialog {
 			btnAntecedentes.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					abrirVentanaGestionAntecedentes();
+					
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+							" ha accedido a los antecedentes del paciente: "+ p.id + "para la cita con id : "+ cita.id ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 		}
@@ -245,6 +262,13 @@ public class VentanaGestionCita extends JDialog {
 			btnProcedimientos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					abrirVentanaProcedimientos();
+					
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+							" ha accedido a los procedimientos del paciente: "+ p.id + "para la cita con id : "+ cita.id ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 		}
@@ -265,6 +289,13 @@ public class VentanaGestionCita extends JDialog {
 			btnDiagnostico.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					abrirVentanaGestionDiagnsticos();
+					
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+							" ha accedido a los diagnosticos del paciente: "+ p.id + "para la cita con id : "+ cita.id ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 		}
@@ -279,6 +310,13 @@ public class VentanaGestionCita extends JDialog {
 					VentanaGestionSintomas vgs = new VentanaGestionSintomas(cita);
 					vgs.setVisible(true);
 					vgs.setLocationRelativeTo(null);
+
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+							" ha accedido a los sintomas del paciente: "+ p.id + "para la cita con id : "+ cita.id ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 		}
@@ -291,6 +329,13 @@ public class VentanaGestionCita extends JDialog {
 			btnPrescripcion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					abrirVentanaGestionPrescripcion();
+					
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+							" ha accedido a las prescripciones del paciente: "+ p.id + "para la cita con id : "+ cita.id ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 		}
@@ -358,6 +403,12 @@ public class VentanaGestionCita extends JDialog {
 			btnCalendarioDeVacunas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					abrirVentanaVacunas();
+					
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El medico con id: "+ cita.idEmpleado + " ha accedido al calendario de vacunas del paciente: "+ p.id ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 		}
@@ -369,6 +420,12 @@ public class VentanaGestionCita extends JDialog {
 				"Finalizar la cita", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 		if (resp == JOptionPane.OK_OPTION) {
 			cC.actualizarCita(cita);
+			CambioDto cambio = new CambioDto();
+			cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+					" ha actualizado la cita con id : "+ cita.id ;
+			cambio.fecha = new Date();					
+			LogController lc = new LogController();
+			lc.añadirCambio(cambio);
 			this.dispose();
 		}
 	}

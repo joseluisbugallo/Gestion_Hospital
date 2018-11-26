@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -19,6 +20,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import business.CitasController;
+import business.LogController;
+import business.dto.CambioDto;
 import business.dto.CitaDto;
 import ui.medico.VentanaGestionCita;
 
@@ -197,6 +200,13 @@ public class VentanaGestionPrescripciones extends JDialog {
 			cita.prescripcion="";
 			for(String s: this.prescripciones) {
 				cita.prescripcion+=s + "\n";
+				CambioDto cambio = new CambioDto();
+				cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+						" ha añadido prescripciones al paciente: "+ cita.idPaciente +
+						" en la cita "+cita.id + "la siguiente prescripcion "+ s;							
+				cambio.fecha = new Date();					
+				LogController lc = new LogController();
+				lc.añadirCambio(cambio);
 			}
 			cC.actualizarCita(cita);
 			VentanaGestionCita v = new VentanaGestionCita(this.cita);

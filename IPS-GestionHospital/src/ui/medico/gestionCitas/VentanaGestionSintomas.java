@@ -14,8 +14,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import business.CitasController;
+import business.LogController;
+import business.dto.CambioDto;
 import business.dto.CitaDto;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class VentanaGestionSintomas extends JDialog {
@@ -94,6 +97,13 @@ public class VentanaGestionSintomas extends JDialog {
 			btnConfirmar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cc.modificarSintomas(cita, txSintomas.getText());
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+							" ha informado a modificado los sintomas al paciente: "+ cita.idPaciente +
+							" durante la cita: "+cita.id +" los sintomas son: "+txSintomas.getText();							
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 					dispose();
 				}
 			});

@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -30,6 +31,8 @@ import javax.swing.border.TitledBorder;
 import com.toedter.calendar.JDateChooser;
 
 import business.CitasController;
+import business.LogController;
+import business.dto.CambioDto;
 import business.dto.CitaDto;
 import business.dto.EmpleadoDto;
 
@@ -157,6 +160,12 @@ public class VentanaCitasMedico extends JFrame {
 					&& cita.fechainicio.getMonth() == month)
 				modeloCitas.addElement(cita);
 		}
+		
+		CambioDto cambio = new CambioDto();
+		cambio.cambio = "El medico con id: "+medico.id + " ha listado sus citas asignadas para la fecha: "+ fecha.toString();
+		cambio.fecha = new Date();					
+		LogController lc = new LogController();
+		lc.añadirCambio(cambio);
 	}
 
 	private JPanel getPnlCentral() {
@@ -215,6 +224,12 @@ public class VentanaCitasMedico extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					if (lsCitas.getSelectedValue() != null) {
 						abrirVentanaGestionCita(lsCitas.getSelectedValue());
+						
+						CambioDto cambio = new CambioDto();
+						cambio.cambio = "El medico con id: "+medico.id+" ha accedido a la cita con id: "+lsCitas.getSelectedValue().id;
+						cambio.fecha = new Date();					
+						LogController lc = new LogController();
+						lc.añadirCambio(cambio);
 					} else
 						JOptionPane.showMessageDialog(contentPane, "Debe seleccionar una cita para gestionar",
 								"No hay cita seleccionada", JOptionPane.WARNING_MESSAGE);
