@@ -24,6 +24,7 @@ public class DataCita extends DataManager {
 	//	private static final String SQL_UPDATE_PRESCRIPCIONES= "Update cita set prescripciones=? where idcita=?";
 //	private static final String SQL_UPDATE_ANTECEDENTES= "Update cita set antecedentes=? where idcita=?";
 	private static final String SQL_SELECT_CITA_BY_ID = "Select * from cita where idcita=?";
+	private static final String SQL_SELECT_CITA_BY_IDPACIENTE = "Select * from cita where idpaciente=?";
 
 	public List<CitaDto> list() {
 		List<CitaDto> citas = null;
@@ -180,6 +181,38 @@ public class DataCita extends DataManager {
 		ResultSet rs = null;
 		try {
 			st = getConexion().prepareStatement(SQL_SELECT_CITA_BY_ID);
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			citas = new ArrayList<>();
+			while (rs.next()) {
+				CitaDto cita = new CitaDto();
+				cita.id = rs.getInt(1);
+				cita.urgente = rs.getBoolean(2);				
+				cita.idPaciente = rs.getInt(3);
+				cita.idEmpleado = rs.getInt(4);
+				cita.sala = rs.getString(5);
+				cita.fechainicio = rs.getTimestamp(6);
+				cita.fechafin = rs.getTimestamp(7);
+				cita.antecedentes =rs.getString(8);
+				cita.sintomas= rs.getString(9);
+				cita.prescripcion= rs.getString(10);
+				cita.procedimientos=rs.getString(11);
+				citas.add(cita);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Jdbc.close(rs, st);
+		}
+		return citas;
+	}
+
+	public List<CitaDto> listCitasByIdPaciente(int id) {
+		List<CitaDto> citas = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = getConexion().prepareStatement(SQL_SELECT_CITA_BY_IDPACIENTE);
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			citas = new ArrayList<>();

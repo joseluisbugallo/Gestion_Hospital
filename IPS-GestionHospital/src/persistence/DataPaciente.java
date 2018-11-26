@@ -11,11 +11,11 @@ import business.dto.PacienteDto;
 
 public class DataPaciente extends DataManager {
 
-	private static final String SQL_SELECT_PACIENTE = "Select idpaciente, dni, nombrepaciente, contacto from paciente";
+	private static final String SQL_SELECT_PACIENTE = "Select idpaciente, dni, nombrepaciente, contacto, estado from paciente";
 	private static final String SQL_SELECT_PACIENTE_BY_DNI = "Select * from paciente where dni=?";
-	private static final String SQL_INSERT_PACIENTE = "Insert into paciente(dni, nombrepaciente, contacto) values (?, ?, ?)";
+	private static final String SQL_INSERT_PACIENTE = "Insert into paciente(dni, nombrepaciente, contacto, estado) values (?, ?, ?, ?)";
 	private static final String SQL_DELETE_PACIENTE = "Delete from paciente where dni=?";
-	private static final String SQL_UPDATE_PACIENTE = "Update paciente set nombrepaciente=?, contacto=? where dni=?";
+	private static final String SQL_UPDATE_PACIENTE = "Update paciente set nombrepaciente=?, contacto=?, estado=? where dni=?";
 	private static final String SQL_SELECT_PACIENTE_BY_NOMBRE = "Select * from paciente where nombrepaciente=?";
 	private static final String SQL_SELECT_PACIENTE_BY_ID = "Select * from paciente where idpaciente=?";
 	
@@ -33,6 +33,7 @@ public class DataPaciente extends DataManager {
 				paciente.dni = rs.getString(2);
 				paciente.nombre = rs.getString(3);
 				paciente.contacto = rs.getString(4);
+				paciente.estado = rs.getString(5);
 				pacientes.add(paciente);
 			}
 
@@ -52,6 +53,7 @@ public class DataPaciente extends DataManager {
 			st.setString(1, paciente.dni);
 			st.setString(2, paciente.nombre);
 			st.setString(3, paciente.contacto);
+			st.setString(4, "Activado");
 
 			st.executeUpdate();
 		} catch (SQLException e) {
@@ -83,7 +85,8 @@ public class DataPaciente extends DataManager {
 			st = getConexion().prepareStatement(SQL_UPDATE_PACIENTE);
 			st.setString(1, paciente.nombre);
 			st.setString(2, paciente.contacto);
-			st.setString(3, paciente.dni);
+			st.setString(3, paciente.estado);
+			st.setString(4, paciente.dni);
 
 			st.executeUpdate();
 
@@ -109,6 +112,7 @@ public class DataPaciente extends DataManager {
 				paciente.nombre = rs.getString(3);
 				paciente.dni = rs.getString(2);
 				paciente.contacto = rs.getString(4);
+				paciente.estado = rs.getString(5);
 				pacientes.add(paciente);
 			}
 
@@ -121,7 +125,6 @@ public class DataPaciente extends DataManager {
 	}
 	
 	public PacienteDto getPacientePorId(int id) {
-		PacienteDto pacientes = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		PacienteDto paciente = new PacienteDto();
@@ -137,6 +140,7 @@ public class DataPaciente extends DataManager {
 				paciente.dni = rs.getString(2);
 
 				paciente.contacto = rs.getString(4);
+				paciente.estado = rs.getString(5);
 			}
 
 		} catch (SQLException e) {
@@ -162,6 +166,7 @@ public class DataPaciente extends DataManager {
 				paciente.nombre = rs.getString(2);
 				paciente.dni = rs.getString(3);
 				paciente.contacto = rs.getString(4);
+				paciente.estado = rs.getString(5);
 				pacientes.add(paciente);
 			}
 

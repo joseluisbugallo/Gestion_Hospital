@@ -1,13 +1,13 @@
 package business;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import business.dto.CitaDto;
 import business.dto.EmpleadoDto;
 import business.dto.HistorialDto;
 import business.dto.JornadaLaboralDto;
+import business.dto.PacienteDto;
 import persistence.DataCita;
 import persistence.DataHistorial;
 import persistence.DataJornada;
@@ -94,6 +94,11 @@ public class CitasController {
 		return js;
 	}
 	
+	public EmpleadoDto getMedicoByID(int id){
+		DataJornada dj = new DataJornada();
+		return dj.getMedicoById(id);
+	}
+	
 	public void crearCita(CitaDto cita, List<EmpleadoDto> empleados) {
 		DataCita dc = new DataCita();
 		for (EmpleadoDto em: empleados) {
@@ -155,5 +160,10 @@ public class CitasController {
 		c.procedimientos=cita.procedimientos==null?"":cita.procedimientos;
 		c.prescripcion=cita.prescripcion==null?"":cita.prescripcion;		
 		return c;
+	}
+
+	public List<CitaDto> getCitasByIDPaciente(PacienteDto paciente) {
+		DataCita dc = new DataCita();
+		return dc.listCitasByIdPaciente(paciente.id);
 	}
 }

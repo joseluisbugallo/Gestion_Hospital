@@ -6,7 +6,7 @@ public class PacienteDto {
 	public String dni;
 	public String nombre;
 	public String contacto;
-	
+	public String estado;
 	
 	@Override
 	public String toString() {

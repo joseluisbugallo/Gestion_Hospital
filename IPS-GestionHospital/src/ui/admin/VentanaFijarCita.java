@@ -130,7 +130,8 @@ public class VentanaFijarCita extends JFrame {
 	private void inicializarListas() {
 		listModelPacientes = new DefaultListModel<PacienteDto>();
 		for (PacienteDto paciente : pc.listadoPacientes()) {
-			listModelPacientes.addElement(paciente);
+			if (paciente.estado.equals("Activado"))
+				listModelPacientes.addElement(paciente);
 		}
 		listModelMedicos = new DefaultListModel<EmpleadoDto>();
 		for (EmpleadoDto empleado : jc.getMedicos()) {
@@ -482,7 +483,7 @@ public class VentanaFijarCita extends JFrame {
 	private void buscarDNIPacientesFiltro() {
 
 		for (PacienteDto em : pc.listadoPacientes()) {
-			if (txDniPaciente.getText().toLowerCase().equals(em.dni.toLowerCase())) {
+			if (txDniPaciente.getText().toLowerCase().equals(em.dni.toLowerCase()) && em.estado.equals("Activado")) {
 				DefaultListModel<PacienteDto> filtro = new DefaultListModel<PacienteDto>();
 				filtro.addElement(em);
 				listPacientes.setModel(filtro);
@@ -493,7 +494,8 @@ public class VentanaFijarCita extends JFrame {
 	private void buscarNombrePacientesFiltro() {
 
 		for (PacienteDto em : pc.listadoPacientes()) {
-			if (txNombrePaciente.getText().toLowerCase().equals(em.nombre.toLowerCase())) {
+			if (txNombrePaciente.getText().toLowerCase().equals(em.nombre.toLowerCase())
+					&& em.estado.equals("Activado")) {
 				DefaultListModel<PacienteDto> filtro = new DefaultListModel<PacienteDto>();
 				filtro.addElement(em);
 				listPacientes.setModel(filtro);
@@ -503,7 +505,7 @@ public class VentanaFijarCita extends JFrame {
 
 	private void buscarDNIMedicosFiltro() {
 		for (EmpleadoDto em : jc.getMedicos()) {
-			if (txDniMedico.getText().toLowerCase().equals(em.dni.toLowerCase())) {
+			if (txDniMedico.getText().toLowerCase().equals(em.dni.toLowerCase()) && em.estado.equals("Activado")) {
 				DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
 				filtro.addElement(em);
 				listMedicos.setModel(filtro);
@@ -514,7 +516,8 @@ public class VentanaFijarCita extends JFrame {
 
 	private void buscarNombreMedicosFiltro() {
 		for (EmpleadoDto em : jc.getMedicos()) {
-			if (txNombreMedico.getText().toLowerCase().equals(em.nombre.toLowerCase())) {
+			if (txNombreMedico.getText().toLowerCase().equals(em.nombre.toLowerCase())
+					&& em.estado.equals("Activado")) {
 				DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
 				filtro.addElement(em);
 				listMedicos.setModel(filtro);
@@ -526,7 +529,8 @@ public class VentanaFijarCita extends JFrame {
 	private void mostrarTodosPacientes() {
 		DefaultListModel<PacienteDto> filtro = new DefaultListModel<PacienteDto>();
 		for (PacienteDto em : pc.listadoPacientes()) {
-			filtro.addElement(em);
+			if (em.estado.equals("Activado"))
+				filtro.addElement(em);
 		}
 		listPacientes.setModel(filtro);
 
@@ -535,7 +539,8 @@ public class VentanaFijarCita extends JFrame {
 	private void mostrarTodosMedicos() {
 		DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
 		for (EmpleadoDto em : jc.getMedicos()) {
-			filtro.addElement(em);
+			if (em.estado.equals("Activado"))
+				filtro.addElement(em);
 		}
 		listMedicos.setModel(filtro);
 

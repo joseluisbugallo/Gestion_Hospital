@@ -489,6 +489,7 @@ public class VentanaActividadEmpleados extends JFrame {
 						txEstado.setText(empleado.estado);
 						cargarTabla();
 						c.show(contentPane, "pnActividad");
+						mostrarTodosMedicos();
 					} else
 						JOptionPane.showMessageDialog(contentPane, "Debe seleccionar un empleado para ver su actividad",
 								"No hay empleado seleccionado", JOptionPane.WARNING_MESSAGE);
@@ -498,6 +499,16 @@ public class VentanaActividadEmpleados extends JFrame {
 			btnAceptar.setBounds(618, 339, 89, 23);
 		}
 		return btnAceptar;
+	}
+	
+	private void mostrarTodosMedicos() {
+		DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
+		for (EmpleadoDto em : jc.getMedicos()) {
+			if (em.estado.equals("Activado"))
+				filtro.addElement(em);
+		}
+		listEmpleados.setModel(filtro);
+
 	}
 
 	private void cargarTabla() {

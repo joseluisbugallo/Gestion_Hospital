@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alb.util.jdbc.Jdbc;
+import business.dto.EmpleadoDto;
 import business.dto.JornadaLaboralDto;
 
 public class DataJornada extends DataManager {
@@ -19,6 +20,7 @@ public class DataJornada extends DataManager {
 			+ "  where idjornada=?";
 	
 	private static final String SQL_SELECT_JORNADA_BY_MEDICO = "Select * from jornadalaboral where idempleado=?";
+	private static final String SQL_SELECT_EMPLEADO_BY_ID = "Select * from empleado where idempleado=?";
 
 	public List<JornadaLaboralDto> list() {
 		List<JornadaLaboralDto> jornadas = null;
@@ -124,6 +126,33 @@ public class DataJornada extends DataManager {
 			Jdbc.close(rs,st);
 		}
 		return jornadas;
+	}
+
+	public EmpleadoDto getMedicoById(int id) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		EmpleadoDto empleado = new EmpleadoDto();
+		try {
+			st = Jdbc.getCurrentConnection().prepareStatement(SQL_SELECT_EMPLEADO_BY_ID);
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			
+			while (rs.next()) {
+				
+				empleado.id = rs.getInt(1);
+				empleado.nombre = rs.getString(2);
+				empleado.dni = rs.getString(3);
+				empleado.cargo = rs.getString(4);
+				empleado.correo = rs.getString(5);
+				empleado.estado = rs.getString(6);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Jdbc.close(rs, st);
+		}
+		return empleado;
 	}
 
 }

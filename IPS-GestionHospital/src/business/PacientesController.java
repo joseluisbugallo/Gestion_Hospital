@@ -48,4 +48,10 @@ public class PacientesController {
 		dp.update(seleccion);
 		
 	}
+
+	public void desactivarPaciente(PacienteDto paciente) {
+		DataPaciente dp = new DataPaciente();
+		dp.update(paciente);
+		
+	}
 }

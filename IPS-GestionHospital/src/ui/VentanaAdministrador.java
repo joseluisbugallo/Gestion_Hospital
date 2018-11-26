@@ -17,8 +17,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import ui.admin.VentanaActividadEmpleados;
+import ui.admin.VentanaActividadPacientes;
 import ui.admin.VentanaConsultarCitas;
 import ui.admin.VentanaDesactivarEmpleado;
+import ui.admin.VentanaDesactivarPaciente;
 import ui.admin.VentanaFijarCita;
 import ui.jornada.VentanaJornadaLaboral;
 import ui.jornada.VentanaVacaciones;
@@ -40,6 +42,9 @@ public class VentanaAdministrador extends JFrame {
 	private JButton btnSalir;
 	private JButton btnDesactivarEmpleado;
 	private JButton btnVerActividadEmpleados;
+	private JPanel panel;
+	private JButton btnDesactivarPaciente;
+	private JButton btnVerActividadDePacientes;
 
 	/**
 	 * Constructor de la ventana.
@@ -131,6 +136,7 @@ public class VentanaAdministrador extends JFrame {
 			pnOpciones.add(getPnCitas());
 			pnOpciones.add(getPnJornadas());
 			pnOpciones.add(getBtnSalir());
+			pnOpciones.add(getPanel());
 		}
 		return pnOpciones;
 	}
@@ -216,5 +222,44 @@ public class VentanaAdministrador extends JFrame {
 			btnVerActividadEmpleados.setBounds(31, 181, 234, 23);
 		}
 		return btnVerActividadEmpleados;
+	}
+	private JPanel getPanel() {
+		if (panel == null) {
+			panel = new JPanel();
+			panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Pacientes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBounds(40, 254, 334, 146);
+			panel.setLayout(null);
+			panel.add(getBtnDesactivarPaciente());
+			panel.add(getBtnVerActividadDePacientes());
+		}
+		return panel;
+	}
+	private JButton getBtnDesactivarPaciente() {
+		if (btnDesactivarPaciente == null) {
+			btnDesactivarPaciente = new JButton("Desactivar paciente");
+			btnDesactivarPaciente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					VentanaDesactivarPaciente vdp = new VentanaDesactivarPaciente();
+					vdp.setVisible(true);
+					vdp.setLocationRelativeTo(null);
+				}
+			});
+			btnDesactivarPaciente.setBounds(31, 39, 228, 23);
+		}
+		return btnDesactivarPaciente;
+	}
+	private JButton getBtnVerActividadDePacientes() {
+		if (btnVerActividadDePacientes == null) {
+			btnVerActividadDePacientes = new JButton("Ver actividad de los pacientes");
+			btnVerActividadDePacientes.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					VentanaActividadPacientes vap = new VentanaActividadPacientes();
+					vap.setVisible(true);
+					vap.setLocationRelativeTo(null);
+				}
+			});
+			btnVerActividadDePacientes.setBounds(31, 85, 228, 23);
+		}
+		return btnVerActividadDePacientes;
 	}
 }
