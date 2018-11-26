@@ -24,6 +24,10 @@ import ui.medico.VentanaGestionCita;
 
 public class VentanaGestionPrescripciones extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private CitaDto cita;
 	private JPanel pnlPrincipal;
 	private JPanel panel;
@@ -58,7 +62,7 @@ public class VentanaGestionPrescripciones extends JDialog {
 	private void precargarLista() {
 		if (!this.cita.prescripcion.isEmpty()) {
 			String[] lista = this.cita.prescripcion.split("\n");
-			this.cita.listadoPrescripciones=new ArrayList<>();
+			this.cita.listadoPrescripciones = new ArrayList<>();
 			for (int i = 0; i < lista.length; i++) {
 				this.cita.listadoPrescripciones.add(lista[i]);
 			}
@@ -70,15 +74,15 @@ public class VentanaGestionPrescripciones extends JDialog {
 
 	private void actualizarLista() {
 		String[] list = new String[this.prescripciones.size()];
-		for(int i=0;i<list.length; i++) {
-			list[i]=this.prescripciones.get(i);
+		for (int i = 0; i < list.length; i++) {
+			list[i] = this.prescripciones.get(i);
 		}
-		if(list.length!=0) {
+		if (list.length != 0) {
 			this.listPrescripcion.setListData(list);
-		}
-		else {
-			String[] datos= {"No hay datos aun."};
-			this.listPrescripcion.setListData(datos);;
+		} else {
+			String[] datos = { "No hay datos aun." };
+			this.listPrescripcion.setListData(datos);
+			;
 		}
 	}
 
@@ -182,8 +186,8 @@ public class VentanaGestionPrescripciones extends JDialog {
 			VentanaGestionCita v = new VentanaGestionCita(cita);
 			v.setLocationRelativeTo(this);
 			v.setVisible(true);
-			this.listPrescripcion=null;
-			this.prescripciones=new ArrayList<>();
+			this.listPrescripcion = null;
+			this.prescripciones = new ArrayList<>();
 			this.dispose();
 		}
 	}
@@ -194,16 +198,16 @@ public class VentanaGestionPrescripciones extends JDialog {
 
 		if (respuesta == JOptionPane.YES_OPTION) {
 			this.cita.listadoPrescripciones = this.prescripciones;
-			cita.prescripcion="";
-			for(String s: this.prescripciones) {
-				cita.prescripcion+=s + "\n";
+			cita.prescripcion = "";
+			for (String s : this.prescripciones) {
+				cita.prescripcion += s + "\n";
 			}
 			cC.actualizarCita(cita);
 			VentanaGestionCita v = new VentanaGestionCita(this.cita);
 			v.setLocationRelativeTo(this);
 			v.setVisible(true);
-			this.listPrescripcion=null;
-			this.prescripciones=new ArrayList<>();
+			this.listPrescripcion = null;
+			this.prescripciones = new ArrayList<>();
 			this.dispose();
 		}
 	}

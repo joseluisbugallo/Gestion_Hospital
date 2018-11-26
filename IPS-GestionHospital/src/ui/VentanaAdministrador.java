@@ -159,7 +159,7 @@ public class VentanaAdministrador extends JFrame {
 			pnJornadas = new JPanel();
 			pnJornadas.setLayout(null);
 			pnJornadas.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Empleados", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			pnJornadas.setBounds(402, 64, 334, 250);
+			pnJornadas.setBounds(402, 64, 334, 336);
 			pnJornadas.add(getBtnJornadaLaboral());
 			pnJornadas.add(getBtnAsignarVacaciones());
 			pnJornadas.add(getBtnDesactivarEmpleado());
