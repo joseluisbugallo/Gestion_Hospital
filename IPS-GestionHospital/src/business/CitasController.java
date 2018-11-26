@@ -152,7 +152,7 @@ public class CitasController {
 		c.idEmpleado=cita.idEmpleado;
 		c.idPaciente=cita.idPaciente;
 		c.listadoPrescripciones=cita.listadoPrescripciones;
-		c.mapaAntecedentes=cita.mapaAntecedentes;
+		c.listadoAntecedentes= cita.listadoAntecedentes;
 		c.sala=cita.sala;
 		c.urgente=cita.urgente;
 		c.sintomas=cita.sintomas==null?"":cita.sintomas;

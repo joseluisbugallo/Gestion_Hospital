@@ -58,7 +58,7 @@ public class VentanaGestionPrescripciones extends JDialog {
 	private void precargarLista() {
 		if (!this.cita.prescripcion.isEmpty()) {
 			String[] lista = this.cita.prescripcion.split("\n");
-			this.cita.listadoPrescripciones=new ArrayList<String>();
+			this.cita.listadoPrescripciones=new ArrayList<>();
 			for (int i = 0; i < lista.length; i++) {
 				this.cita.listadoPrescripciones.add(lista[i]);
 			}
