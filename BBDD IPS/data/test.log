@@ -1,8 +1,44 @@
-/*C2*/SET SCHEMA PUBLIC
+/*C3*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C4*/SET SCHEMA PUBLIC
+drop table log
+CREATE TABLE log (\u000a  id INTEGER IDENTITY PRIMARY KEY,\u000a  cambio VARCHAR(5000),\u000afecha TIMESTAMP,\u000a)
+DISCONNECT
+/*C5*/SET SCHEMA PUBLIC
+INSERT INTO LOG VALUES(0,'Se ha entrado a la aplicacion como medico, con id: 1','2018-11-27 16:23:22.795000')
+COMMIT
+INSERT INTO LOG VALUES(1,'El medico con id: 1 ha listado sus citas asignadas para la fecha: Tue Nov 27 16:24:02 CET 2018','2018-11-27 16:24:02.421000')
+COMMIT
+INSERT INTO LOG VALUES(2,'El medico con id: 1 ha listado sus citas asignadas para la fecha: Tue Nov 27 00:00:00 CET 2018','2018-11-27 16:24:06.847000')
+COMMIT
+INSERT INTO LOG VALUES(3,'El medico con id: 1 ha listado sus citas asignadas para la fecha: Thu Oct 18 00:00:00 CEST 2018','2018-11-27 16:24:29.053000')
+COMMIT
+INSERT INTO LOG VALUES(4,'El medico con id: 1 ha accedido a la cita con id: 11','2018-11-27 16:24:36.446000')
+COMMIT
+INSERT INTO LOG VALUES(5,'El medico con id: 1 ha accedido al calendario de vacunas del paciente: 2','2018-11-27 16:24:52.750000')
+COMMIT
+INSERT INTO LOG VALUES(6,'El medico con id: 1 ha accedido al historial del paciente: 2en la cita con id : 11','2018-11-27 16:25:09.526000')
+COMMIT
+INSERT INTO LOG VALUES(7,'El medico con id: 1 ha accedido a los sintomas del paciente: 2para la cita con id : 11','2018-11-27 16:25:16.080000')
+COMMIT
+DELETE FROM CITA WHERE IDCITA=11
+INSERT INTO CITA VALUES(11,FALSE,2,1,'sala1','2018-10-18 13:00:00.000000','2018-10-18 14:00:00.000000',NULL,'',NULL,NULL)
+COMMIT
+INSERT INTO LOG VALUES(8,'El medico con id: 1 ha informado a modificado los sintomas al paciente: 2 durante la cita: 11 los sintomas son: ','2018-11-27 16:25:21.166000')
+COMMIT
 DELETE FROM DIAGNOSTICOSDECITAS WHERE IDCITA=11 AND IDCIE10='A00'
+DELETE FROM DIAGNOSTICOSDECITAS WHERE IDCITA=11 AND IDCIE10='W45'
 COMMIT
 INSERT INTO DIAGNOSTICOSDECITAS VALUES(11,'A00')
 COMMIT
+INSERT INTO LOG VALUES(9,'El medico con id: 1 ha a\u00f1adido el diagnostico del paciente: 2el diagnostico con id: A00','2018-11-27 16:25:30.307000')
+COMMIT
 INSERT INTO DIAGNOSTICOSDECITAS VALUES(11,'W45')
 COMMIT
+INSERT INTO LOG VALUES(10,'El medico con id: 1 ha a\u00f1adido el diagnostico del paciente: 2el diagnostico con id: W45','2018-11-27 16:25:30.309000')
+COMMIT
+INSERT INTO LOG VALUES(11,'El medico con id: 1 ha accedido a los diagnosticos del paciente: 2para la cita con id : 11','2018-11-27 16:25:30.333000')
+COMMIT
+DISCONNECT
+/*C6*/SET SCHEMA PUBLIC
 DISCONNECT

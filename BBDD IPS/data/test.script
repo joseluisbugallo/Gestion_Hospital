@@ -14617,3 +14617,4 @@ INSERT INTO CIE10 VALUES('|XXI7','Personas con riesgos potenciales para su salud
 INSERT INTO CIE10 VALUES('|XXII','Codigos para situaciones especiales','22')
 INSERT INTO CIE10 VALUES('|v2','Esquizofrenia,trastornos esquizot\u00edpicos y trastornos delirantes',NULL)
 INSERT INTO DIAGNOSTICOSDECITAS VALUES(11,'A00')
+INSERT INTO DIAGNOSTICOSDECITAS VALUES(11,'W45')
