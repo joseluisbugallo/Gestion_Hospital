@@ -504,7 +504,6 @@ public class VentanaActividadEmpleados extends JFrame {
 	private void mostrarTodosMedicos() {
 		DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
 		for (EmpleadoDto em : jc.getMedicos()) {
-			if (em.estado.equals("Activado"))
 				filtro.addElement(em);
 		}
 		listEmpleados.setModel(filtro);
