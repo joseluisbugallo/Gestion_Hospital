@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
@@ -30,6 +31,8 @@ import javax.swing.event.ListSelectionListener;
 import com.toedter.calendar.JDateChooser;
 
 import business.JornadaController;
+import business.LogController;
+import business.dto.CambioDto;
 import business.dto.EmpleadoDto;
 import business.dto.PacienteDto;
 
@@ -359,6 +362,11 @@ public class VentanaJornadaLaboral extends JFrame {
 			btnSeleccionarEmpleado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					((CardLayout) contentPane.getLayout()).show(contentPane, "panelBuscador");
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El administrador ha listado todos los empleados";
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 			btnSeleccionarEmpleado.setBounds(12, 25, 159, 25);

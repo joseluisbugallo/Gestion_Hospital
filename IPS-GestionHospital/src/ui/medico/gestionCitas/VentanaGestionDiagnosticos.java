@@ -12,7 +12,9 @@ import javax.swing.border.EmptyBorder;
 
 import business.CorreoElectronico;
 import business.DiagnosticoController;
+import business.LogController;
 import business.PacientesController;
+import business.dto.CambioDto;
 import business.dto.CitaDto;
 import business.dto.DiagnosticoDto;
 import business.dto.PacienteDto;
@@ -20,6 +22,7 @@ import ui.medico.VentanaGestionCita;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -308,6 +311,13 @@ public class VentanaGestionDiagnosticos extends JDialog {
 				DiagnosticoDto d = modeloDiagosticosFinales.getElementAt(i);
 				cita.diagnostico.add(d);
 				dc.addDiagnosticoACita(cita, d);
+				CambioDto cambio = new CambioDto();
+				cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+						" ha añadido el diagnostico del paciente: "+ cita.idPaciente
+						+"el diagnostico con id: " + d.id;
+				cambio.fecha = new Date();					
+				LogController lc = new LogController();
+				lc.añadirCambio(cambio);
 
 			}
 
@@ -327,12 +337,21 @@ public class VentanaGestionDiagnosticos extends JDialog {
 
 					mostrarMensaje("Se ha enviado un correo a gerencia", "Informacion",
 							JOptionPane.INFORMATION_MESSAGE);
+					
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+							" ha informado de una enfermedad EDO del paciente: "+ cita.idPaciente;							
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			}
 			VentanaGestionCita v = new VentanaGestionCita(this.cita);
 			v.setLocationRelativeTo(this);
 			v.setVisible(true);
 			this.dispose();
+			
+			
 		}
 	}
 

@@ -19,9 +19,22 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import business.CitasController;
+import business.LogController;
+import business.dto.CambioDto;
 import business.dto.CitaDto;
 import ui.medico.VentanaGestionCita;
 
+<<<<<<< HEAD
+=======
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.awt.event.ActionEvent;
+
+>>>>>>> H53-LOG
 public class VentanaGestionAntecedentes extends JDialog {
 
 	/**
@@ -133,11 +146,25 @@ public class VentanaGestionAntecedentes extends JDialog {
 			btnAadirAntecedente = new JButton("A\u00F1adir Antecedente");
 			btnAadirAntecedente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 					if (getTxtAntecedente().getText().isEmpty()) {
 						mostrarMensaje("¡El campo de antecedentes esta en blanco!",
 								"Error:no se ha especificado antecedente", JOptionPane.ERROR_MESSAGE);
 					} else {
 						addAntecedente();
+=======
+					if(getTxtAntecedente().getText().isEmpty()) {
+						mostrarMensaje("¡El campo de antecedentes esta en blanco!", "Error:no se ha especificado antecedente", JOptionPane.ERROR_MESSAGE);
+					}else {
+						addAntecedente(getTxtAntecedente().getText(),(TiposAntecedentes) getComboBox().getSelectedItem());
+						
+						CambioDto cambio = new CambioDto();
+						cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+								" ha añadido a los antecedentes del paciente: "+ cita.idPaciente + "el siguiente antecedente"+ getTxtAntecedente().getText() + ((TiposAntecedentes) getComboBox().getSelectedItem()).toString() ;
+						cambio.fecha = new Date();					
+						LogController lc = new LogController();
+						lc.añadirCambio(cambio);
+>>>>>>> H53-LOG
 					}
 				}
 			});
@@ -152,6 +179,13 @@ public class VentanaGestionAntecedentes extends JDialog {
 			btnGuardar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					guardarYSalir();
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+							" ha guardado los antecedentes del paciente: "+ cita.idPaciente ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
+					
 				}
 			});
 			btnGuardar.setBounds(592, 379, 97, 25);
@@ -195,6 +229,13 @@ public class VentanaGestionAntecedentes extends JDialog {
 			this.listAntecedentes = null;
 			this.antecedentes = new ArrayList<>();
 			this.dispose();
+			
+			CambioDto cambio = new CambioDto();
+			cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+					"no ha guardado los antecedentes del paciente: "+ cita.idPaciente ;
+			cambio.fecha = new Date();					
+			LogController lc = new LogController();
+			lc.añadirCambio(cambio);
 		}
 	}
 
@@ -234,6 +275,7 @@ public class VentanaGestionAntecedentes extends JDialog {
 			btnBorrarAntecedene = new JButton("Borrar Antecedene");
 			btnBorrarAntecedene.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 					if (getListAntecedentes().isSelectionEmpty()) {
 						mostrarMensaje("No hay ningun antecedente seleccionado", "Error al eliminar",
 								JOptionPane.ERROR_MESSAGE);
@@ -242,6 +284,17 @@ public class VentanaGestionAntecedentes extends JDialog {
 						antecedentes.remove(seleccion);
 						actualizarLista();
 					}
+=======
+					inicializarMapa();
+					txtAreaAntecedentes.setText("");
+					
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+							" ha borrado los antecedentes del paciente: "+ cita.idPaciente  ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
+>>>>>>> H53-LOG
 				}
 			});
 			btnBorrarAntecedene.setBounds(456, 66, 173, 28);

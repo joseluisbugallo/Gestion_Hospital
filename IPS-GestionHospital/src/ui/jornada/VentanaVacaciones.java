@@ -31,7 +31,9 @@ import javax.swing.event.ChangeListener;
 import com.toedter.calendar.JDateChooser;
 
 import business.JornadaController;
+import business.LogController;
 import business.VacacionesController;
+import business.dto.CambioDto;
 import business.dto.EmpleadoDto;
 import business.dto.JornadaLaboralDto;
 import business.dto.VacacionesDto;
@@ -175,6 +177,11 @@ public class VentanaVacaciones extends JFrame {
 			btnSeleccionarEmpleado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					c.show(contentPane, "pnSeleccionar");
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El administrador ha listado todos los empleados";
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 			btnSeleccionarEmpleado.setBounds(10, 32, 183, 23);
@@ -218,6 +225,12 @@ public class VentanaVacaciones extends JFrame {
 						lblNombreEmpleadoJornadas.setText(empleado.nombre);
 						inicializarListaJornadas();
 						listJornadas.setModel(listModelJornadas);
+						
+						CambioDto cambio = new CambioDto();
+						cambio.cambio = "El administrador ha listado las jornadas del empleado con id: "+empleado.id;
+						cambio.fecha = new Date();					
+						LogController lc = new LogController();
+						lc.añadirCambio(cambio);
 					} else
 						JOptionPane.showMessageDialog(contentPane,
 								"Para ver las jornadas de un empleado primero debe seleccionar uno",

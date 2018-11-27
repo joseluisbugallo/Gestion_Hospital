@@ -8,6 +8,8 @@ import javax.swing.border.TitledBorder;
 import com.toedter.calendar.JDateChooser;
 
 import business.CitasController;
+import business.LogController;
+import business.dto.CambioDto;
 import business.dto.CitaDto;
 
 import javax.swing.JTextArea;
@@ -18,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class VentanaGestionProcedimientos extends JDialog{
@@ -141,7 +144,17 @@ public class VentanaGestionProcedimientos extends JDialog{
 						String p = textAreaProc.getText();
 						cc.addProc(cita, p);
 						mostrarMensaje("¡Se han añadido procedimientos!", "Procedimiento añadido", JOptionPane.DEFAULT_OPTION);
+						
+						CambioDto cambio = new CambioDto();
+						cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+								" ha informado a añadido procedimientos realizados al paciente: "+ cita.idPaciente +
+								" durante la cita: "+cita.id +" los procedimientos son: "+p;							
+						cambio.fecha = new Date();					
+						LogController lc = new LogController();
+						lc.añadirCambio(cambio);
+						
 						dispose();
+						
 					}
 				}
 			});

@@ -3,6 +3,7 @@ package ui.jornada;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -11,6 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import business.JornadaController;
+import business.LogController;
+import business.dto.CambioDto;
 import business.dto.EmpleadoDto;
 
 public class VentanaConfirmacionJornada extends JDialog{
@@ -117,6 +120,12 @@ public class VentanaConfirmacionJornada extends JDialog{
 					jc.asignarJornada(v.getInicioDate(),v.getFinDate(), getTextFieldDias().getText().toString(),  empleado.id);
 					JOptionPane.showMessageDialog(v, "Jornada asignada correctamente", "Confirmado", JOptionPane.PLAIN_MESSAGE);
 					v.inicializar();
+					
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El administrador ha asignado una jornada al empleado con id: "+empleado.id;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 					dispose();
 				}
 			});

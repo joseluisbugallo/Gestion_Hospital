@@ -12,8 +12,10 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JCalendar;
 
+import business.LogController;
 import business.PacientesController;
 import business.VacunaController;
+import business.dto.CambioDto;
 import business.dto.CitaDto;
 import business.dto.DiagnosticoDto;
 import business.dto.VacunaDto;
@@ -224,6 +226,14 @@ public class VentanaGestionCalendarioVacunas extends JDialog {
 						mostrarMensaje("Rango de fechas para vacuna añadido", "Vacuna añadida",
 								JOptionPane.INFORMATION_MESSAGE);
 						colorearCalendario();
+						
+						CambioDto cambio = new CambioDto();
+						cambio.cambio = "El medico con id: "+ cita.idEmpleado +
+								" ha añadido al calendario de vacunas del paciente: "+ cita.idPaciente 
+								+" la vacuna: "+ vacuna.id;
+						cambio.fecha = new Date();					
+						LogController lc = new LogController();
+						lc.añadirCambio(cambio);
 					}
 
 				}

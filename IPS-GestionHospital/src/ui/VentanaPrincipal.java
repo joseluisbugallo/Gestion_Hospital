@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,7 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import alb.util.jdbc.Jdbc;
+import business.LogController;
 import business.PrincipalController;
+import business.dto.CambioDto;
 import business.dto.EmpleadoDto;
 import ui.medico.VentanaMedico;
 
@@ -70,6 +73,12 @@ public class VentanaPrincipal extends JFrame {
 					vadmin.setLocationRelativeTo(null);
 					vadmin.setTitle("Ventana de administrador");
 					vadmin.setVisible(true);
+					
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "Se ha entrado a la aplicacion como administrador";
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 		}
@@ -93,6 +102,12 @@ public class VentanaPrincipal extends JFrame {
 							ventanaMedico.setLocationRelativeTo(null);
 							ventanaMedico.setTitle("Medico: " + medico.nombre);
 							ventanaMedico.setVisible(true);
+							
+							CambioDto cambio = new CambioDto();
+							cambio.cambio = "Se ha entrado a la aplicacion como medico, con id: "+medico.id;
+							cambio.fecha = new Date();					
+							LogController lc = new LogController();
+							lc.añadirCambio(cambio);
 						} else {
 							mostrarMensaje("El dni introducido no pertenece a ningún medico registrado", "ERROR",
 									JOptionPane.ERROR_MESSAGE);
