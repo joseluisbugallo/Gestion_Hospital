@@ -201,6 +201,8 @@ public class VentanaGestionPrescripciones extends JDialog {
 
 		if (respuesta == JOptionPane.YES_OPTION) {
 			this.cita.listadoPrescripciones = this.prescripciones;
+
+
 			cita.prescripcion="";
 			for(String s: this.prescripciones) {
 				cita.prescripcion+=s + "\n";
@@ -211,6 +213,7 @@ public class VentanaGestionPrescripciones extends JDialog {
 				cambio.fecha = new Date();					
 				LogController lc = new LogController();
 				lc.añadirCambio(cambio);
+
 			}
 			cC.actualizarCita(cita);
 			VentanaGestionCita v = new VentanaGestionCita(this.cita);
@@ -220,6 +223,7 @@ public class VentanaGestionPrescripciones extends JDialog {
 			this.prescripciones = new ArrayList<>();
 			this.dispose();
 		}
+			
 	}
 
 	private void mostrarMensaje(String mess, String title, int icon) {
