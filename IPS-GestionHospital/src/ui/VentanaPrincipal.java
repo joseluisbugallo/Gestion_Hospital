@@ -40,7 +40,11 @@ public class VentanaPrincipal extends JFrame {
 					vP.setLocationRelativeTo(null);
 					vP.setTitle("Menu Principal...");
 					vP.setVisible(true);
-
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "Se ha arrancado la aplicacion" ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
@@ -24,6 +25,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import business.JornadaController;
+import business.LogController;
+import business.dto.CambioDto;
 import business.dto.EmpleadoDto;
 
 public class VentanaDesactivarEmpleado extends JFrame {
@@ -146,6 +149,11 @@ public class VentanaDesactivarEmpleado extends JFrame {
 			btnSeleccionarEmpleado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					c.show(contentPane, "pnSeleccionar");
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El administrador ha listado todos los empleados" ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 			btnSeleccionarEmpleado.setBounds(10, 21, 229, 23);
@@ -487,6 +495,13 @@ public class VentanaDesactivarEmpleado extends JFrame {
 							jc.desactivarEmpleado(empleado);
 							JOptionPane.showMessageDialog(contentPane, "El empleado ha sido desactivado con éxito",
 									"Empleado desactivado", JOptionPane.INFORMATION_MESSAGE);
+							
+							CambioDto cambio = new CambioDto();
+							cambio.cambio = "El administrador ha desactivado al empleado con id: "+empleado.id ;
+							cambio.fecha = new Date();					
+							LogController lc = new LogController();
+							lc.añadirCambio(cambio);
+							
 							dispose();
 						} else {
 

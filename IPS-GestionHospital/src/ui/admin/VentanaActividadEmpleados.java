@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
@@ -28,7 +29,9 @@ import javax.swing.table.DefaultTableModel;
 
 import business.CitasController;
 import business.JornadaController;
+import business.LogController;
 import business.PacientesController;
+import business.dto.CambioDto;
 import business.dto.CitaDto;
 import business.dto.EmpleadoDto;
 import business.dto.PacienteDto;
@@ -168,6 +171,12 @@ public class VentanaActividadEmpleados extends JFrame {
 			btnSeleccionarEmpleado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					c.show(contentPane, "pnSeleccionar");
+					
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El administrador ha listado todos los empleados" ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 		}
@@ -490,6 +499,12 @@ public class VentanaActividadEmpleados extends JFrame {
 						cargarTabla();
 						c.show(contentPane, "pnActividad");
 						mostrarTodosMedicos();
+						
+						CambioDto cambio = new CambioDto();
+						cambio.cambio = "El administrador ha listvisualizado los datos del empleado con id: "+ empleado.id ;
+						cambio.fecha = new Date();					
+						LogController lc = new LogController();
+						lc.añadirCambio(cambio);
 					} else
 						JOptionPane.showMessageDialog(contentPane, "Debe seleccionar un empleado para ver su actividad",
 								"No hay empleado seleccionado", JOptionPane.WARNING_MESSAGE);

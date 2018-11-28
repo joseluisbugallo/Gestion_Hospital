@@ -228,6 +228,11 @@ public class VentanaFijarCita extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					inicializarListas();
 					c.show(pnBase, "pnSeleccionarPaciente");
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El administrador ha listado todos los pacientes" ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 			btnSeleccionarPaciente.setBounds(125, 130, 177, 23);
@@ -260,6 +265,11 @@ public class VentanaFijarCita extends JFrame {
 			btnSeleccionarMedico.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					c.show(pnBase, "pnSeleccionarMedicos");
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El administrador ha listado todos los medicos" ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 			btnSeleccionarMedico.setBounds(125, 202, 177, 23);
