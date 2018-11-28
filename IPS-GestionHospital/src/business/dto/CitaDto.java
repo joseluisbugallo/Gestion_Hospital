@@ -45,6 +45,7 @@ public class CitaDto {
 		EmpleadoDto empleado = pc.findEmpleadoId(idEmpleado);
 		return empleado.nombre + "; ID: " + empleado.id;
 	}
+	
 
 	@Override
 	public String toString() {

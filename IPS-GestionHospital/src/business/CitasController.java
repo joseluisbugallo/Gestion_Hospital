@@ -142,6 +142,17 @@ public class CitasController {
 		dc.update(cita);
 		
 	}
+	
+	public void modificarCita(CitaDto cita, int idP, int idE, String sala, java.util.Date fi, java.util.Date ff) {
+		DataCita dc = new DataCita();
+		cita.fechafin=ff;
+		cita.fechainicio=fi;
+		cita.idEmpleado=idE;
+		cita.idPaciente=idP;
+		cita.sala=sala;
+		dc.update(cita);
+		
+	}
 
 	public CitaDto precargarDatos(CitaDto cita) {
 		CitaDto c = new CitaDto();
@@ -171,4 +182,5 @@ public class CitasController {
 		DataCita dc = new DataCita();
 		dc.delete(cita);
 	}
+	
 }

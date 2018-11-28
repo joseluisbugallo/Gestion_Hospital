@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import business.CitasController;
 import business.JornadaController;
 import business.PacientesController;
 import business.dto.CitaDto;
@@ -51,6 +52,7 @@ public class VentanaModificarCitas extends JFrame{
 	
 	private JornadaController jc = new JornadaController();
 	private PacientesController pc = new PacientesController();
+	private CitasController citasController = new CitasController();
 	
 	DefaultListModel<EmpleadoDto> listModelMedicos;
 	DefaultListModel<PacienteDto> listModelPacientes;
@@ -283,13 +285,9 @@ public class VentanaModificarCitas extends JFrame{
 			btnAceptar = new JButton("Aceptar");
 			btnAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-				    //TODO mirar fijar cita como esta implementado el boton aceptar que coje los datos de los textfield
-					cita.fechafin=dateChooserFin.getDate();
-					cita.fechainicio=dateChooserInicio.getDate();
-					cita.idPaciente=pacienteElegido.id;
-					cita.idEmpleado=medicoElegido.id;
-					cita.sala=textFieldLocalizacion.getText();
-					System.out.println(cita.toString());
+					citasController.modificarCita(cita, pacienteElegido.id, medicoElegido.id, textFieldLocalizacion.getText(), 
+							dateChooserInicio.getDate(), dateChooserFin.getDate());
+					System.out.println(citasController.getListadoCompletoDecitas());
 				}
 			});
 			btnAceptar.setBounds(619, 421, 97, 25);
@@ -305,7 +303,7 @@ public class VentanaModificarCitas extends JFrame{
 					dateChooserFin.setDate(cita.fechafin);
 					textFieldLocalizacion.setText(cita.sala);
 					textField.setText(cita.mostrarPaciente());
-					//textArea.setText(cita.mostrarMedico());
+					textArea.setText(cita.mostrarMedico());
 				}
 			});
 			btnCancelar.setBounds(510, 421, 97, 25);
@@ -319,7 +317,7 @@ public class VentanaModificarCitas extends JFrame{
 				public void actionPerformed(ActionEvent arg0) {
 					//TODO como meter si seleccionas dos medicos???
 					medicoElegido = listMedico.getSelectedValue();
-					textArea.setText(listMedico.getSelectedValue().nombre);
+					textArea.setText(medicoElegido.nombre + ";ID: "+ medicoElegido.id);
 					((CardLayout) getContentPane().getLayout()).show(getContentPane(), "panelPrincipal");
 				}
 			});
