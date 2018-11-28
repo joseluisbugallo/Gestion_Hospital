@@ -46,7 +46,8 @@ public class CitaDto {
 	
 	public String mostrarMedico() {
 		PrincipalController pc = new PrincipalController();
-		return pc.findEmpleadoId(idEmpleado).nombre;
+		EmpleadoDto empleado = pc.findEmpleadoId(idEmpleado);
+		return empleado.nombre + "; ID: " + empleado.id;
 	}
 >>>>>>> Ventana Modificar Citas
 

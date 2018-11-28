@@ -72,7 +72,10 @@ public class VentanaModificarCitas extends JFrame{
 	private JLabel lblFechaFin;
 	private JLabel lblLocalizacin;
 	
+	private CitaDto cita;
+	
 	public VentanaModificarCitas(CitaDto cita) {
+		this.cita=cita;
 		c = new CardLayout();
 		setResizable(false);
 		setTitle("Gestionar Citas: Modificar Cita");
@@ -85,7 +88,7 @@ public class VentanaModificarCitas extends JFrame{
 		textFieldLocalizacion.setText(cita.sala);
 		dateChooserInicio.setDate(cita.fechainicio);
 		dateChooserFin.setDate(cita.fechafin);
-		//textArea.setText(cita.mostrarMedico());
+		textArea.setText(cita.mostrarMedico());
 		textField.setText(cita.mostrarPaciente());
 	}
 	
@@ -276,6 +279,17 @@ public class VentanaModificarCitas extends JFrame{
 	private JButton getBtnAceptar() {
 		if (btnAceptar == null) {
 			btnAceptar = new JButton("Aceptar");
+			btnAceptar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+				    //TODO mirar fijar cita como esta implementado el boton aceptar que coje los datos de los textfield
+				
+					cita.fechafin=dateChooserFin.getDate();
+					cita.fechainicio=dateChooserInicio.getDate();
+					cita.idPaciente=listPaciente.getSelectedValue().id;
+					//cita.idEmpleado=listMedico.getSelectedValue().id;
+					cita.sala=textFieldLocalizacion.getText();
+				}
+			});
 			btnAceptar.setBounds(619, 421, 97, 25);
 		}
 		return btnAceptar;
@@ -283,6 +297,15 @@ public class VentanaModificarCitas extends JFrame{
 	private JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Cancelar");
+			btnCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					dateChooserInicio.setDate(cita.fechainicio);
+					dateChooserFin.setDate(cita.fechafin);
+					textFieldLocalizacion.setText(cita.sala);
+					textField.setText(cita.mostrarPaciente());
+					//textArea.setText(cita.mostrarMedico());
+				}
+			});
 			btnCancelar.setBounds(510, 421, 97, 25);
 		}
 		return btnCancelar;
@@ -290,6 +313,13 @@ public class VentanaModificarCitas extends JFrame{
 	private JButton getBtnAceptar_1() {
 		if (btnAceptar_1 == null) {
 			btnAceptar_1 = new JButton("Aceptar");
+			btnAceptar_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//TODO como meter si seleccionas dos medicos???
+					textArea.setText(listMedico.getSelectedValue().nombre);
+					((CardLayout) getContentPane().getLayout()).show(getContentPane(), "panelPrincipal");
+				}
+			});
 			btnAceptar_1.setBounds(607, 424, 97, 25);
 		}
 		return btnAceptar_1;
@@ -431,6 +461,12 @@ public class VentanaModificarCitas extends JFrame{
 	private JButton getBtnAceptar_2() {
 		if (btnAceptar_2 == null) {
 			btnAceptar_2 = new JButton("Aceptar");
+			btnAceptar_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					textField.setText(listPaciente.getSelectedValue().nombre);
+					((CardLayout) getContentPane().getLayout()).show(getContentPane(), "panelPrincipal");
+				}
+			});
 			btnAceptar_2.setBounds(607, 424, 97, 25);
 		}
 		return btnAceptar_2;
