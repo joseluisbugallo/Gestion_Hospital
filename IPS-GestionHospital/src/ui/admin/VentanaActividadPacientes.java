@@ -439,7 +439,7 @@ public class VentanaActividadPacientes extends JFrame {
 
 			}
 		}
-		
+		System.out.println(medicos);
 		String medicosNombres = "";
 		if (medicos.size() > 1) {
 			for (EmpleadoDto em : medicos) {
