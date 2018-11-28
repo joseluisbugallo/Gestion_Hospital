@@ -26,7 +26,7 @@ public class CitasController {
 //			System.out.println(jornada.fechafin.compareTo(cita.fechafin)<=0);
 			if (jornada.fechainicio.compareTo(cita.fechainicio)>=0 
 					&& jornada.fechafin.compareTo(cita.fechafin)<=0) {
-					return true; // La cita está disponible!!
+					return true; // La cita estï¿½ disponible!!
 			}
 		}
 		return false;

@@ -13,10 +13,6 @@ public class DataEmpleado extends DataManager {
 
 	private static final String SQL_SELECT_EMPLEADO = "Select * from empleado";
 	private static final String SQL_SELECT_EMPLEADO_BY_DNI = "Select * from empleado where dni=?";
-<<<<<<< master
-	private static final String SQL_INSERT_EMPLEADO = "Insert into empleado(nombreempleado, dni, cargo, correo, estado)"
-			+ " values (?, ?, ?, ?, ?)";
-=======
 	private static final String SQL_SELECT_EMPLEADO_BY_ID = "Select * from empleado where idempleado=?";
 	private static final String SQL_INSERT_EMPLEADO = "Insert into empleado(nombreempleado, dni, cargo, correo)"
 			+ " values (?, ?, ?, ?)";

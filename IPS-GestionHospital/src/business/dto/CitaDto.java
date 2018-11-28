@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import business.PacientesController;
-<<<<<<< master
-=======
 import business.PrincipalController;
 import business.enums.TiposAntecedentes;
 
@@ -36,8 +34,6 @@ public class CitaDto {
 				+ fechafin.getHours() + ":" + fechafin.getMinutes() + "  Paciente: "
 				+ pc.findPacientesById(idPaciente).nombre + " En la sala: " + sala;
 	}
-<<<<<<< master
-=======
 	
 	public String mostrarPaciente() {
 		PacientesController pc = new PacientesController();
@@ -49,7 +45,6 @@ public class CitaDto {
 		EmpleadoDto empleado = pc.findEmpleadoId(idEmpleado);
 		return empleado.nombre + "; ID: " + empleado.id;
 	}
->>>>>>> Ventana Modificar Citas
 
 	@Override
 	public String toString() {
