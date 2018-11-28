@@ -16,7 +16,7 @@ public class DataEmpleado extends DataManager {
 	private static final String SQL_SELECT_EMPLEADO_BY_ID = "Select * from empleado where idempleado=?";
 	private static final String SQL_INSERT_EMPLEADO = "Insert into empleado(nombreempleado, dni, cargo, correo)"
 			+ " values (?, ?, ?, ?)";
->>>>>>> Ventana Modificar Citas
+
 	private static final String SQL_DELETE_EMPLEADO = "Delete from empleado where dni=?";
 	private static final String SQL_UPDATE_EMPLEADO = "Update empleado set nombreempleado=?, cargo=?, correo=?, estado=? where dni=?";
 

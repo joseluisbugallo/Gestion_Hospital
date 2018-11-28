@@ -161,16 +161,14 @@ public class CitasController {
 		c.prescripcion=cita.prescripcion==null?"":cita.prescripcion;		
 		return c;
 	}
-<<<<<<< master
-
+	
 	public List<CitaDto> getCitasByIDPaciente(PacienteDto paciente) {
 		DataCita dc = new DataCita();
 		return dc.listCitasByIdPaciente(paciente.id);
-=======
-	
+		}
+
 	public void eliminarCita(CitaDto cita) {
 		DataCita dc = new DataCita();
 		dc.delete(cita);
->>>>>>> Ventana Modificar Citas
 	}
 }

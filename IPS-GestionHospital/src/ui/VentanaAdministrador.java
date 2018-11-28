@@ -41,15 +41,15 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel pnJornadas;
 	private JButton btnAsignarVacaciones;
 	private JButton btnSalir;
-<<<<<<< master
+
 	private JButton btnDesactivarEmpleado;
 	private JButton btnVerActividadEmpleados;
 	private JPanel panel;
 	private JButton btnDesactivarPaciente;
 	private JButton btnVerActividadDePacientes;
-=======
+
 	private JButton btnGestionarCitas;
->>>>>>> Inicio Gestión Citas Admin
+
 
 	/**
 	 * Constructor de la ventana.
@@ -201,7 +201,6 @@ public class VentanaAdministrador extends JFrame {
 		}
 		return btnSalir;
 	}
-<<<<<<< master
 	private JButton getBtnDesactivarEmpleado() {
 		if (btnDesactivarEmpleado == null) {
 			btnDesactivarEmpleado = new JButton("Desactivar empleado");
@@ -268,7 +267,7 @@ public class VentanaAdministrador extends JFrame {
 			btnVerActividadDePacientes.setBounds(31, 85, 228, 23);
 		}
 		return btnVerActividadDePacientes;
-=======
+	}
 	private JButton getBtnGestionarCitas() {
 		if (btnGestionarCitas == null) {
 			btnGestionarCitas = new JButton("Gestionar Citas");
@@ -282,6 +281,5 @@ public class VentanaAdministrador extends JFrame {
 			btnGestionarCitas.setBounds(30, 126, 143, 25);
 		}
 		return btnGestionarCitas;
->>>>>>> Inicio Gestión Citas Admin
 	}
 }

@@ -7,7 +7,7 @@ import business.PacientesController;
 import business.PrincipalController;
 import business.enums.TiposAntecedentes;
 
->>>>>>> Ventana Modificar Citas
+
 
 public class CitaDto {
 
