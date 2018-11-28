@@ -28,7 +28,7 @@ import javax.swing.JList;
 import javax.swing.ListModel;
 import com.toedter.calendar.JDateChooser;
 
-public class VentanaModificarCitas extends JFrame{
+public class VentanaModificarCitas extends JFrame {
 	/**
 	 * 
 	 */
@@ -52,11 +52,11 @@ public class VentanaModificarCitas extends JFrame{
 	private JButton btnCancelar;
 	private JButton btnAceptar_1;
 	private JButton btnCancelar_1;
-	
+
 	private JornadaController jc = new JornadaController();
 	private PacientesController pc = new PacientesController();
 	private CitasController citasController = new CitasController();
-	
+
 	DefaultListModel<EmpleadoDto> listModelMedicos;
 	DefaultListModel<PacienteDto> listModelPacientes;
 	private JButton btnLimpiar;
@@ -76,13 +76,13 @@ public class VentanaModificarCitas extends JFrame{
 	private JLabel lblFechaInicio;
 	private JLabel lblFechaFin;
 	private JLabel lblLocalizacin;
-	
+
 	private CitaDto cita;
 	private PacienteDto pacienteElegido;
 	private EmpleadoDto medicoElegido;
-	
+
 	public VentanaModificarCitas(CitaDto cita) {
-		this.cita=cita;
+		this.cita = cita;
 		c = new CardLayout();
 		setResizable(false);
 		setTitle("Gestionar Citas: Modificar Cita");
@@ -98,12 +98,13 @@ public class VentanaModificarCitas extends JFrame{
 		textArea.setText(cita.mostrarMedico());
 		textField.setText(cita.mostrarPaciente());
 	}
-	
+
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setBounds(29, 31, 687, 114);
-			panel.setBorder(new TitledBorder(null, "Fecha y localizaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBorder(new TitledBorder(null, "Fecha y localizaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP,
+					null, null));
 			panel.setLayout(null);
 			panel.add(getDateChooserInicio());
 			panel.add(getDateChooserFin());
@@ -114,6 +115,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return panel;
 	}
+
 	private JPanel getPanelPrincipal() {
 		if (panelPrincipal == null) {
 			panelPrincipal = new JPanel();
@@ -125,10 +127,12 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return panelPrincipal;
 	}
+
 	private JPanel getPanel_1_1() {
 		if (panelMedPac == null) {
 			panelMedPac = new JPanel();
-			panelMedPac.setBorder(new TitledBorder(null, "Paciente y M\u00E9dicos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panelMedPac.setBorder(new TitledBorder(null, "Paciente y M\u00E9dicos", TitledBorder.LEADING,
+					TitledBorder.TOP, null, null));
 			panelMedPac.setBounds(29, 158, 687, 239);
 			panelMedPac.setLayout(null);
 			panelMedPac.add(getBtnSeleccionarPaciente());
@@ -138,6 +142,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return panelMedPac;
 	}
+
 	private JButton getBtnSeleccionarPaciente() {
 		if (btnSeleccionarPaciente == null) {
 			btnSeleccionarPaciente = new JButton("Seleccionar paciente");
@@ -155,6 +160,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return btnSeleccionarPaciente;
 	}
+
 	private JButton getBtnSeleccionarMdicos() {
 		if (btnSeleccionarMdicos == null) {
 			btnSeleccionarMdicos = new JButton("Seleccionar m\u00E9dico(s)");
@@ -172,6 +178,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return btnSeleccionarMdicos;
 	}
+
 	private JTextField getTextField_1() {
 		if (textField == null) {
 			textField = new JTextField();
@@ -180,6 +187,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return textField;
 	}
+
 	private JTextArea getTextArea_1() {
 		if (textArea == null) {
 			textArea = new JTextArea();
@@ -187,6 +195,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return textArea;
 	}
+
 	private JPanel getPnSeleccionarMedicos() {
 		if (pnSeleccionarMedicos == null) {
 			pnSeleccionarMedicos = new JPanel();
@@ -203,6 +212,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return pnSeleccionarMedicos;
 	}
+
 	private JLabel getLblTitulo() {
 		if (lblTitulo == null) {
 			lblTitulo = new JLabel("Seleccionar m\u00E9dico(s)");
@@ -211,6 +221,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return lblTitulo;
 	}
+
 	private JTextField getTextField_1_1() {
 		if (textFieldDNI == null) {
 			textFieldDNI = new JTextField();
@@ -219,6 +230,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return textFieldDNI;
 	}
+
 	private JButton getBtnBuscarPorDni() {
 		if (btnBuscarPorDni == null) {
 			btnBuscarPorDni = new JButton("Buscar por DNI");
@@ -232,7 +244,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return btnBuscarPorDni;
 	}
-	
+
 	private void buscarDNIMedicosFiltro() {
 		for (EmpleadoDto em : jc.getMedicos()) {
 			if (textFieldDNI.getText().toLowerCase().equals(em.dni.toLowerCase())) {
@@ -242,7 +254,7 @@ public class VentanaModificarCitas extends JFrame{
 			}
 		}
 	}
-	
+
 	private void buscarDNIPacientesFiltro() {
 		for (PacienteDto em : pc.listadoPacientes()) {
 			if (textFieldDNIP.getText().toLowerCase().equals(em.dni.toLowerCase())) {
@@ -252,7 +264,7 @@ public class VentanaModificarCitas extends JFrame{
 			}
 		}
 	}
-	
+
 	private JTextField getTextFieldNombre() {
 		if (textFieldNombre == null) {
 			textFieldNombre = new JTextField();
@@ -261,6 +273,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return textFieldNombre;
 	}
+
 	private JButton getBtnBuscarPorNombre() {
 		if (btnBuscarPorNombre == null) {
 			btnBuscarPorNombre = new JButton("Buscar por nombre");
@@ -273,7 +286,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return btnBuscarPorNombre;
 	}
-	
+
 	private void buscarNombreMedicosFiltro() {
 		for (EmpleadoDto em : jc.getMedicos()) {
 			if (textFieldNombre.getText().toLowerCase().equals(em.nombre.toLowerCase())) {
@@ -284,7 +297,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 
 	}
-	
+
 	private JList<EmpleadoDto> getListMedico() {
 		if (listMedico == null) {
 			listMedico = new JList<>(listModelMedicos);
@@ -293,13 +306,28 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return listMedico;
 	}
+
 	private JButton getBtnAceptar() {
 		if (btnAceptar == null) {
 			btnAceptar = new JButton("Aceptar");
 			btnAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					citasController.modificarCita(cita, pacienteElegido.id, medicoElegido.id, textFieldLocalizacion.getText(), 
-							dateChooserInicio.getDate(), dateChooserFin.getDate());
+					if (pacienteElegido == null && medicoElegido == null) {
+						citasController.modificarCita(cita, cita.idPaciente, cita.idEmpleado,
+								textFieldLocalizacion.getText(), dateChooserInicio.getDate(), dateChooserFin.getDate());
+					}
+					if (pacienteElegido == null && medicoElegido != null) {
+						citasController.modificarCita(cita, cita.idPaciente, medicoElegido.id,
+								textFieldLocalizacion.getText(), dateChooserInicio.getDate(), dateChooserFin.getDate());
+					}
+					if(pacienteElegido != null && medicoElegido == null) {
+						citasController.modificarCita(cita, pacienteElegido.id, cita.idEmpleado,
+								textFieldLocalizacion.getText(), dateChooserInicio.getDate(), dateChooserFin.getDate());
+					}
+					if(pacienteElegido != null && medicoElegido != null) {
+						citasController.modificarCita(cita, pacienteElegido.id, medicoElegido.id,
+								textFieldLocalizacion.getText(), dateChooserInicio.getDate(), dateChooserFin.getDate());
+					}
 					System.out.println(citasController.getListadoCompletoDecitas());
 					CambioDto cambio = new CambioDto();
 					String c = "El administrador ha modificado la cita con id: "+ cita.id;
@@ -319,6 +347,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return btnAceptar;
 	}
+
 	private JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Cancelar");
@@ -335,14 +364,15 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return btnCancelar;
 	}
+
 	private JButton getBtnAceptar_1() {
 		if (btnAceptar_1 == null) {
 			btnAceptar_1 = new JButton("Aceptar");
 			btnAceptar_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					//TODO como meter si seleccionas dos medicos???
+					// TODO como meter si seleccionas dos medicos???
 					medicoElegido = listMedico.getSelectedValue();
-					textArea.setText(medicoElegido.nombre + ";ID: "+ medicoElegido.id);
+					textArea.setText(medicoElegido.nombre + ";ID: " + medicoElegido.id);
 					((CardLayout) getContentPane().getLayout()).show(getContentPane(), "panelPrincipal");
 				}
 			});
@@ -350,6 +380,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return btnAceptar_1;
 	}
+
 	private JButton getBtnCancelar_1() {
 		if (btnCancelar_1 == null) {
 			btnCancelar_1 = new JButton("Cancelar");
@@ -365,7 +396,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return btnCancelar_1;
 	}
-	
+
 	private void inicializarListas() {
 		listModelPacientes = new DefaultListModel<PacienteDto>();
 		for (PacienteDto paciente : pc.listadoPacientes()) {
@@ -376,6 +407,7 @@ public class VentanaModificarCitas extends JFrame{
 			listModelMedicos.addElement(empleado);
 		}
 	}
+
 	private JButton getBtnLimpiar() {
 		if (btnLimpiar == null) {
 			btnLimpiar = new JButton("Limpiar");
@@ -390,7 +422,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return btnLimpiar;
 	}
-	
+
 	private void mostrarTodosMedicos() {
 		DefaultListModel<EmpleadoDto> filtro = new DefaultListModel<EmpleadoDto>();
 		for (EmpleadoDto em : jc.getMedicos()) {
@@ -398,7 +430,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		listMedico.setModel(filtro);
 	}
-	
+
 	private JPanel getPnSeleccionarPaciente() {
 		if (pnSeleccionarPaciente == null) {
 			pnSeleccionarPaciente = new JPanel();
@@ -415,6 +447,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return pnSeleccionarPaciente;
 	}
+
 	private JLabel getLblSeleccionarPaciente() {
 		if (lblSeleccionarPaciente == null) {
 			lblSeleccionarPaciente = new JLabel("Seleccionar paciente");
@@ -423,6 +456,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return lblSeleccionarPaciente;
 	}
+
 	private JTextField getTextField_1_2() {
 		if (textFieldDNIP == null) {
 			textFieldDNIP = new JTextField();
@@ -431,6 +465,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return textFieldDNIP;
 	}
+
 	private JButton getButton() {
 		if (button == null) {
 			button = new JButton("Buscar por DNI");
@@ -444,6 +479,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return button;
 	}
+
 	private JTextField getTextFieldNombreP() {
 		if (textFieldNombreP == null) {
 			textFieldNombreP = new JTextField();
@@ -452,6 +488,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return textFieldNombreP;
 	}
+
 	private JButton getBtnBuscarNombreP() {
 		if (btnBuscarNombreP == null) {
 			btnBuscarNombreP = new JButton("Buscar por nombre");
@@ -464,7 +501,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return btnBuscarNombreP;
 	}
-	
+
 	private void buscarNombrePacientesFiltro() {
 
 		for (PacienteDto em : pc.listadoPacientes()) {
@@ -475,7 +512,7 @@ public class VentanaModificarCitas extends JFrame{
 			}
 		}
 	}
-	
+
 	private JList<PacienteDto> getListPaciente() {
 		if (listPaciente == null) {
 			listPaciente = new JList<PacienteDto>(listModelPacientes);
@@ -484,6 +521,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return listPaciente;
 	}
+
 	private JButton getBtnAceptar_2() {
 		if (btnAceptar_2 == null) {
 			btnAceptar_2 = new JButton("Aceptar");
@@ -498,6 +536,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return btnAceptar_2;
 	}
+
 	private JButton getBtnCancelar_2() {
 		if (btnCancelar_2 == null) {
 			btnCancelar_2 = new JButton("Cancelar");
@@ -513,7 +552,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return btnCancelar_2;
 	}
-	
+
 	private void mostrarTodosPacientes() {
 		DefaultListModel<PacienteDto> filtro = new DefaultListModel<PacienteDto>();
 		for (PacienteDto em : pc.listadoPacientes()) {
@@ -521,6 +560,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		listPaciente.setModel(filtro);
 	}
+
 	private JButton getBtnLimpiar_2() {
 		if (btnLimpiar_2 == null) {
 			btnLimpiar_2 = new JButton("Limpiar");
@@ -535,6 +575,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return btnLimpiar_2;
 	}
+
 	private JDateChooser getDateChooserInicio() {
 		if (dateChooserInicio == null) {
 			dateChooserInicio = new JDateChooser();
@@ -543,6 +584,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return dateChooserInicio;
 	}
+
 	private JDateChooser getDateChooserFin() {
 		if (dateChooserFin == null) {
 			dateChooserFin = new JDateChooser();
@@ -551,6 +593,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return dateChooserFin;
 	}
+
 	private JTextField getTextField_1_3() {
 		if (textFieldLocalizacion == null) {
 			textFieldLocalizacion = new JTextField();
@@ -559,6 +602,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return textFieldLocalizacion;
 	}
+
 	private JLabel getLblFechaInicio() {
 		if (lblFechaInicio == null) {
 			lblFechaInicio = new JLabel("Fecha inicio:");
@@ -566,6 +610,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return lblFechaInicio;
 	}
+
 	private JLabel getLblFechaFin() {
 		if (lblFechaFin == null) {
 			lblFechaFin = new JLabel("Fecha fin:");
@@ -573,6 +618,7 @@ public class VentanaModificarCitas extends JFrame{
 		}
 		return lblFechaFin;
 	}
+
 	private JLabel getLblLocalizacin() {
 		if (lblLocalizacin == null) {
 			lblLocalizacin = new JLabel("Localizaci\u00F3n:");
