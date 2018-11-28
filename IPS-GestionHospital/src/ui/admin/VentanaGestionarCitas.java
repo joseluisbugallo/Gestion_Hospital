@@ -9,6 +9,8 @@ import javax.swing.JList;
 import javax.swing.SwingConstants;
 
 import business.CitasController;
+import business.LogController;
+import business.dto.CambioDto;
 import business.dto.CitaDto;
 
 import java.awt.Font;
@@ -19,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 import java.util.List;
 
 public class VentanaGestionarCitas extends JFrame{
@@ -42,6 +45,12 @@ public class VentanaGestionarCitas extends JFrame{
 		setBounds(100, 100, 800, 600);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		getContentPane().add(getPanelPrincipal());
+		
+		CambioDto cambio = new CambioDto();
+		cambio.cambio = "El administrador ha listado todas las citas" ;
+		cambio.fecha = new Date();					
+		LogController lc = new LogController();
+		lc.añadirCambio(cambio);
 		cargarModelo();
 	}
 
@@ -104,6 +113,12 @@ public class VentanaGestionarCitas extends JFrame{
 					VentanaModificarCitas vv = new VentanaModificarCitas(list.getSelectedValue());
 					vv.setVisible(true);
 					vv.setLocationRelativeTo(null);
+					
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El administrador ha entrado a modificar la cita con id: "+ list.getSelectedValue().id ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 		}
@@ -115,8 +130,17 @@ public class VentanaGestionarCitas extends JFrame{
 			btnEliminar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					citasController.eliminarCita(list.getSelectedValue());
+					
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El administrador ha eliminado la cita con id: "+ list.getSelectedValue().id ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
+					
 					modeloCitas.removeAllElements();
 					cargarModelo();
+					
+					
 				}
 			});
 			btnEliminar.setEnabled(false);

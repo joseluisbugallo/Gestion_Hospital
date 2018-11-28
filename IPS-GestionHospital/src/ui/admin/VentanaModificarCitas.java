@@ -6,7 +6,9 @@ import javax.swing.border.TitledBorder;
 
 import business.CitasController;
 import business.JornadaController;
+import business.LogController;
 import business.PacientesController;
+import business.dto.CambioDto;
 import business.dto.CitaDto;
 import business.dto.EmpleadoDto;
 import business.dto.PacienteDto;
@@ -18,6 +20,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JTextArea;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -141,6 +144,11 @@ public class VentanaModificarCitas extends JFrame{
 			btnSeleccionarPaciente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					((CardLayout) getContentPane().getLayout()).show(getContentPane(), "pnSeleccionarPaciente");
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El administrador ha listado todos los pacientes" ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 			btnSeleccionarPaciente.setBounds(12, 45, 163, 25);
@@ -153,6 +161,11 @@ public class VentanaModificarCitas extends JFrame{
 			btnSeleccionarMdicos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					((CardLayout) getContentPane().getLayout()).show(getContentPane(), "pnSeleccionarMedicos");
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El administrador ha listado todos los medicos " ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 			btnSeleccionarMdicos.setBounds(12, 100, 163, 25);
@@ -288,6 +301,18 @@ public class VentanaModificarCitas extends JFrame{
 					citasController.modificarCita(cita, pacienteElegido.id, medicoElegido.id, textFieldLocalizacion.getText(), 
 							dateChooserInicio.getDate(), dateChooserFin.getDate());
 					System.out.println(citasController.getListadoCompletoDecitas());
+					CambioDto cambio = new CambioDto();
+					String c = "El administrador ha modificado la cita con id: "+ cita.id;
+					c = c + " El paciente de la cita es id: "+ pacienteElegido.id;
+					c = c + " El medico de la cita es id: "+ medicoElegido.id;
+					c = c + " La sala de la cita es "+ textFieldLocalizacion.getText();
+					c = c + " La fecha de inicio es: "+ dateChooserInicio.getDate();
+					c = c + " La fecha de fin es: "+ dateChooserFin.getDate();				
+					
+					cambio.cambio =  c;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 			btnAceptar.setBounds(619, 421, 97, 25);
