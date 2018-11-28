@@ -18,11 +18,16 @@ import javax.swing.border.TitledBorder;
 
 import ui.admin.VentanaActividadEmpleados;
 import ui.admin.VentanaActividadPacientes;
+import ui.admin.VentanaAddEmpleado;
 import ui.admin.VentanaConsultarCitas;
 import ui.admin.VentanaDesactivarEmpleado;
 import ui.admin.VentanaDesactivarPaciente;
 import ui.admin.VentanaFijarCita;
+<<<<<<< HEAD
 import ui.admin.VentanaGestionarCitas;
+=======
+import ui.admin.VentanaModificarEmpleado;
+>>>>>>> gestion_empleado_pacientes
 import ui.jornada.VentanaJornadaLaboral;
 import ui.jornada.VentanaVacaciones;
 
@@ -47,6 +52,8 @@ public class VentanaAdministrador extends JFrame {
 	private JPanel panel;
 	private JButton btnDesactivarPaciente;
 	private JButton btnVerActividadDePacientes;
+	private JButton btnAadirEmpleaado;
+	private JButton btnModificarEmpleado;
 
 	private JButton btnGestionarCitas;
 
@@ -165,11 +172,13 @@ public class VentanaAdministrador extends JFrame {
 			pnJornadas = new JPanel();
 			pnJornadas.setLayout(null);
 			pnJornadas.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Empleados", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			pnJornadas.setBounds(402, 64, 334, 336);
+			pnJornadas.setBounds(402, 64, 334, 329);
 			pnJornadas.add(getBtnJornadaLaboral());
 			pnJornadas.add(getBtnAsignarVacaciones());
 			pnJornadas.add(getBtnDesactivarEmpleado());
 			pnJornadas.add(getBtnVerActividadEmpleados());
+			pnJornadas.add(getBtnAadirEmpleaado());
+			pnJornadas.add(getBtnModificarEmpleado());
 		}
 		return pnJornadas;
 	}
@@ -268,6 +277,7 @@ public class VentanaAdministrador extends JFrame {
 		}
 		return btnVerActividadDePacientes;
 	}
+<<<<<<< HEAD
 	private JButton getBtnGestionarCitas() {
 		if (btnGestionarCitas == null) {
 			btnGestionarCitas = new JButton("Gestionar Citas");
@@ -281,5 +291,42 @@ public class VentanaAdministrador extends JFrame {
 			btnGestionarCitas.setBounds(30, 126, 143, 25);
 		}
 		return btnGestionarCitas;
+=======
+	private JButton getBtnAadirEmpleaado() {
+		if (btnAadirEmpleaado == null) {
+			btnAadirEmpleaado = new JButton("A\u00F1adir empleaado");
+			btnAadirEmpleaado.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					abrirVentanaAddEmpleado();
+				}
+			});
+			btnAadirEmpleaado.setBounds(31, 227, 234, 25);
+		}
+		return btnAadirEmpleaado;
+	}
+	
+	private void abrirVentanaAddEmpleado() {
+		VentanaAddEmpleado vae = new VentanaAddEmpleado();
+		vae.setLocationRelativeTo(this);
+		vae.setVisible(true);
+	}
+	private JButton getBtnModificarEmpleado() {
+		if (btnModificarEmpleado == null) {
+			btnModificarEmpleado = new JButton("Modificar Empleado");
+			btnModificarEmpleado.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					abrirVentanaModificarEmpleado();
+				}
+			});
+			btnModificarEmpleado.setBounds(31, 275, 234, 25);
+		}
+		return btnModificarEmpleado;
+	}
+	
+	private void abrirVentanaModificarEmpleado() {
+		VentanaModificarEmpleado vme = new VentanaModificarEmpleado();
+		vme.setLocationRelativeTo(this);
+		vme.setVisible(true);
+>>>>>>> gestion_empleado_pacientes
 	}
 }

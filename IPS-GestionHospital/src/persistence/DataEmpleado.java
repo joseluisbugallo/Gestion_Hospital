@@ -18,7 +18,7 @@ public class DataEmpleado extends DataManager {
 			+ " values (?, ?, ?, ?)";
 
 	private static final String SQL_DELETE_EMPLEADO = "Delete from empleado where dni=?";
-	private static final String SQL_UPDATE_EMPLEADO = "Update empleado set nombreempleado=?, cargo=?, correo=?, estado=? where dni=?";
+	private static final String SQL_UPDATE_EMPLEADO = "Update empleado set nombreempleado=?, cargo=?, correo=?, estado=?, dni=? where idempleado=?";
 
 	
 	public List<EmpleadoDto> list() {
@@ -95,7 +95,7 @@ public class DataEmpleado extends DataManager {
 			st.setString(3, empleado.correo);
 			st.setString(4, empleado.estado);
 			st.setString(5, empleado.dni);
-			
+			st.setLong(6, empleado.id);
 
 			st.executeUpdate();
 		} catch (SQLException e) {

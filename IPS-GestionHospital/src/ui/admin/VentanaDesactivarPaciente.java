@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -22,7 +23,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import business.LogController;
 import business.PacientesController;
+import business.dto.CambioDto;
 import business.dto.PacienteDto;
 
 public class VentanaDesactivarPaciente extends JFrame {
@@ -129,6 +132,11 @@ public class VentanaDesactivarPaciente extends JFrame {
 			btnSeleccionarPaciente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					c.show(contentPane, "pnSeleccion");
+					CambioDto cambio = new CambioDto();
+					cambio.cambio = "El administrador ha listado todos los pacientes" ;
+					cambio.fecha = new Date();					
+					LogController lc = new LogController();
+					lc.añadirCambio(cambio);
 				}
 			});
 			btnSeleccionarPaciente.setBounds(10, 21, 229, 23);
@@ -219,6 +227,12 @@ public class VentanaDesactivarPaciente extends JFrame {
 							pc.desactivarPaciente(paciente);
 							JOptionPane.showMessageDialog(contentPane, "El paciente ha sido desactivado con éxito",
 									"Paciente desactivado", JOptionPane.INFORMATION_MESSAGE);
+							
+							CambioDto cambio = new CambioDto();
+							cambio.cambio = "El administrador ha desactivado al paciente con id: "+paciente.id ;
+							cambio.fecha = new Date();					
+							LogController lc = new LogController();
+							lc.añadirCambio(cambio);
 							dispose();
 						} else {
 							JOptionPane.showMessageDialog(contentPane,

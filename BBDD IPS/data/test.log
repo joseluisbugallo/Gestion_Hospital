@@ -1,6 +1,7 @@
 /*C3*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C4*/SET SCHEMA PUBLIC
+<<<<<<< HEAD
 drop table log
 CREATE TABLE log (\u000a  id INTEGER IDENTITY PRIMARY KEY,\u000a  cambio VARCHAR(5000),\u000afecha TIMESTAMP,\u000a)
 DISCONNECT
@@ -41,4 +42,10 @@ INSERT INTO LOG VALUES(11,'El medico con id: 1 ha accedido a los diagnosticos de
 COMMIT
 DISCONNECT
 /*C6*/SET SCHEMA PUBLIC
+=======
+INSERT INTO EMPLEADO VALUES(11,'Victor Chaves ','44069347J','Medico','victor@gmail.com','Activado')
+COMMIT
+/*C2*/SET SCHEMA PUBLIC
+>>>>>>> gestion_empleado_pacientes
 DISCONNECT
+/*C4*/DISCONNECT
