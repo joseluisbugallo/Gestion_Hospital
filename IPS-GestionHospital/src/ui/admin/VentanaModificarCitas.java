@@ -329,6 +329,7 @@ public class VentanaModificarCitas extends JFrame {
 					cambio.fecha = new Date();					
 					LogController lc = new LogController();
 					lc.añadirCambio(cambio);
+					dispose();
 				}
 			});
 			btnAceptar.setBounds(619, 421, 97, 25);
