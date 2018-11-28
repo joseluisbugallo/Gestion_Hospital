@@ -131,4 +131,9 @@ public class JornadaController {
 		return empleados;
 	}
 
+	public void actualizarEmpleado(EmpleadoDto actual) {
+		DataEmpleado de= new DataEmpleado();
+		de.update(actual);
+	}
+
 }
