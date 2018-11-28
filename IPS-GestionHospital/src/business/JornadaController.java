@@ -123,5 +123,17 @@ public class JornadaController {
 		}
 		
 	}
+	
+	public List<EmpleadoDto> getEmpleados(){
+		List<EmpleadoDto> empleados = new ArrayList<>();
+		empleados.addAll(getMedicos());
+		empleados.addAll(getEnfermeros());
+		return empleados;
+	}
+
+	public void actualizarEmpleado(EmpleadoDto actual) {
+		DataEmpleado de= new DataEmpleado();
+		de.update(actual);
+	}
 
 }
