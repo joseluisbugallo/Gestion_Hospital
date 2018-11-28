@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -275,7 +276,7 @@ public class VentanaAdministrador extends JFrame {
 		return btnVerActividadDePacientes;
 	}
 
-	private JButton getBtnGestionarCitas() { 
+	private JButton getBtnGestionarCitas() {
 		if (btnGestionarCitas == null) {
 			btnGestionarCitas = new JButton("Gestionar Citas");
 			btnGestionarCitas.addActionListener(new ActionListener() {
@@ -288,8 +289,7 @@ public class VentanaAdministrador extends JFrame {
 			btnGestionarCitas.setBounds(30, 126, 143, 25);
 		}
 		return btnGestionarCitas;
-	}
-	
+}
 	private JButton getBtnAadirEmpleaado() {
 		if (btnAadirEmpleaado == null) {
 			btnAadirEmpleaado = new JButton("A\u00F1adir empleaado");
@@ -324,6 +324,6 @@ public class VentanaAdministrador extends JFrame {
 	private void abrirVentanaModificarEmpleado() {
 		VentanaModificarEmpleado vme = new VentanaModificarEmpleado();
 		vme.setLocationRelativeTo(this);
-		vme.setVisible(true); 
+		vme.setVisible(true);
 	}
 }

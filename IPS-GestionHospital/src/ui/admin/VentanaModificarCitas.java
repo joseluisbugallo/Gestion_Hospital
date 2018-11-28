@@ -83,6 +83,8 @@ public class VentanaModificarCitas extends JFrame {
 
 	public VentanaModificarCitas(CitaDto cita) {
 		this.cita = cita;
+		pacienteElegido = pc.findPacientesById(cita.idPaciente);
+		medicoElegido = citasController.getMedicoByID(cita.idEmpleado);
 		c = new CardLayout();
 		setResizable(false);
 		setTitle("Gestionar Citas: Modificar Cita");
@@ -312,22 +314,8 @@ public class VentanaModificarCitas extends JFrame {
 			btnAceptar = new JButton("Aceptar");
 			btnAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if (pacienteElegido == null && medicoElegido == null) {
-						citasController.modificarCita(cita, cita.idPaciente, cita.idEmpleado,
+					citasController.modificarCita(cita, pacienteElegido.id, medicoElegido.id,
 								textFieldLocalizacion.getText(), dateChooserInicio.getDate(), dateChooserFin.getDate());
-					}
-					if (pacienteElegido == null && medicoElegido != null) {
-						citasController.modificarCita(cita, cita.idPaciente, medicoElegido.id,
-								textFieldLocalizacion.getText(), dateChooserInicio.getDate(), dateChooserFin.getDate());
-					}
-					if(pacienteElegido != null && medicoElegido == null) {
-						citasController.modificarCita(cita, pacienteElegido.id, cita.idEmpleado,
-								textFieldLocalizacion.getText(), dateChooserInicio.getDate(), dateChooserFin.getDate());
-					}
-					if(pacienteElegido != null && medicoElegido != null) {
-						citasController.modificarCita(cita, pacienteElegido.id, medicoElegido.id,
-								textFieldLocalizacion.getText(), dateChooserInicio.getDate(), dateChooserFin.getDate());
-					}
 					System.out.println(citasController.getListadoCompletoDecitas());
 					CambioDto cambio = new CambioDto();
 					String c = "El administrador ha modificado la cita con id: "+ cita.id;
