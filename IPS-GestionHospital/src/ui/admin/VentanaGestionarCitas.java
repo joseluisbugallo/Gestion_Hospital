@@ -115,7 +115,8 @@ public class VentanaGestionarCitas extends JFrame{
 			btnEliminar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					citasController.eliminarCita(list.getSelectedValue());
-					//TODO: eliminar el elemento de la lista dinamicamente. No se como hacerlo jajaxd
+					modeloCitas.removeAllElements();
+					cargarModelo();
 				}
 			});
 			btnEliminar.setEnabled(false);
