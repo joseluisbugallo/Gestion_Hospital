@@ -73,6 +73,8 @@ public class VentanaModificarCitas extends JFrame{
 	private JLabel lblLocalizacin;
 	
 	private CitaDto cita;
+	private PacienteDto pacienteElegido;
+	private EmpleadoDto medicoElegido;
 	
 	public VentanaModificarCitas(CitaDto cita) {
 		this.cita=cita;
@@ -282,12 +284,12 @@ public class VentanaModificarCitas extends JFrame{
 			btnAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 				    //TODO mirar fijar cita como esta implementado el boton aceptar que coje los datos de los textfield
-				
 					cita.fechafin=dateChooserFin.getDate();
 					cita.fechainicio=dateChooserInicio.getDate();
-					cita.idPaciente=listPaciente.getSelectedValue().id;
-					//cita.idEmpleado=listMedico.getSelectedValue().id;
+					cita.idPaciente=pacienteElegido.id;
+					cita.idEmpleado=medicoElegido.id;
 					cita.sala=textFieldLocalizacion.getText();
+					System.out.println(cita.toString());
 				}
 			});
 			btnAceptar.setBounds(619, 421, 97, 25);
@@ -316,6 +318,7 @@ public class VentanaModificarCitas extends JFrame{
 			btnAceptar_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					//TODO como meter si seleccionas dos medicos???
+					medicoElegido = listMedico.getSelectedValue();
 					textArea.setText(listMedico.getSelectedValue().nombre);
 					((CardLayout) getContentPane().getLayout()).show(getContentPane(), "panelPrincipal");
 				}
@@ -463,6 +466,7 @@ public class VentanaModificarCitas extends JFrame{
 			btnAceptar_2 = new JButton("Aceptar");
 			btnAceptar_2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					pacienteElegido = listPaciente.getSelectedValue();
 					textField.setText(listPaciente.getSelectedValue().nombre);
 					((CardLayout) getContentPane().getLayout()).show(getContentPane(), "panelPrincipal");
 				}
