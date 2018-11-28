@@ -53,6 +53,8 @@ public class VentanaAdministrador extends JFrame {
 	private JButton btnModificarEmpleado;
 
 	private JButton btnGestionarCitas;
+	private JButton btnAadirPacienteAl;
+	private JButton btnModificarPaciente;
 
 
 	/**
@@ -169,7 +171,7 @@ public class VentanaAdministrador extends JFrame {
 			pnJornadas = new JPanel();
 			pnJornadas.setLayout(null);
 			pnJornadas.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Empleados", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			pnJornadas.setBounds(402, 64, 334, 329);
+			pnJornadas.setBounds(402, 64, 334, 341);
 			pnJornadas.add(getBtnJornadaLaboral());
 			pnJornadas.add(getBtnAsignarVacaciones());
 			pnJornadas.add(getBtnDesactivarEmpleado());
@@ -239,10 +241,12 @@ public class VentanaAdministrador extends JFrame {
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Pacientes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel.setBounds(40, 254, 334, 146);
+			panel.setBounds(40, 254, 334, 186);
 			panel.setLayout(null);
 			panel.add(getBtnDesactivarPaciente());
 			panel.add(getBtnVerActividadDePacientes());
+			panel.add(getBtnAadirPacienteAl());
+			panel.add(getBtnModificarPaciente());
 		}
 		return panel;
 	}
@@ -256,7 +260,7 @@ public class VentanaAdministrador extends JFrame {
 					vdp.setLocationRelativeTo(null);
 				}
 			});
-			btnDesactivarPaciente.setBounds(31, 39, 228, 23);
+			btnDesactivarPaciente.setBounds(64, 39, 228, 23);
 		}
 		return btnDesactivarPaciente;
 	}
@@ -270,7 +274,7 @@ public class VentanaAdministrador extends JFrame {
 					vap.setLocationRelativeTo(null);
 				}
 			});
-			btnVerActividadDePacientes.setBounds(31, 85, 228, 23);
+			btnVerActividadDePacientes.setBounds(64, 75, 228, 23);
 		}
 		return btnVerActividadDePacientes;
 	}
@@ -298,7 +302,7 @@ public class VentanaAdministrador extends JFrame {
 					abrirVentanaAddEmpleado();
 				}
 			});
-			btnAadirEmpleaado.setBounds(31, 227, 234, 25);
+			btnAadirEmpleaado.setBounds(31, 248, 234, 25);
 		}
 		return btnAadirEmpleaado;
 	}
@@ -316,7 +320,7 @@ public class VentanaAdministrador extends JFrame {
 					abrirVentanaModificarEmpleado();
 				}
 			});
-			btnModificarEmpleado.setBounds(31, 275, 234, 25);
+			btnModificarEmpleado.setBounds(31, 286, 234, 25);
 		}
 		return btnModificarEmpleado;
 	}
@@ -325,5 +329,19 @@ public class VentanaAdministrador extends JFrame {
 		VentanaModificarEmpleado vme = new VentanaModificarEmpleado();
 		vme.setLocationRelativeTo(this);
 		vme.setVisible(true); 
+	}
+	private JButton getBtnAadirPacienteAl() {
+		if (btnAadirPacienteAl == null) {
+			btnAadirPacienteAl = new JButton("A\u00F1adir paciente al sistema");
+			btnAadirPacienteAl.setBounds(64, 111, 228, 23);
+		}
+		return btnAadirPacienteAl;
+	}
+	private JButton getBtnModificarPaciente() {
+		if (btnModificarPaciente == null) {
+			btnModificarPaciente = new JButton("Modificar paciente");
+			btnModificarPaciente.setBounds(64, 148, 228, 25);
+		}
+		return btnModificarPaciente;
 	}
 }
