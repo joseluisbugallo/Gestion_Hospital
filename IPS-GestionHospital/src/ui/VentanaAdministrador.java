@@ -23,6 +23,7 @@ import ui.admin.VentanaConsultarCitas;
 import ui.admin.VentanaDesactivarEmpleado;
 import ui.admin.VentanaDesactivarPaciente;
 import ui.admin.VentanaFijarCita;
+import ui.admin.VentanaModificarEmpleado;
 import ui.jornada.VentanaJornadaLaboral;
 import ui.jornada.VentanaVacaciones;
 
@@ -296,5 +297,11 @@ public class VentanaAdministrador extends JFrame {
 			btnModificarEmpleado.setBounds(31, 275, 234, 25);
 		}
 		return btnModificarEmpleado;
+	}
+	
+	private void abrirVentanaModificarEmpleado() {
+		VentanaModificarEmpleado vme = new VentanaModificarEmpleado();
+		vme.setLocationRelativeTo(this);
+		vme.setVisible(true);
 	}
 }

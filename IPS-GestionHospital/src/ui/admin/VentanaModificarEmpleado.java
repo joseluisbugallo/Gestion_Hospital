@@ -1,155 +1,186 @@
 package ui.admin;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
-import java.awt.Color;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import business.JornadaController;
+import business.dto.EmpleadoDto;
 
 public class VentanaModificarEmpleado extends JDialog {
 
-	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JScrollPane scrollPane;
-	private JButton button_1;
-	private JPanel pnlMedicos;
+	private JPanel contentPane;
+	private JLabel label;
+	private JCheckBox chckbxMedico;
+	private JCheckBox chckbxEnfermero;
+	private JTextField txtDni;
+	private JButton btnDni;
+	private JTextField txtNombre;
+	private JButton btnNombre;
+	private JList<EmpleadoDto> lsEmpleados;
+	private JButton btnCancelar;
+	private JButton btnModificar;
+	private JornadaController jc = new JornadaController();
+	private List<EmpleadoDto> result = new ArrayList<>();
 
 	/**
 	 * Create the dialog.
 	 */
 	public VentanaModificarEmpleado() {
 		setBounds(100, 100, 750, 454);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
-		{
-			JLabel label = new JLabel("Actividad de los empleados");
+		contentPane = new JPanel();
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		contentPane.add(getLabel());
+		contentPane.add(getChckbxMedico());
+		contentPane.add(getChckbxEnfermero());
+		contentPane.add(getTxtDni());
+		contentPane.add(getBtnDni());
+		contentPane.add(getTxtNombre());
+		contentPane.add(getBtnNombre());
+		contentPane.add(getLsEmpleados());
+		contentPane.add(getBtnCancelar());
+		contentPane.add(getBtnModificar());
+	}
+
+	private JLabel getLabel() {
+		if (label == null) {
+			label = new JLabel("Seleccionar empleado");
 			label.setFont(new Font("Tahoma", Font.PLAIN, 17));
-			label.setBounds(0, 0, 722, 21);
-			contentPanel.add(label);
+			label.setBounds(12, 13, 722, 21);
 		}
-		{
-			JPanel pnlEmplado = new JPanel();
-			pnlEmplado.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Empleado",
-								TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			pnlEmplado.setBounds(36, 35, 262, 140);
-			contentPanel.add(pnlEmplado);
-			{
-				JButton btnSeleccionarEmpleado = new JButton("Seleccionar empleado");
-				pnlEmplado.add(btnSeleccionarEmpleado);
-			}
-		}
-		{
-			JPanel pnlInfoEmpleado = new JPanel();
-			pnlInfoEmpleado.setLayout(null);
-			pnlInfoEmpleado.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null),
-								"Informaci\u00F3n del empleado", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			pnlInfoEmpleado.setBounds(325, 35, 383, 140);
-			contentPanel.add(pnlInfoEmpleado);
-			{
-				JLabel label = new JLabel("Nombre:");
-				label.setBounds(10, 30, 56, 14);
-				pnlInfoEmpleado.add(label);
-			}
-			{
-				textField = new JTextField();
-				textField.setEditable(false);
-				textField.setColumns(10);
-				textField.setBounds(69, 27, 122, 20);
-				pnlInfoEmpleado.add(textField);
-			}
-			{
-				JLabel label = new JLabel("Cargo:");
-				label.setBounds(10, 64, 56, 14);
-				pnlInfoEmpleado.add(label);
-			}
-			{
-				textField_1 = new JTextField();
-				textField_1.setEditable(false);
-				textField_1.setColumns(10);
-				textField_1.setBounds(69, 61, 122, 20);
-				pnlInfoEmpleado.add(textField_1);
-			}
-			{
-				JLabel label = new JLabel("DNI:");
-				label.setBounds(201, 30, 37, 14);
-				pnlInfoEmpleado.add(label);
-			}
-			{
-				textField_2 = new JTextField();
-				textField_2.setEditable(false);
-				textField_2.setColumns(10);
-				textField_2.setBounds(248, 27, 122, 20);
-				pnlInfoEmpleado.add(textField_2);
-			}
-			{
-				JLabel label = new JLabel("Estado:");
-				label.setBounds(201, 64, 47, 14);
-				pnlInfoEmpleado.add(label);
-			}
-			{
-				textField_3 = new JTextField();
-				textField_3.setEditable(false);
-				textField_3.setColumns(10);
-				textField_3.setBounds(248, 61, 122, 20);
-				pnlInfoEmpleado.add(textField_3);
-			}
-			{
-				JLabel label = new JLabel("Correo:");
-				label.setBounds(10, 102, 56, 14);
-				pnlInfoEmpleado.add(label);
-			}
-			{
-				textField_4 = new JTextField();
-				textField_4.setEditable(false);
-				textField_4.setColumns(10);
-				textField_4.setBounds(69, 99, 202, 20);
-				pnlInfoEmpleado.add(textField_4);
-			}
-		}
-		contentPanel.add(getButton_1());
-		contentPanel.add(getPnlMedicos());
+		return label;
 	}
-	private JScrollPane getScrollPane() {
-		if (scrollPane == null) {
-			scrollPane = new JScrollPane();
+	private JCheckBox getChckbxMedico() {
+		if (chckbxMedico == null) {
+			chckbxMedico = new JCheckBox("M\u00E9dico");
+			chckbxMedico.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					buscarPorFiltros();
+				}
+			});
+			chckbxMedico.setBounds(30, 74, 87, 25);
 		}
-		return scrollPane;
+		return chckbxMedico;
 	}
-	private JButton getButton_1() {
-		if (button_1 == null) {
-			button_1 = new JButton("Salir");
-			button_1.setBounds(633, 371, 89, 23);
+	private JCheckBox getChckbxEnfermero() {
+		if (chckbxEnfermero == null) {
+			chckbxEnfermero = new JCheckBox("Enfermero");
+			chckbxEnfermero.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					buscarPorFiltros();
+				}
+			});
+			chckbxEnfermero.setBounds(147, 75, 113, 25);
 		}
-		return button_1;
+		return chckbxEnfermero;
 	}
-	private JPanel getPnlMedicos() {
-		if (pnlMedicos == null) {
-			pnlMedicos = new JPanel();
-			pnlMedicos.setBounds(36, 188, 672, 159);
-			pnlMedicos.setLayout(new BorderLayout(0, 0));
-			pnlMedicos.add(getScrollPane(), BorderLayout.CENTER);
-			{
-				JList list = new JList();
-				pnlMedicos.add(list, BorderLayout.NORTH);
-			}
+	private JTextField getTxtDni() {
+		if (txtDni == null) {
+			txtDni = new JTextField();
+			txtDni.setColumns(10);
+			txtDni.setBounds(30, 136, 113, 20);
 		}
-		return pnlMedicos;
+		return txtDni;
+	}
+	private JButton getBtnDni() {
+		if (btnDni == null) {
+			btnDni = new JButton("Buscar por DNI");
+			btnDni.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					buscarPorFiltros();
+				}
+			});
+			btnDni.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btnDni.setBounds(170, 135, 124, 23);
+		}
+		return btnDni;
+	}
+	private JTextField getTxtNombre() {
+		if (txtNombre == null) {
+			txtNombre = new JTextField();
+			txtNombre.setColumns(10);
+			txtNombre.setBounds(325, 136, 152, 20);
+		}
+		return txtNombre;
+	}
+	private JButton getBtnNombre() {
+		if (btnNombre == null) {
+			btnNombre = new JButton("Buscar por nombre");
+			btnNombre.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					buscarPorFiltros();
+				}
+			});
+			btnNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btnNombre.setBounds(505, 135, 147, 23);
+		}
+		return btnNombre;
+	}
+	private JList<EmpleadoDto> getLsEmpleados() {
+		if (lsEmpleados == null) {
+			lsEmpleados = new JList<EmpleadoDto>();
+			lsEmpleados.setBounds(30, 187, 624, 161);
+		}
+		return lsEmpleados;
+	}
+	private JButton getBtnCancelar() {
+		if (btnCancelar == null) {
+			btnCancelar = new JButton("Atras");
+			btnCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btnCancelar.setBounds(520, 370, 89, 23);
+		}
+		return btnCancelar;
+	}
+	private JButton getBtnModificar() {
+		if (btnModificar == null) {
+			btnModificar = new JButton("Modificar");
+			btnModificar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btnModificar.setBounds(619, 371, 89, 23);
+		}
+		return btnModificar;
+	}
+	
+	private void buscarPorFiltros() {
+
+		if(getChckbxEnfermero().isSelected()) {
+			result.addAll(jc.getEnfermeros()
+					.isEmpty()?new ArrayList<>():jc.getEnfermeros()
+							);
+		} if(getChckbxMedico().isSelected()) {
+			result.addAll(jc.getMedicos()
+					.isEmpty()?new ArrayList<>():jc.getMedicos()
+							);
+		}			
+		List<Predicate<EmpleadoDto>> listaPredicados = new ArrayList<>();
+		if(!getTxtNombre().getText().isEmpty()) {
+			listaPredicados.add(en->en.nombre.contains(getTxtNombre().getText()));
+		}
+		if(!getTxtDni().getText().isEmpty()) {
+			listaPredicados.add(ed->ed.dni.contains(getTxtDni().getText()));
+		}
+		for(Predicate<EmpleadoDto> p: listaPredicados) {
+			result.stream().filter(p).collect(Collectors.toList());
+		}
+		actualizarLista();
+	}
+	
+	private void actualizarLista() {
+		
 	}
 }
