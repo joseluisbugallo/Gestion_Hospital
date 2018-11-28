@@ -23,11 +23,8 @@ import ui.admin.VentanaConsultarCitas;
 import ui.admin.VentanaDesactivarEmpleado;
 import ui.admin.VentanaDesactivarPaciente;
 import ui.admin.VentanaFijarCita;
-<<<<<<< HEAD
 import ui.admin.VentanaGestionarCitas;
-=======
 import ui.admin.VentanaModificarEmpleado;
->>>>>>> gestion_empleado_pacientes
 import ui.jornada.VentanaJornadaLaboral;
 import ui.jornada.VentanaVacaciones;
 
@@ -277,8 +274,8 @@ public class VentanaAdministrador extends JFrame {
 		}
 		return btnVerActividadDePacientes;
 	}
-<<<<<<< HEAD
-	private JButton getBtnGestionarCitas() {
+
+	private JButton getBtnGestionarCitas() { 
 		if (btnGestionarCitas == null) {
 			btnGestionarCitas = new JButton("Gestionar Citas");
 			btnGestionarCitas.addActionListener(new ActionListener() {
@@ -291,7 +288,8 @@ public class VentanaAdministrador extends JFrame {
 			btnGestionarCitas.setBounds(30, 126, 143, 25);
 		}
 		return btnGestionarCitas;
-=======
+	}
+	
 	private JButton getBtnAadirEmpleaado() {
 		if (btnAadirEmpleaado == null) {
 			btnAadirEmpleaado = new JButton("A\u00F1adir empleaado");
@@ -326,7 +324,6 @@ public class VentanaAdministrador extends JFrame {
 	private void abrirVentanaModificarEmpleado() {
 		VentanaModificarEmpleado vme = new VentanaModificarEmpleado();
 		vme.setLocationRelativeTo(this);
-		vme.setVisible(true);
->>>>>>> gestion_empleado_pacientes
+		vme.setVisible(true); 
 	}
 }
