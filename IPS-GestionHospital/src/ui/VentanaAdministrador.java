@@ -27,6 +27,7 @@ import ui.admin.VentanaDesactivarPaciente;
 import ui.admin.VentanaFijarCita;
 import ui.admin.VentanaGestionarCitas;
 import ui.admin.VentanaModificarEmpleado;
+import ui.admin.VentanaModificarPaciente;
 import ui.jornada.VentanaJornadaLaboral;
 import ui.jornada.VentanaVacaciones;
 
@@ -353,8 +354,19 @@ public class VentanaAdministrador extends JFrame {
 	private JButton getBtnModificarPaciente() {
 		if (btnModificarPaciente == null) {
 			btnModificarPaciente = new JButton("Modificar paciente");
+			btnModificarPaciente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					abrirVentanaModificarPaciente();
+				}
+			});
 			btnModificarPaciente.setBounds(64, 148, 228, 25);
 		}
 		return btnModificarPaciente;
+	}
+	
+	private void abrirVentanaModificarPaciente() {
+		VentanaModificarPaciente vmp = new VentanaModificarPaciente();
+		vmp.setLocationRelativeTo(this);
+		vmp.setVisible(true);
 	}
 }

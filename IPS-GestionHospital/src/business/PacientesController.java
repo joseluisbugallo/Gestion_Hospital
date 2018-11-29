@@ -60,4 +60,10 @@ public class PacientesController {
 		dp.add(paciente);
 		
 	}
+
+	public void actualizarPaciente(PacienteDto actual) {
+		DataPaciente dp = new DataPaciente();
+		dp.update(actual);
+		
+	}
 }
