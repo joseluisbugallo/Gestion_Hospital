@@ -45,7 +45,7 @@ public class CitasController {
 		DataHistorial dh = new DataHistorial();
 		historial = dh.getHistorialByPaciente(idPaciente);
 		if(historial.id==0) {
-			return "No existe el historial de ese paciente";
+			return " ";
 		}
 		
 		return historial.datos;
@@ -82,7 +82,7 @@ public class CitasController {
 		return valido;
 	}
 
-	private List<CitaDto> obtenerCitasEmpleado(int idEmpleado) {
+	public List<CitaDto> obtenerCitasEmpleado(int idEmpleado) {
 		DataCita dC = new DataCita();
 		List<CitaDto> cs = dC.listCitasByidEmpleado(idEmpleado);
 		return cs;

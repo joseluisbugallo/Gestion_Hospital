@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import business.CitasController;
+import business.DiagnosticoController;
 import business.PacientesController;
 import business.dto.CitaDto;
 import business.dto.DiagnosticoDto;
@@ -40,26 +41,27 @@ import javax.swing.JScrollPane;
 public class VentanaConsultaHistorial extends JDialog {
 
 	private CitaDto cita;
-	//VentanaGestionCita vGC;
+	// VentanaGestionCita vGC;
 	private JPanel pnlPrincipal;
 	private JButton btnVolver;
 	private JLabel lblHistorial;
 	private JPanel panel;
 	private JScrollPane scrollPane;
 	private JTextArea txtInfoHistorial;
-	CitasController cC= new CitasController();
+	CitasController cC = new CitasController();
 	PacientesController pC = new PacientesController();
-	
+	DiagnosticoController dc = new DiagnosticoController();
+
 	HistorialDto historial;
 
 	/**
 	 * Create the dialog.
 	 */
-	public VentanaConsultaHistorial(CitaDto cita) { //VentanaGestionCita vGC) {
+	public VentanaConsultaHistorial(CitaDto cita) { // VentanaGestionCita vGC) {
 		this.cita = cita;
 		this.historial = cC.obtenerHistorial(cita.idPaciente);
-		if(this.historial==null)
-			this.historial=new HistorialDto();
+		if (this.historial == null)
+			this.historial = new HistorialDto();
 		setTitle("Antecedentes del paciente");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -72,28 +74,22 @@ public class VentanaConsultaHistorial extends JDialog {
 	private void cargarDatosHistorial() {
 		StringBuilder data = new StringBuilder();
 		PacienteDto p = pC.findPacientesById(cita.idPaciente);
-		data.append("Datos de: "+ p.nombre + ".\n");
+		data.append("Datos de: " + p.nombre + ".\n");
 		data.append(cC.cargarDatosHistorial(cita.idPaciente) + "\n\n");
-		if(cita.antecedentes!=null || cita.antecedentes!="") {
-			data.append("ANTECEDENTES: " + "\n"+ cita.antecedentes + "\n");
+		if (cita.antecedentes != null || cita.antecedentes.isEmpty()) {
+			data.append("ANTECEDENTES: " + "\n" + cita.antecedentes + "\n");
 		}
-		if(cita.diagnostico!=null) {
-			data.append("DIAGNOSTICOS: " + "\n" + cita.diagnostico + "\n");
+		
+		ArrayList<DiagnosticoDto> diagcita = dc.obtenerDiagnosticosDeCita(cita.id);
+		
+		if (cita.diagnostico != null || cita.diagnostico.isEmpty()) {
+			data.append("DIAGNOSTICOS: " + "\n");
+			for (DiagnosticoDto d : diagcita) {
+				data.append(d.diagnostico + "\n");
+			}
 		}
-		this.historial.datos=data.toString();
-		getTxtInfoHistorial().setText(this.historial.datos);//+cita.antecedentes+cita.diagnostico);
-//		if(cita.antecedentes!=null && !cita.antecedentes.isEmpty()) {
-//			data.append("\nAntecedentes del paciente:\n");
-//			data.append("\n"+cita.antecedentes);
-//		}
-//		if(cita.diagnostico!=null && !cita.diagnostico.isEmpty()) {
-//			data.append("\nEnfermedeades diagnosticadas:\n");
-//			for(DiagnosticoDto d: cita.diagnostico) {
-//				data.append("\t"+ d.diagnostico + "\n");
-//			}
-//		}
-//		this.historial.datos=data.toString();
-//		getTxtInfoHistorial().setText(this.historial.datos);
+		this.historial.datos = data.toString();
+		getTxtInfoHistorial().setText(this.historial.datos);
 	}
 
 	private JPanel getPnlPrincipal() {
@@ -106,6 +102,7 @@ public class VentanaConsultaHistorial extends JDialog {
 		}
 		return pnlPrincipal;
 	}
+
 	private JButton getBtnVolver() {
 		if (btnVolver == null) {
 			btnVolver = new JButton("Volver");
@@ -118,7 +115,7 @@ public class VentanaConsultaHistorial extends JDialog {
 		}
 		return btnVolver;
 	}
-	
+
 	private void actualizarTxtArea() {
 //		StringBuilder antecedentes = new StringBuilder();
 //		for(TiposAntecedentes t: this.antecedentes.keySet()) {
@@ -130,12 +127,12 @@ public class VentanaConsultaHistorial extends JDialog {
 //		}
 //		getTxtAreaAntecedentes().setText(antecedentes.toString());
 	}
-	
+
 	private void salir() {
-		int respuesta =JOptionPane.showConfirmDialog(null,"Seguro que quiere salir?",
-				"Salir",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
-		
-		if(respuesta==JOptionPane.YES_OPTION) {
+		int respuesta = JOptionPane.showConfirmDialog(null, "Seguro que quiere salir?", "Salir",
+				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+		if (respuesta == JOptionPane.YES_OPTION) {
 			VentanaGestionCita v = new VentanaGestionCita(cita);
 			v.setLocationRelativeTo(this);
 			v.setVisible(true);
@@ -143,10 +140,11 @@ public class VentanaConsultaHistorial extends JDialog {
 			this.dispose();
 		}
 	}
-	
+
 	private void mostrarMensaje(String mess, String title, int icon) {
 		JOptionPane.showMessageDialog(this, mess, title, icon);
 	}
+
 	private JLabel getLblHistorial() {
 		if (lblHistorial == null) {
 			lblHistorial = new JLabel("Historial del paciente");
@@ -156,6 +154,7 @@ public class VentanaConsultaHistorial extends JDialog {
 		}
 		return lblHistorial;
 	}
+
 	private JPanel getPanel_2() {
 		if (panel == null) {
 			panel = new JPanel();
@@ -166,6 +165,7 @@ public class VentanaConsultaHistorial extends JDialog {
 		}
 		return panel;
 	}
+
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
@@ -173,6 +173,7 @@ public class VentanaConsultaHistorial extends JDialog {
 		}
 		return scrollPane;
 	}
+
 	private JTextArea getTxtInfoHistorial() {
 		if (txtInfoHistorial == null) {
 			txtInfoHistorial = new JTextArea();
