@@ -49,6 +49,7 @@ public class VentanaConsultaHistorial extends JDialog {
 	private JTextArea txtInfoHistorial;
 	CitasController cC= new CitasController();
 	PacientesController pC = new PacientesController();
+	
 	HistorialDto historial;
 
 	/**
@@ -72,18 +73,27 @@ public class VentanaConsultaHistorial extends JDialog {
 		StringBuilder data = new StringBuilder();
 		PacienteDto p = pC.findPacientesById(cita.idPaciente);
 		data.append("Datos de: "+ p.nombre + ".\n");
-		if(cita.antecedentes!=null && !cita.antecedentes.isEmpty()) {
-			data.append("\nAntecedentes del paciente:\n");
-			data.append("\n"+cita.antecedentes);
+		data.append(cC.cargarDatosHistorial(cita.idPaciente) + "\n\n");
+		if(cita.antecedentes!=null || cita.antecedentes!="") {
+			data.append("ANTECEDENTES: " + "\n"+ cita.antecedentes + "\n");
 		}
-		if(cita.diagnostico!=null && !cita.diagnostico.isEmpty()) {
-			data.append("\nEnfermedeades diagnosticadas:\n");
-			for(DiagnosticoDto d: cita.diagnostico) {
-				data.append("\t"+ d.diagnostico + "\n");
-			}
+		if(cita.diagnostico!=null) {
+			data.append("DIAGNOSTICOS: " + "\n" + cita.diagnostico + "\n");
 		}
 		this.historial.datos=data.toString();
-		getTxtInfoHistorial().setText(this.historial.datos);
+		getTxtInfoHistorial().setText(this.historial.datos);//+cita.antecedentes+cita.diagnostico);
+//		if(cita.antecedentes!=null && !cita.antecedentes.isEmpty()) {
+//			data.append("\nAntecedentes del paciente:\n");
+//			data.append("\n"+cita.antecedentes);
+//		}
+//		if(cita.diagnostico!=null && !cita.diagnostico.isEmpty()) {
+//			data.append("\nEnfermedeades diagnosticadas:\n");
+//			for(DiagnosticoDto d: cita.diagnostico) {
+//				data.append("\t"+ d.diagnostico + "\n");
+//			}
+//		}
+//		this.historial.datos=data.toString();
+//		getTxtInfoHistorial().setText(this.historial.datos);
 	}
 
 	private JPanel getPnlPrincipal() {
@@ -166,6 +176,8 @@ public class VentanaConsultaHistorial extends JDialog {
 	private JTextArea getTxtInfoHistorial() {
 		if (txtInfoHistorial == null) {
 			txtInfoHistorial = new JTextArea();
+			txtInfoHistorial.setWrapStyleWord(true);
+			txtInfoHistorial.setLineWrap(true);
 			txtInfoHistorial.setEditable(false);
 		}
 		return txtInfoHistorial;
