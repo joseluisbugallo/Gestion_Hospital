@@ -7,6 +7,12 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +23,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import business.LogController;
+import business.dto.CambioDto;
 import ui.admin.VentanaActividadEmpleados;
 import ui.admin.VentanaActividadPacientes;
 import ui.admin.VentanaAddEmpleado;
@@ -149,6 +157,35 @@ public class VentanaAdministrador extends JFrame {
 			pnOpciones.add(getPnJornadas());
 			pnOpciones.add(getBtnSalir());
 			pnOpciones.add(getPanel());
+			
+			JButton btnVolcarLogA = new JButton("Volcar log a archivo de texto");
+			btnVolcarLogA.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					LogController lc = new LogController();
+					ArrayList<CambioDto> cambios =  lc.listarLog();
+					Date a = new Date();
+					FileWriter archivo;
+					try {
+						archivo = new FileWriter("log"+ a.getTime()+".txt");
+						for(CambioDto c: cambios)
+						{
+							archivo.write(c.toString() + "\n");
+						}     
+			            
+			            
+						archivo.close();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			        
+			       
+			         
+			       
+				}
+			});
+			btnVolcarLogA.setBounds(462, 418, 200, 25);
+			pnOpciones.add(btnVolcarLogA);
 		}
 		return pnOpciones;
 	}
