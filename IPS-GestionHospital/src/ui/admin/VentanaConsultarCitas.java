@@ -122,14 +122,14 @@ public class VentanaConsultarCitas extends JFrame {
 	}
 	private JButton getBtnBuscarMed() {
 		if (btnBuscarMed == null) {
-			btnBuscarMed = new JButton("Buscar por m\u00E9dico");
+			btnBuscarMed = new JButton("Buscar id por m\u00E9dico");
 			btnBuscarMed.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					modeloCitas.removeAllElements();
 					cargarModeloMed();
 				}
 			});
-			btnBuscarMed.setBounds(140, 71, 154, 25);
+			btnBuscarMed.setBounds(140, 71, 168, 25);
 		}
 		return btnBuscarMed;
 	}
