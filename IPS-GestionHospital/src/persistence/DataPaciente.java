@@ -15,7 +15,7 @@ public class DataPaciente extends DataManager {
 	private static final String SQL_SELECT_PACIENTE_BY_DNI = "Select * from paciente where dni=?";
 	private static final String SQL_INSERT_PACIENTE = "Insert into paciente(dni, nombrepaciente, contacto, estado) values (?, ?, ?, ?)";
 	private static final String SQL_DELETE_PACIENTE = "Delete from paciente where dni=?";
-	private static final String SQL_UPDATE_PACIENTE = "Update paciente set nombrepaciente=?, contacto=?, estado=? where dni=?";
+	private static final String SQL_UPDATE_PACIENTE = "Update paciente set nombrepaciente=?, contacto=?, estado=?, dni=? where idpaciente=?";
 	private static final String SQL_SELECT_PACIENTE_BY_NOMBRE = "Select * from paciente where nombrepaciente=?";
 	private static final String SQL_SELECT_PACIENTE_BY_ID = "Select * from paciente where idpaciente=?";
 	
@@ -87,6 +87,7 @@ public class DataPaciente extends DataManager {
 			st.setString(2, paciente.contacto);
 			st.setString(3, paciente.estado);
 			st.setString(4, paciente.dni);
+			st.setLong(5, paciente.id);
 
 			st.executeUpdate();
 

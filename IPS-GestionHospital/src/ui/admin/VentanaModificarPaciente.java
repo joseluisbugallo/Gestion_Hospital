@@ -24,20 +24,22 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import business.JornadaController;
+import business.PacientesController;
 import business.dto.EmpleadoDto;
+import business.dto.PacienteDto;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTextArea;
 
 public class VentanaModificarPaciente extends JDialog {
 
 	private CardLayout cL;
 	private JPanel contentPane;
 	private JPanel pnlBuscador;
-	private JLabel lblSeleccionEmpleado;
-	private JCheckBox chckBoxMedico;
-	private JCheckBox chckBoxEnfermero;
+	private JLabel lblSeleccionPaciente;
 	private JTextField txtDni;
 	private JButton btnDni;
 	private JTextField txtNombre;
@@ -45,9 +47,9 @@ public class VentanaModificarPaciente extends JDialog {
 	private JButton btnAtras;
 	private JButton btnModificar;
 	private JScrollPane scrListado;
-	private JPanel pnlModificarMedico;
-	private JList<EmpleadoDto> lsEmpleados;
-	private JLabel lblModificarMdico;
+	private JPanel pnlModificarPaciente;
+	private JList<PacienteDto> lsPacientes;
+	private JLabel lblModificarPaciente;
 	private JPanel pnlDatos;
 	private JLabel lblNombre;
 	private JLabel lblApellido;
@@ -56,19 +58,16 @@ public class VentanaModificarPaciente extends JDialog {
 	private JTextField txtApellido;
 	private JTextField txtApellidoDos;
 	private JLabel lblDni;
-	private JLabel lblCorreo;
-	private JPanel pnlCargo;
-	private JRadioButton rdbtnMdico;
-	private JRadioButton rdbtnEnfermero;
+	private JLabel lblContact;
 	private JTextField txtDniNuevo;
-	private JTextField txtCorreo;
 	private JButton btnLimpiarDatos;
 	private JButton btnConfirmar;
 	private JButton btnVolver;
-	private JornadaController jc = new JornadaController();
-	DefaultListModel<EmpleadoDto> modelo = new DefaultListModel<>();
-	private List<EmpleadoDto> result = new ArrayList<>();
-	private EmpleadoDto actual;
+	private PacientesController pc = new PacientesController();
+	DefaultListModel<PacienteDto> modelo = new DefaultListModel<>();
+	private List<PacienteDto> result = new ArrayList<>();
+	private PacienteDto actual;
+	private JTextArea txtContacto;
 
 	/**
 	 * Create the dialog.
@@ -80,22 +79,20 @@ public class VentanaModificarPaciente extends JDialog {
 		setContentPane(contentPane);
 		contentPane.setLayout(cL);
 		contentPane.add(getPnlBuscador(), "Buscador");
-		contentPane.add(getPnlModificarMedico(), "VentanaModificar");
+		contentPane.add(getPnlModificarPaciente(), "VentanaModificar");
 	}
 
 	private void actualizarLista() {
 		modelo = new DefaultListModel<>();
 		result.forEach(r -> modelo.addElement(r));
-		getLsEmpleados().setModel(modelo);
+		getLsPacientes().setModel(modelo);
 	}
 
 	private JPanel getPnlBuscador() {
 		if (pnlBuscador == null) {
 			pnlBuscador = new JPanel();
 			pnlBuscador.setLayout(null);
-			pnlBuscador.add(getLblSeleccionEmpleado());
-			pnlBuscador.add(getChckBoxMedico());
-			pnlBuscador.add(getChckBoxEnfermero());
+			pnlBuscador.add(getLblSeleccionPaciente());
 			pnlBuscador.add(getTxtDni());
 			pnlBuscador.add(getBtnDni());
 			pnlBuscador.add(getTxtNombre());
@@ -107,46 +104,20 @@ public class VentanaModificarPaciente extends JDialog {
 		return pnlBuscador;
 	}
 
-	private JLabel getLblSeleccionEmpleado() {
-		if (lblSeleccionEmpleado == null) {
-			lblSeleccionEmpleado = new JLabel("Seleccionar empleado");
-			lblSeleccionEmpleado.setFont(new Font("Tahoma", Font.PLAIN, 17));
-			lblSeleccionEmpleado.setBounds(12, 13, 722, 21);
+	private JLabel getLblSeleccionPaciente() {
+		if (lblSeleccionPaciente == null) {
+			lblSeleccionPaciente = new JLabel("Seleccionar paciente");
+			lblSeleccionPaciente.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			lblSeleccionPaciente.setBounds(12, 13, 722, 21);
 		}
-		return lblSeleccionEmpleado;
-	}
-
-	private JCheckBox getChckBoxMedico() {
-		if (chckBoxMedico == null) {
-			chckBoxMedico = new JCheckBox("M\u00E9dico");
-			chckBoxMedico.addChangeListener(new ChangeListener() {
-				public void stateChanged(ChangeEvent e) {
-					buscarPorFiltro();
-				}
-			});
-			chckBoxMedico.setBounds(28, 74, 87, 25);
-		}
-		return chckBoxMedico;
-	}
-
-	private JCheckBox getChckBoxEnfermero() {
-		if (chckBoxEnfermero == null) {
-			chckBoxEnfermero = new JCheckBox("Enfermero");
-			chckBoxEnfermero.addChangeListener(new ChangeListener() {
-				public void stateChanged(ChangeEvent e) {
-					buscarPorFiltro();
-				}
-			});
-			chckBoxEnfermero.setBounds(145, 75, 113, 25);
-		}
-		return chckBoxEnfermero;
+		return lblSeleccionPaciente;
 	}
 
 	private JTextField getTxtDni() {
 		if (txtDni == null) {
 			txtDni = new JTextField();
 			txtDni.setColumns(10);
-			txtDni.setBounds(28, 136, 113, 20);
+			txtDni.setBounds(28, 47, 113, 20);
 		}
 		return txtDni;
 	}
@@ -160,7 +131,7 @@ public class VentanaModificarPaciente extends JDialog {
 				}
 			});
 			btnDni.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			btnDni.setBounds(168, 135, 124, 23);
+			btnDni.setBounds(153, 47, 124, 23);
 		}
 		return btnDni;
 	}
@@ -169,7 +140,7 @@ public class VentanaModificarPaciente extends JDialog {
 		if (txtNombre == null) {
 			txtNombre = new JTextField();
 			txtNombre.setColumns(10);
-			txtNombre.setBounds(323, 136, 152, 20);
+			txtNombre.setBounds(335, 47, 152, 20);
 		}
 		return txtNombre;
 	}
@@ -183,7 +154,7 @@ public class VentanaModificarPaciente extends JDialog {
 				}
 			});
 			btnNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			btnNombre.setBounds(503, 135, 147, 23);
+			btnNombre.setBounds(499, 47, 147, 23);
 		}
 		return btnNombre;
 	}
@@ -220,30 +191,30 @@ public class VentanaModificarPaciente extends JDialog {
 	private JScrollPane getScrollPane_1() {
 		if (scrListado == null) {
 			scrListado = new JScrollPane();
-			scrListado.setBounds(28, 187, 678, 161);
-			scrListado.setViewportView(getLsEmpleados());
+			scrListado.setBounds(28, 111, 678, 237);
+			scrListado.setViewportView(getLsPacientes());
 		}
 		return scrListado;
 	}
 
-	private JPanel getPnlModificarMedico() {
-		if (pnlModificarMedico == null) {
-			pnlModificarMedico = new JPanel();
-			pnlModificarMedico.setLayout(null);
-			pnlModificarMedico.add(getLblModificarMdico());
-			pnlModificarMedico.add(getPnlDatos());
-			pnlModificarMedico.add(getBtnVolver());
+	private JPanel getPnlModificarPaciente() {
+		if (pnlModificarPaciente == null) {
+			pnlModificarPaciente = new JPanel();
+			pnlModificarPaciente.setLayout(null);
+			pnlModificarPaciente.add(getLblModificarPaciente());
+			pnlModificarPaciente.add(getPnlDatos());
+			pnlModificarPaciente.add(getBtnVolver());
 		}
-		return pnlModificarMedico;
+		return pnlModificarPaciente;
 	}
 
-	private JList<EmpleadoDto> getLsEmpleados() {
-		if (lsEmpleados == null) {
-			lsEmpleados = new JList<>();
-			lsEmpleados.addMouseListener(new MouseAdapter() {
+	private JList<PacienteDto> getLsPacientes() {
+		if (lsPacientes == null) {
+			lsPacientes = new JList<>();
+			lsPacientes.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					actual = lsEmpleados.getSelectedValue();
+					actual = lsPacientes.getSelectedValue();
 					if(actual!=null) {
 						btnModificar.setEnabled(true);
 					}else {
@@ -252,16 +223,16 @@ public class VentanaModificarPaciente extends JDialog {
 				}
 			});
 		}
-		return lsEmpleados;
+		return lsPacientes;
 	}
 
-	private JLabel getLblModificarMdico() {
-		if (lblModificarMdico == null) {
-			lblModificarMdico = new JLabel("Modificar Empleado");
-			lblModificarMdico.setFont(new Font("Tahoma", Font.PLAIN, 17));
-			lblModificarMdico.setBounds(12, 13, 708, 30);
+	private JLabel getLblModificarPaciente() {
+		if (lblModificarPaciente == null) {
+			lblModificarPaciente = new JLabel("Modificar paciente");
+			lblModificarPaciente.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			lblModificarPaciente.setBounds(12, 13, 708, 30);
 		}
-		return lblModificarMdico;
+		return lblModificarPaciente;
 	}
 
 	private JPanel getPnlDatos() {
@@ -278,12 +249,11 @@ public class VentanaModificarPaciente extends JDialog {
 			pnlDatos.add(getTxtApellido());
 			pnlDatos.add(getTxtApellidoDos());
 			pnlDatos.add(getLblDni());
-			pnlDatos.add(getLblCorreo());
-			pnlDatos.add(getPnlCargo());
+			pnlDatos.add(getLblContact());
 			pnlDatos.add(getTxtDniNuevo());
-			pnlDatos.add(getTxtCorreo());
 			pnlDatos.add(getBtnLimpiarDatos());
 			pnlDatos.add(getBtnConfirmar());
+			pnlDatos.add(getTxtContacto());
 		}
 		return pnlDatos;
 	}
@@ -347,56 +317,12 @@ public class VentanaModificarPaciente extends JDialog {
 		return lblDni;
 	}
 
-	private JLabel getLblCorreo() {
-		if (lblCorreo == null) {
-			lblCorreo = new JLabel("Correo:");
-			lblCorreo.setBounds(305, 117, 56, 16);
+	private JLabel getLblContact() {
+		if (lblContact == null) {
+			lblContact = new JLabel("Contacto:");
+			lblContact.setBounds(305, 117, 56, 16);
 		}
-		return lblCorreo;
-	}
-
-	private JPanel getPnlCargo() {
-		if (pnlCargo == null) {
-			pnlCargo = new JPanel();
-			pnlCargo.setBorder(new TitledBorder(new LineBorder(new Color(64, 64, 64), 1, true), "Cargo:",
-					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			pnlCargo.setBounds(305, 176, 233, 58);
-			pnlCargo.add(getRdbtnMdico());
-			pnlCargo.add(getRdbtnEnfermero());
-		}
-		return pnlCargo;
-	}
-
-	private JRadioButton getRdbtnMdico() {
-		if (rdbtnMdico == null) {
-			rdbtnMdico = new JRadioButton("M\u00E9dico");
-			rdbtnMdico.addChangeListener(new ChangeListener() {
-				public void stateChanged(ChangeEvent e) {
-					if (rdbtnMdico.isSelected()) {
-						getRdbtnEnfermero().setSelected(false);
-					} else {
-						getRdbtnEnfermero().setSelected(true);
-					}
-				}
-			});
-		}
-		return rdbtnMdico;
-	}
-
-	private JRadioButton getRdbtnEnfermero() {
-		if (rdbtnEnfermero == null) {
-			rdbtnEnfermero = new JRadioButton("Enfermero");
-			rdbtnMdico.addChangeListener(new ChangeListener() {
-				public void stateChanged(ChangeEvent e) {
-					if (rdbtnEnfermero.isSelected()) {
-						getRdbtnMdico().setSelected(false);
-					} else {
-						getRdbtnMdico().setSelected(true);
-					}
-				}
-			});
-		}
-		return rdbtnEnfermero;
+		return lblContact;
 	}
 
 	private JTextField getTxtDniNuevo() {
@@ -406,15 +332,6 @@ public class VentanaModificarPaciente extends JDialog {
 			txtDniNuevo.setBounds(315, 71, 179, 22);
 		}
 		return txtDniNuevo;
-	}
-
-	private JTextField getTxtCorreo() {
-		if (txtCorreo == null) {
-			txtCorreo = new JTextField();
-			txtCorreo.setColumns(10);
-			txtCorreo.setBounds(315, 141, 179, 22);
-		}
-		return txtCorreo;
 	}
 
 	private JButton getBtnLimpiarDatos() {
@@ -482,31 +399,20 @@ public class VentanaModificarPaciente extends JDialog {
 		else {
 			getTxtNombreNuevo().setText(nCompleto[0]);
 		}
-		getTxtCorreo().setText(actual.correo);
+		getTxtContacto().setText(actual.contacto);
 		getTxtDniNuevo().setText(actual.dni);
-		if(actual.cargo.equals("Enfermero")) {
-			getRdbtnEnfermero().setSelected(true);
-		} else {
-			getRdbtnMdico().setSelected(true);
-		}
+
 	}
 	
 	private void buscarPorFiltro() {
 		result = new ArrayList<>();
-		if(chckBoxMedico.isSelected()) {
-			result.addAll(jc.getMedicos());
-		}
-		
-		if(chckBoxEnfermero.isSelected()) {
-			result.addAll(jc.getEnfermeros());
-		}
-		
+		result.addAll(pc.listadoPacientes());	
 		if(!txtNombre.getText().isEmpty()) {
-			List<EmpleadoDto> aux = result;
+			List<PacienteDto> aux = result;
 			result = aux.stream().filter(e->e.nombre.contains(txtNombre.getText())).collect(Collectors.toList());
 		}
 		if(!txtDni.getText().isEmpty()) {
-			List<EmpleadoDto> aux = result;
+			List<PacienteDto> aux = result;
 			result = aux.stream().filter(e->e.dni.contains(txtDni.getText())).collect(Collectors.toList());
 		}
 		actualizarLista();
@@ -525,9 +431,7 @@ public class VentanaModificarPaciente extends JDialog {
 		getTxtApellido().setText("");
 		getTxtApellidoDos().setText("");
 		getTxtDniNuevo().setText("");
-		getTxtCorreo().setText("");
-		getRdbtnMdico().setSelected(true);
-		getRdbtnEnfermero().setSelected(false);
+		getTxtContacto().setText("");
 	}
 	
 	private int checkDataValues() {
@@ -541,12 +445,12 @@ public class VentanaModificarPaciente extends JDialog {
 		if(getTxtDniNuevo().getText().isEmpty()) {
 			errores+= "El DNI esta vacio.\n";
 		}
-		if(getTxtCorreo().getText().isEmpty()) {
-			errores+= "El correo esta vacio.\n";
+		if(getTxtContacto().getText().isEmpty()) {
+			errores+= "No se ha introducido ninguna informacion de contacto.\n";
 		}
 		if(!errores.isEmpty()) {
-			mostrarMensaje("No se ha podido crear el empleado por los siguientes motivos:\n"
-					+ errores, "Error al crear", JOptionPane.ERROR_MESSAGE); 
+			mostrarMensaje("No se ha podido modificar el paceinte por los siguientes motivos:\n"
+					+ errores, "Error al modificar", JOptionPane.ERROR_MESSAGE); 
 			}	else {
 				return JOptionPane.showConfirmDialog(this,"¿Esta seguro de que estos son los datos correctos?","Confirmacion", JOptionPane.YES_NO_OPTION);
 				
@@ -559,25 +463,31 @@ public class VentanaModificarPaciente extends JDialog {
 	}
 	
 	private void actualizarEmpleado() {
-		EmpleadoDto empleado = new EmpleadoDto();
-		empleado.id=actual.id;
-		empleado.nombre= getTxtNombreNuevo().getText() +  " "
+		PacienteDto paciente = new PacienteDto();
+		paciente.id=actual.id;
+		paciente.estado=actual.estado;
+		paciente.nombre= getTxtNombreNuevo().getText() +  " "
 				+ getTxtApellido().getText() + " " +  getTxtApellidoDos().getText();
-		System.out.println(empleado.nombre);
-		empleado.cargo= getRdbtnEnfermero().isSelected()? "Enfermero": "Medico";
-		empleado.dni = getTxtDni().getText();
-		empleado.correo = getTxtCorreo().getText();
-		actual=empleado;
-		jc.actualizarEmpleado(actual);
+		System.out.println(paciente.nombre);
+		paciente.contacto = getTxtContacto().getText();
+		paciente.dni = getTxtDniNuevo().getText();
+		actual=paciente;
+		pc.actualizarPaciente(actual);
 	}
 	
 	private void volver() {
-		modelo = new DefaultListModel<>();
+		result= new ArrayList<>();
+		actualizarLista();
 		getTxtNombre().setText("");
 		getTxtDni().setText("");
-		getChckBoxEnfermero().setSelected(false);
-		getChckBoxMedico().setSelected(false);
+		getTxtContacto().setText("");
 		cL.show(contentPane, "Buscador");
 	}
-
+	private JTextArea getTxtContacto() {
+		if (txtContacto == null) {
+			txtContacto = new JTextArea();
+			txtContacto.setBounds(315, 141, 179, 80);
+		}
+		return txtContacto;
+	}
 }

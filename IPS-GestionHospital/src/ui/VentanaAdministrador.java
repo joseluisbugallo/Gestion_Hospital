@@ -28,12 +28,14 @@ import business.dto.CambioDto;
 import ui.admin.VentanaActividadEmpleados;
 import ui.admin.VentanaActividadPacientes;
 import ui.admin.VentanaAddEmpleado;
+import ui.admin.VentanaAddPaciente;
 import ui.admin.VentanaConsultarCitas;
 import ui.admin.VentanaDesactivarEmpleado;
 import ui.admin.VentanaDesactivarPaciente;
 import ui.admin.VentanaFijarCita;
 import ui.admin.VentanaGestionarCitas;
 import ui.admin.VentanaModificarEmpleado;
+import ui.admin.VentanaModificarPaciente;
 import ui.jornada.VentanaJornadaLaboral;
 import ui.jornada.VentanaVacaciones;
 
@@ -370,15 +372,38 @@ public class VentanaAdministrador extends JFrame {
 	private JButton getBtnAadirPacienteAl() {
 		if (btnAadirPacienteAl == null) {
 			btnAadirPacienteAl = new JButton("A\u00F1adir paciente al sistema");
+			btnAadirPacienteAl.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					abrirVentanaAddPaciente();
+				}
+			});
 			btnAadirPacienteAl.setBounds(64, 111, 228, 23);
 		}
 		return btnAadirPacienteAl;
 	}
+	
+	private void abrirVentanaAddPaciente() {
+		VentanaAddPaciente vap = new VentanaAddPaciente();
+		vap.setLocationRelativeTo(null);
+		vap.setVisible(true);
+	}
+	
 	private JButton getBtnModificarPaciente() {
 		if (btnModificarPaciente == null) {
 			btnModificarPaciente = new JButton("Modificar paciente");
+			btnModificarPaciente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					abrirVentanaModificarPaciente();
+				}
+			});
 			btnModificarPaciente.setBounds(64, 148, 228, 25);
 		}
 		return btnModificarPaciente;
+	}
+	
+	private void abrirVentanaModificarPaciente() {
+		VentanaModificarPaciente vmp = new VentanaModificarPaciente();
+		vmp.setLocationRelativeTo(this);
+		vmp.setVisible(true);
 	}
 }

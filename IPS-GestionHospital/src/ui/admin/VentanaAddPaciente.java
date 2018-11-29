@@ -16,8 +16,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import business.PacientesController;
 import business.dto.EmpleadoDto;
+import business.dto.PacienteDto;
 import persistence.DataEmpleado;
+import javax.swing.JTextArea;
 
 public class VentanaAddPaciente extends JDialog {
 
@@ -30,22 +33,19 @@ public class VentanaAddPaciente extends JDialog {
 	private JTextField txtApellido;
 	private JLabel lblSegundoApellido;
 	private JTextField txtSegundoapellido;
-	private JPanel pnlcargo;
-	private JRadioButton rdbtnMedico;
-	private JRadioButton rdbtnEnfermero;
 	private JLabel lblDni;
-	private JLabel lblCorreo;
 	private JButton btnCrear;
 	private JButton btnLimpiarDatos;
 	private JTextField txtDni;
-	private JTextField txtCorreo;
 	
-	private DataEmpleado dataEmpleado = new DataEmpleado();
+	private PacientesController pc= new PacientesController();
+	private JPanel pnlDatosContacto;
+	private JTextArea textArea;
 	/**
 	 * Create the dialog.
 	 */
 	public VentanaAddPaciente() {
-		setTitle("A\u00F1adir nuevo Empleado");
+		setTitle("Registrar nuevo paciente");
 		setResizable(false);
 		setBounds(100, 100, 620, 454);
 		getContentPane().setLayout(new BorderLayout());
@@ -72,7 +72,7 @@ public class VentanaAddPaciente extends JDialog {
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Datos del nuevo Empleado", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Datos del nuevo Paciente", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel.setBounds(12, 13, 357, 349);
 			panel.setLayout(null);
 			panel.add(getLblNombre());
@@ -81,11 +81,9 @@ public class VentanaAddPaciente extends JDialog {
 			panel.add(getTxtApellido());
 			panel.add(getLblSegundoApellido());
 			panel.add(getTxtSegundoapellido());
-			panel.add(getPnlcargo());
 			panel.add(getLblDni());
-			panel.add(getLblCorreo());
 			panel.add(getTxtDni());
-			panel.add(getTxtCorreo());
+			panel.add(getPnlDatosContacto());
 		}
 		return panel;
 	}
@@ -134,46 +132,6 @@ public class VentanaAddPaciente extends JDialog {
 		}
 		return txtSegundoapellido;
 	}
-	private JPanel getPnlcargo() {
-		if (pnlcargo == null) {
-			pnlcargo = new JPanel();
-			pnlcargo.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Cargo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			pnlcargo.setBounds(58, 268, 234, 68);
-			pnlcargo.add(getRdbtnMedico());
-			pnlcargo.add(getRdbtnEnfermero());
-		}
-		return pnlcargo;
-	}
-	private JRadioButton getRdbtnMedico() {
-		if (rdbtnMedico == null) {
-			rdbtnMedico = new JRadioButton("Medico");
-			rdbtnMedico.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if(rdbtnMedico.isSelected()) {
-						getRdbtnEnfermero().setSelected(false);
-					} else {
-						getRdbtnEnfermero().setSelected(true);
-					}
-				}
-			});
-		}
-		return rdbtnMedico;
-	}
-	private JRadioButton getRdbtnEnfermero() {
-		if (rdbtnEnfermero == null) {
-			rdbtnEnfermero = new JRadioButton("Enfermero");
-			rdbtnEnfermero.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if(rdbtnEnfermero.isSelected()) {
-						getRdbtnMedico().setSelected(false);
-					} else {
-						getRdbtnMedico().setSelected(true);
-					}
-				}
-			});
-		}
-		return rdbtnEnfermero;
-	}
 	private JLabel getLblDni() {
 		if (lblDni == null) {
 			lblDni = new JLabel("DNI:");
@@ -181,21 +139,14 @@ public class VentanaAddPaciente extends JDialog {
 		}
 		return lblDni;
 	}
-	private JLabel getLblCorreo() {
-		if (lblCorreo == null) {
-			lblCorreo = new JLabel("Correo:");
-			lblCorreo.setBounds(43, 220, 108, 23);
-		}
-		return lblCorreo;
-	}
 	private JButton getBtnCrear() {
 		if (btnCrear == null) {
 			btnCrear = new JButton("Crear");
 			btnCrear.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(checkDataValues() == JOptionPane.YES_OPTION) {					
-						addMedico();
-						mostrarMensaje("Se ha añadido un nuevo empleado.", "Se ha creado el medico", JOptionPane.INFORMATION_MESSAGE);
+						addPaciente();
+						mostrarMensaje("Se ha registrado un nuevo pacientee.", "Se ha creado el paciente", JOptionPane.INFORMATION_MESSAGE);
 						limpiarDatos();
 						}
 				}
@@ -224,23 +175,14 @@ public class VentanaAddPaciente extends JDialog {
 		}
 		return txtDni;
 	}
-	private JTextField getTxtCorreo() {
-		if (txtCorreo == null) {
-			txtCorreo = new JTextField();
-			txtCorreo.setBounds(154, 220, 160, 22);
-			txtCorreo.setColumns(10);
-		}
-		return txtCorreo;
-	}
 		
 	private void limpiarDatos() {
 		getTxtNombre().setText("");
 		getTxtApellido().setText("");
 		getTxtSegundoapellido().setText("");
 		getTxtDni().setText("");
-		getTxtCorreo().setText("");
-		getRdbtnMedico().setSelected(true);
-		getRdbtnEnfermero().setSelected(false);
+		getTextArea().setText("");
+
 	}
 	
 	private int checkDataValues() {
@@ -254,8 +196,8 @@ public class VentanaAddPaciente extends JDialog {
 		if(getTxtDni().getText().isEmpty()) {
 			errores+= "El DNI esta vacio.\n";
 		}
-		if(getTxtCorreo().getText().isEmpty()) {
-			errores+= "El correo esta vacio.\n";
+		if(getTextArea().getText().isEmpty()) {
+			errores+= "No ha introducido ningún dato de contacto.\n";
 		}
 		if(!errores.isEmpty()) {
 			mostrarMensaje("No se ha podido crear el empleado por los siguientes motivos:\n"
@@ -267,15 +209,14 @@ public class VentanaAddPaciente extends JDialog {
 		return -2;
 	}
 
-	private void addMedico() {
-		EmpleadoDto empleado = new EmpleadoDto();
-		empleado.nombre= getTxtNombre().getText() +  " "
-				+ getTxtApellido().getText() + " " +  getTxtSegundoapellido().getText();
-		empleado.cargo= getRdbtnEnfermero().isSelected()? "Enfermero": "Medico";
-		empleado.dni = getTxtDni().getText();
-		empleado.correo = getTxtCorreo().getText();
-		empleado.estado= "Activado";
-		dataEmpleado.add(empleado);
+	private void addPaciente() {
+		PacienteDto paciente = new PacienteDto();
+		paciente.nombre= getTxtNombre().getText() +  " "
+				+ getTxtApellido().getText() + " " +  getTxtSegundoapellido().getText();		
+		paciente.dni = getTxtDni().getText();
+		paciente.contacto = getTextArea().getText();
+		paciente.estado= "Activado";
+		pc.addPaciente(paciente);
 	}
 
 	private void mostrarMensaje(String mess, String title, int icon) {
@@ -286,5 +227,22 @@ public class VentanaAddPaciente extends JDialog {
 		if(JOptionPane.showConfirmDialog(this,  "Va a salir de la ventana", "Salir", JOptionPane.OK_CANCEL_OPTION)== JOptionPane.OK_OPTION) {
 			dispose();
 			}
+	}
+	private JPanel getPnlDatosContacto() {
+		if (pnlDatosContacto == null) {
+			pnlDatosContacto = new JPanel();
+			pnlDatosContacto.setBorder(new TitledBorder(new LineBorder(new Color(64, 64, 64), 1, true), "Datos de Contacto:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			pnlDatosContacto.setBounds(36, 226, 278, 110);
+			pnlDatosContacto.setLayout(new BorderLayout(0, 0));
+			pnlDatosContacto.add(getTextArea(), BorderLayout.CENTER);
+		}
+		return pnlDatosContacto;
+	}
+	private JTextArea getTextArea() {
+		if (textArea == null) {
+			textArea = new JTextArea();
+			textArea.setLineWrap(true);
+		}
+		return textArea;
 	}
 }
