@@ -1,5 +1,5 @@
 # Gestion Hospital (Hospital Management)
-## Final proyect for the subject Software Development Process
+## Final project for the subject Software Development Process
 Desktop app for hospital management. Developed following SCRUM implementation.
 
 Team:  
